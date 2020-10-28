@@ -1,0 +1,58 @@
+{
+  "name": "a-b-javascript-sdk-sample-app-react-e-commerce",
+  "version": "1.0.0",
+  "description": "https://abtest.skplanet.com",
+  "dependencies": {
+    "@types/node": "14.14.3",
+    "@types/react": "16.9.53",
+    "@types/react-dom": "16.9.8",
+    "@types/react-redux": "7.1.9",
+    "@types/react-router-dom": "5.1.6",
+    "@types/styled-components": "^5.1.4",
+    "autoprefixer": "^9.8.0",
+    "axios": "^0.21.0",
+    "bootstrap": "4.5.3",
+    "colorette": "^1.2.0",
+    "node-sass": "^4.14.1",
+    "noty": "3.2.0-beta",
+    "plab": "2.1.3",
+    "polished": "4.0.3",
+    "react": "16.12.0",
+    "react-bootstrap": "1.4.0",
+    "react-dom": "16.12.0",
+    "react-query": "^2.25.2",
+    "react-redux": "7.2.1",
+    "react-router-dom": "5.2.0",
+    "react-router-transition": "^2.0.0",
+    "react-scripts": "3.4.4",
+    "react-transition-group": "4.4.1",
+    "redux": "4.0.5",
+    "redux-devtools-extension": "2.13.8",
+    "styled-components": "5.2.0"
+  },
+  "devDependencies": {
+    "@types/react-transition-group": "^4.4.0",
+    "@typescript-eslint/eslint-plugin": "^4.6.0",
+    "@typescript-eslint/parser": "^4.6.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.14.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "prettier": "2.1.2",
+    "typescript": "^4.0.5"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
