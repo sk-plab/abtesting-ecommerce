@@ -14,7 +14,7 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   useEffect(() => {
-    ABTest.init({ datafile: window.plabDatafile });
+    ABTest.init();
     ABTest.track('order');
 
     return () => {

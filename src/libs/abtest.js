@@ -1,17 +1,19 @@
 /**
  * A/B Testing library.
  *
+ * @see https://abtest.skplanet.com
  */
 import plab from 'plab';
 import Noty from 'noty';
 
+// @see https://plab.skplanet.com/projects/29/experiments
 const projectKey = 'plab-demo-project';
 
 export default {
   init(params = {}) {
     plab.init({
       projectKey,
-      datafile: params.datafile,
+      datafile: window.plabDatafile, // @see index.html datafile
       isCrossSite: false, // false: localhost, true: SSL
       debug: false,
     });

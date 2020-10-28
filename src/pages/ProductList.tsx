@@ -7,9 +7,8 @@ import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
 
 // abtesting init
-ABTest.init({
-  datafile: window.plabDatafile,
-});
+ABTest.init();
+
 // abtesting start
 const expKey = 'ProductList';
 const abtest = ABTest.start(expKey);

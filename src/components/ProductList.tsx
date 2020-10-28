@@ -6,9 +6,7 @@ import ABTest from '../libs/abtest';
 import { Row } from 'react-bootstrap';
 
 // abtesting init
-ABTest.init({
-  datafile: window.plabDatafile,
-});
+ABTest.init();
 
 interface Props {
   products: ProductType[];
@@ -20,6 +18,7 @@ const ProductList: React.FC<Props & RouteComponentProps> = ({
   const onClickProduct = (id: number) => {
     history.push(`/view/${id}`);
 
+    // abtesting event track
     ABTest.track('ProductList.product_click');
   };
 

@@ -14,7 +14,7 @@ type LocationState = {
 };
 const Header: React.FC<RouteComponentProps<Record<string, string>, StaticContext, LocationState>> = ({ location }) => {
   return (
-    <Navbar fixed="top" bg="">
+    <Navbar fixed="top">
       <Nav activeKey={location.pathname}>
         <Nav.Link as={NavLink} to="/">
           Home (상품 목록)
@@ -27,7 +27,7 @@ const Header: React.FC<RouteComponentProps<Record<string, string>, StaticContext
 
       <Nav.Item>
         <Nav.Link href="#" onClick={ABTest.debug}>
-          A/B debug
+          A/B Testing 현황판
         </Nav.Link>
       </Nav.Item>
     </Navbar>

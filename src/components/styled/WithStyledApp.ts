@@ -18,6 +18,9 @@ export const GlobalStyle = createGlobalStyle`
     font-size: 36px;
     color: #343a40;
   }
+  .abtest-devtool-container {
+    padding: 30px 20px !important;
+  }
 `;
 
 export const View = styled.div`

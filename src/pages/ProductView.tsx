@@ -3,14 +3,19 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../actions';
 import ABTest from '../libs/abtest';
-import { Wrapper, Sale, DirectOrderButton, CartButton, CTAGroup } from '../components/styled/WithStyledProductView';
+import {
+  Wrapper,
+  Sale,
+  DirectOrderButton,
+  CartButton,
+  CTAGroup,
+} from '../components/styled/WithStyledProductView';
 import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../store/modules';
 
 // abtesting init
-ABTest.init({
-  datafile: window.plabDatafile,
-});
+ABTest.init();
+
 // abtesting start
 // @see https://plab.skplanet.com/projects/29/experiments
 const expKey = 'ProductView';
@@ -19,7 +24,10 @@ const abtest = ABTest.start(expKey);
 interface MatchParams {
   id: string;
 }
-const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }) => {
+const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
+  match,
+  history,
+}) => {
   const id: number = parseInt(match.params.id, 10);
 
   const products = useSelector((state: RootState) => state.Shopping.products);
@@ -40,7 +48,12 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({ match, hi
       <section className="shopping-container" data-abtest-area={expKey}>
         <div className="shopping-box">
           <div className="images">
-            <img src={`../images/${product?.imageUrl}`} width="100%" height="300" alt="" />
+            <img
+              src={`/images/${product?.imageUrl}`}
+              width="100%"
+              height="300"
+              alt=""
+            />
           </div>
           <div className="property">
             <ul>
@@ -51,9 +64,10 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({ match, hi
             </ul>
 
             <div className="desc">
-              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
-              industrys standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
-              scrambled it to make a type specimen book.
+              Lorem Ipsum is simply dummy text of the printing and typesetting
+              industry. Lorem Ipsum has been the industrys standard dummy text
+              ever since the 1500s, when an unknown printer took a galley of
+              type and scrambled it to make a type specimen book.
             </div>
           </div>
 
@@ -71,7 +85,9 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({ match, hi
             <CTAGroup className="btn-group-lg">
               <CartButton onClick={addToCart}>장바구니</CartButton>
 
-              <DirectOrderButton onClick={onCheckout}>구매하기</DirectOrderButton>
+              <DirectOrderButton onClick={onCheckout}>
+                구매하기
+              </DirectOrderButton>
             </CTAGroup>
           )}
         </div>
