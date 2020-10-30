@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import * as actions from '../actions';
 import ABTest from '../libs/abtest';
@@ -13,11 +13,13 @@ import {
 import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../store/modules';
 
-// abtesting init
+import { FaCartArrowDown, FaMoneyBillAlt } from 'react-icons/fa';
+import CartModal from '../components/CartModal';
+
+// a/b testing init.
 ABTest.init();
 
 // abtesting start
-// @see https://plab.skplanet.com/projects/29/experiments
 const expKey = 'ProductView';
 const abtest = ABTest.start(expKey);
 
@@ -33,10 +35,16 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
   const products = useSelector((state: RootState) => state.Shopping.products);
   const product = products.find((e) => e.id === id);
 
+  // modal
+  const [cartModalShow, setCartModalShow] = useState(false);
+
+  // dispatch
   const dispatch = useDispatch();
+
   const addToCart = () => {
     ABTest.track('add_to_cart');
     dispatch(actions.AddToCart({ id }));
+    setCartModalShow(true);
   };
   const onCheckout = () => {
     dispatch(actions.DirectCheckout({ id }));
@@ -73,17 +81,24 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
 
           {abtest.variables.enableFeature ? (
             <CTAGroup new="true" className="btn-group-lg">
+              <CartButton new="true" onClick={addToCart}>
+                <FaCartArrowDown />
+              </CartButton>
+
               <DirectOrderButton new="true" onClick={onCheckout}>
                 바로 구매
               </DirectOrderButton>
 
-              <CartButton new="true" onClick={addToCart}>
-                장바구니 담기
-              </CartButton>
+              <Sale>
+                <FaMoneyBillAlt style={{ fontSize: '20px', margin: '0 5px' }} />
+                20% Sale
+              </Sale>
             </CTAGroup>
           ) : (
             <CTAGroup className="btn-group-lg">
-              <CartButton onClick={addToCart}>장바구니</CartButton>
+              <CartButton onClick={addToCart}>
+                <FaCartArrowDown />
+              </CartButton>
 
               <DirectOrderButton onClick={onCheckout}>
                 구매하기
@@ -91,9 +106,9 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
             </CTAGroup>
           )}
         </div>
-
-        {abtest.variables.enableFeature && <Sale>20% Sale</Sale>}
       </section>
+
+      <CartModal show={cartModalShow} onHide={() => setCartModalShow(false)} />
     </Wrapper>
   );
 };

@@ -21,6 +21,10 @@ export const GlobalStyle = createGlobalStyle`
   .abtest-devtool-container {
     padding: 30px 20px !important;
   }
+
+  .swiper-slide {
+    overflow: hidden;
+  }
 `;
 
 export const View = styled.div`

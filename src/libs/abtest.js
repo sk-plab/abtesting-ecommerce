@@ -9,7 +9,7 @@ import Noty from 'noty';
 // @see https://plab.skplanet.com/projects/29/experiments
 const projectKey = 'plab-demo-project';
 
-export default {
+const ABTest = {
   init(params = {}) {
     plab.init({
       projectKey,
@@ -38,7 +38,9 @@ export default {
   },
 
   async getDatafile() {
-    const res = await fetch(`https://api-plab.skplanet.com/v1/project/${projectKey}`);
+    const res = await fetch(
+      `https://api-plab.skplanet.com/v1/project/${projectKey}`
+    );
     const datafile = await res.json();
 
     return datafile;
@@ -66,3 +68,5 @@ export default {
     window.plab = plab; // for debugging
   },
 };
+
+export default ABTest;

@@ -1,18 +1,11 @@
 // eslint-disable-next-line
 import React from 'react';
-import { StaticContext } from 'react-router';
 import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
 
 import ABTest from '../libs/abtest';
 import { Nav, Navbar } from 'react-bootstrap';
 
-type Location = {
-  pathname: string;
-};
-type LocationState = {
-  location: Location;
-};
-const Header: React.FC<RouteComponentProps<Record<string, string>, StaticContext, LocationState>> = ({ location }) => {
+const Header: React.FC<RouteComponentProps> = ({ location }) => {
   return (
     <Navbar fixed="top">
       <Nav activeKey={location.pathname}>

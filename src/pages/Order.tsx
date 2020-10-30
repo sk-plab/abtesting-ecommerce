@@ -8,13 +8,16 @@ import { Table, Button, Image } from 'react-bootstrap';
 
 import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
+import TotalAmount from '../components/ToalAmount';
+
+// a/b testing init.
+ABTest.init();
 
 const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   useEffect(() => {
-    ABTest.init();
     ABTest.track('order');
 
     return () => {
@@ -53,35 +56,29 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
                   />
                 </Link>
               </td>
-
               <td>
                 {product.name} in {product.color}
               </td>
-
               <td>
-                <b>{product.q} EA</b>
+                <b>{product.q}</b>
               </td>
               <td>
                 <b>${product.price * product.q}</b>
               </td>
             </tr>
           ))}
-
-          {ordered.length === 0 && <NotFound />}
         </tbody>
       </Table>
-      <Button variant="outline-primary" size="sm" onClick={GoToHome}>
-        상품 목록 페이지로 이동
+      <hr />
+
+      <TotalAmount products={ordered} />
+
+      <Button size="lg" block variant="outline-primary" onClick={GoToHome}>
+        쇼핑 계속하기
       </Button>
     </OrderContainer>
   );
 };
-
-const NotFound = () => (
-  <tr>
-    <td colSpan={4}>모든 주문이 완료되었습니다.</td>
-  </tr>
-);
 
 export const OrderContainer = styled.div``;
 

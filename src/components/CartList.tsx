@@ -1,12 +1,14 @@
 // eslint-disable-next-line
-import React from 'react';
-import { Link, withRouter, RouteComponentProps } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { Table, Button, Image } from 'react-bootstrap';
+import React, { Fragment } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/modules';
+import { Button, Table } from 'react-bootstrap';
+import TotalAmount from '../components/ToalAmount';
+import CartProduct from '../components/CartProduct';
 import * as actions from '../actions';
 
 const CartList: React.FC<ProductListType & RouteComponentProps> = ({
-  products,
   history,
 }) => {
   const dispatch = useDispatch();
@@ -14,96 +16,59 @@ const CartList: React.FC<ProductListType & RouteComponentProps> = ({
     dispatch(actions.Checkout({ id }));
     history.push('/order');
   };
+  const onCheckoutAll = () => {
+    dispatch(actions.Checkout({}));
+    history.push('/order');
+  };
   const onDeleteCart = (id: number) => {
     dispatch(actions.DeleteCart({ id }));
   };
 
-  return (
-    <Table hover>
-      <thead>
-        <tr>
-          <th colSpan={2}>상품정보</th>
-          <th>수량</th>
-          <th>주문금액</th>
-          <th>선택</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.length === 0 && <NotFound />}
+  const products = useSelector((state: RootState) => state.Shopping.cart);
 
-        {products.map((product) => (
-          <CartProduct
-            key={product.id}
-            product={product}
-            onCheckout={onCheckout}
-            onDeleteCart={onDeleteCart}
-          />
-        ))}
-      </tbody>
-    </Table>
-  );
-};
-
-interface CartProductProps {
-  product: ProductType;
-  onCheckout: (id: number) => void;
-  onDeleteCart: (id: number) => void;
-}
-const CartProduct: React.FC<CartProductProps> = ({
-  product,
-  onCheckout,
-  onDeleteCart,
-}) => {
   return (
-    <React.Fragment key={product.id}>
-      <tr>
-        <td>
-          <Link to={`/view/${product.id}`}>
-            <Image
-              src={`../images/${product.imageUrl}`}
-              width="100"
-              height="100"
-              alt=""
+    <Fragment>
+      <Table hover>
+        <thead>
+          <tr>
+            <th>선택</th>
+            <th colSpan={2}>상품정보</th>
+            <th>수량</th>
+            <th>주문금액</th>
+            <th>선택</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.map((product) => (
+            <CartProduct
+              key={product.id}
+              product={product}
+              onCheckout={onCheckout}
+              onDeleteCart={onDeleteCart}
             />
-          </Link>
-        </td>
+          ))}
+          {!products.length && <NotFound />}
+        </tbody>
+      </Table>
 
-        <td>
-          {product.name} in {product.color}
-        </td>
+      <hr />
+      <TotalAmount products={products} />
 
-        <td>{product.q}</td>
-        <td>
-          <b>${product.price * product.q}</b>
-        </td>
-        <td>
-          <Button
-            variant="outline-primary"
-            size="sm"
-            onClick={() => onCheckout(product.id)}
-          >
-            주문
-          </Button>{' '}
-          <Button
-            variant="outline-dark"
-            size="sm"
-            onClick={() => onDeleteCart(product.id)}
-          >
-            삭제
-          </Button>
-        </td>
-      </tr>
-    </React.Fragment>
+      {products.length > 0 && (
+        <Button size="lg" block onClick={onCheckoutAll}>
+          Proceed to Checkout
+        </Button>
+      )}
+    </Fragment>
   );
 };
-
 function NotFound() {
   return (
-    <React.Fragment>
+    <Fragment>
       <tr>
-        <td colSpan={5}>not found</td>
+        <td colSpan={5}>장바구니에 담겨진 상품이 없습니다.</td>
       </tr>
-    </React.Fragment>
+    </Fragment>
   );
 }
 export default withRouter(CartList);

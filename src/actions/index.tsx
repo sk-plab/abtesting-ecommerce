@@ -7,56 +7,76 @@ interface SetProductDataPropsType {
 interface ShoppingItemProps {
   id: number;
 }
+interface CheckoutProps {
+  id?: number;
+}
+interface CartSelectProductProps {
+  id: number;
+  chk: boolean;
+}
 
 // action types
-interface SetProductDataActionType {
+interface ISetProductDataActionType {
   type: typeof types.SET_PRODUCT_DATA;
   item: SetProductDataPropsType;
 }
-interface AddToCartActionType {
+interface IAddToCartActionType {
   type: typeof types.ADD_TO_CART;
   item: ShoppingItemProps;
 }
-interface DirectCheckoutActionType {
+interface ICartSelectProductActionType {
+  type: typeof types.CART_SELECT_PRODUCT;
+  item: CartSelectProductProps;
+}
+interface IDirectCheckoutActionType {
   type: typeof types.DIRECT_CHECKOUT;
   item: ShoppingItemProps;
 }
-interface CheckoutActionType {
+interface ICheckoutActionType {
   type: typeof types.CHECKOUT;
-  item: ShoppingItemProps;
+  item: CheckoutProps;
 }
-interface DeleteCartActionType {
+interface IDeleteCartActionType {
   type: typeof types.DELETE_CART;
   item: ShoppingItemProps;
 }
-interface CheckoutCompleteActionType {
+interface ICheckoutCompleteActionType {
   type: typeof types.CHECKOUT_COMPLETE;
 }
 
-export const SetProductData = (item: SetProductDataPropsType): SetProductDataActionType => ({
+export const SetProductData = (
+  item: SetProductDataPropsType
+): ISetProductDataActionType => ({
   type: types.SET_PRODUCT_DATA,
   item,
 });
-export const AddToCart = (item: ShoppingItemProps): AddToCartActionType => ({
+export const AddToCart = (item: ShoppingItemProps): IAddToCartActionType => ({
   type: types.ADD_TO_CART,
   item,
 });
 
-export const DirectCheckout = (item: ShoppingItemProps): DirectCheckoutActionType => ({
+export const DirectCheckout = (
+  item: ShoppingItemProps
+): IDirectCheckoutActionType => ({
   type: types.DIRECT_CHECKOUT,
   item,
 });
-export const Checkout = (item: ShoppingItemProps): CheckoutActionType => ({
+export const Checkout = (item: CheckoutProps): ICheckoutActionType => ({
   type: types.CHECKOUT,
   item,
 });
 
-export const DeleteCart = (item: ShoppingItemProps): DeleteCartActionType => ({
+export const DeleteCart = (item: ShoppingItemProps): IDeleteCartActionType => ({
   type: types.DELETE_CART,
   item,
 });
-
-export const CheckoutComplete = (): CheckoutCompleteActionType => ({
+export const CartSelectProduct = (
+  item: CartSelectProductProps
+): ICartSelectProductActionType => ({
+  type: types.CART_SELECT_PRODUCT,
+  item,
+});
+export const CheckoutComplete = (): ICheckoutCompleteActionType => ({
   type: types.CHECKOUT_COMPLETE,
 });
 
@@ -66,4 +86,5 @@ export type ShoppingAction =
   | ReturnType<typeof DirectCheckout>
   | ReturnType<typeof Checkout>
   | ReturnType<typeof DeleteCart>
+  | ReturnType<typeof CartSelectProduct>
   | ReturnType<typeof CheckoutComplete>;

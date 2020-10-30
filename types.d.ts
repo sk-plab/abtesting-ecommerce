@@ -10,6 +10,7 @@ interface ProductType {
   price: number;
   imageUrl: string;
   q: number;
+  chk?: boolean;
 }
 
 interface ProductListType {

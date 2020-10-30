@@ -4,3 +4,4 @@ export const DIRECT_CHECKOUT = 'DIRECT_CHECKOUT' as const;
 export const CHECKOUT = 'CHECKOUT' as const;
 export const CHECKOUT_COMPLETE = 'CHECKOUT_COMPLETE' as const;
 export const DELETE_CART = 'DELETE_CART' as const;
+export const CART_SELECT_PRODUCT = 'CART_SELECT_PRODUCT' as const;

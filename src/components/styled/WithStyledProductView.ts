@@ -59,7 +59,7 @@ export const DirectOrderButton = styled(Button)`
           border: 1px solid #23bfa5;
           border-radius: 30px !important;
           font-weight: bold;
-          margin-right: 2px !important;
+          margin-left: 5px !important;
           &:hover {
             background: ${darken(0.1, '#4ad9af')};
             border-color: #4ad9af;
@@ -85,10 +85,10 @@ export const CartButton = styled(Button)`
           background: #4ad9af;
           border-color: #4ad9af;
           color: #fff;
-          width: 50%;
+          width: 10%;
+          font-size: 14px;
           border-radius: 30px !important;
           font-weight: bold;
-          margin-left: 2px !important;
           &:hover {
             background: ${darken(0.1, '#4ad9af')};
             border-color: #4ad9af;
@@ -112,7 +112,7 @@ export const CartButton = styled(Button)`
 export const Sale = styled.div`
   position: absolute;
   bottom: 195px;
-  right: 50px;
+  right: 20px;
   z-index: 1;
   background: red;
   color: #fff;

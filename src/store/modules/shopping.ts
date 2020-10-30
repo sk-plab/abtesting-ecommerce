@@ -12,7 +12,15 @@ const initialState: ShoppingState = {
   ordered: [],
 };
 
-const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): ShoppingState => {
+// type guards
+function isProduct(x: ProductType | undefined): x is ProductType {
+  return typeof x === 'object';
+}
+
+const Shopping = (
+  state: ShoppingState = initialState,
+  action: ShoppingAction
+): ShoppingState => {
   switch (action.type) {
     case types.SET_PRODUCT_DATA:
       return {
@@ -24,12 +32,16 @@ const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): 
 
       if (idx === -1) {
         const product = state.products.find((e) => e.id === action.item.id);
-        const _product: any = { ...product, q: 1 };
 
-        return {
-          ...state,
-          cart: state.cart.concat(_product),
-        };
+        if (isProduct(product)) {
+          const _product = { ...product, q: 1, chk: true };
+          return {
+            ...state,
+            cart: state.cart.concat(_product),
+          };
+        } else {
+          return state;
+        }
       } else {
         return {
           ...state,
@@ -52,20 +64,65 @@ const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): 
         ...state,
         cart: state.cart.filter((e) => e.id !== action.item.id),
       };
+    case types.CART_SELECT_PRODUCT:
+      return {
+        ...state,
+        cart: state.cart.map((e) => {
+          if (e.id === action.item.id) {
+            e = { ...e, chk: !e.chk };
+          }
+
+          return e;
+        }),
+      };
     case types.DIRECT_CHECKOUT:
       const product = state.products.find((e) => e.id === action.item.id);
-      const _product: any = { ...product, q: 1 };
-      return {
-        ...state,
-        ordered: state.ordered.concat(_product),
-      };
+      if (isProduct(product)) {
+        const _product = { ...product, q: 1, chk: true };
+
+        return {
+          ...state,
+          ordered: state.ordered.concat(_product),
+        };
+      } else {
+        return state;
+      }
     case types.CHECKOUT:
-      const cartProduct: any = state.cart.find((e) => e.id === action.item.id);
+      if (action.item.id) {
+        const product = state.cart.find((e) => e.id === action.item.id);
+        if (isProduct(product)) {
+          return {
+            ...state,
+            cart: state.cart.filter((e) => e.id !== action.item.id),
+            ordered: state.ordered.concat(product),
+          };
+        } else {
+          return state;
+        }
+      } else {
+        const products: ProductType[] = state.cart.filter(
+          (e) => e.chk === true
+        );
+        const ids: Array<number> = products.map((e) => e.id);
+
+        return {
+          ...state,
+          cart: state.cart.filter((e) => !ids.includes(e.id)),
+          ordered: products,
+        };
+      }
+
+    /*const orderingProducts: any = state.cart.filter((e) =>
+        action.item.ids.includes(e.id)
+      );
+      console.log(orderingProducts);
+
       return {
         ...state,
-        cart: state.cart.filter((e) => e.id !== action.item.id),
-        ordered: state.ordered.concat(cartProduct),
-      };
+        cart: state.cart.filter((e) => !action.item.ids.includes(e.id)),
+        ordered: orderingProducts,
+      };*/
+
     case types.CHECKOUT_COMPLETE:
       return {
         ...state,

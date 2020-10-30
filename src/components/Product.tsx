@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import React from 'react';
 
-import { Col, Image } from 'react-bootstrap';
+import { Image } from 'react-bootstrap';
 import {
   ProductName,
   ProductWrapper,
@@ -13,21 +13,15 @@ interface Props {
   onClickProduct: (id: number) => void;
 }
 const Product: React.FC<Props> = ({ product, onClickProduct }) => (
-  <Col>
-    <ProductWrapper onClick={() => onClickProduct(product.id)}>
-      <Image
-        src={`images/${product.imageUrl}`}
-        width={200}
-        height={200}
-      />
+  <ProductWrapper onClick={() => onClickProduct(product.id)}>
+    <Image src={`images/${product.imageUrl}`} />
 
-      <ProductName>
-        {product.name} in {product.color}
-      </ProductName>
+    <ProductName>
+      {product.name} in {product.color}
+    </ProductName>
 
-      <ProductPrice>${product.price}</ProductPrice>
-    </ProductWrapper>
-  </Col>
+    <ProductPrice>${product.price}</ProductPrice>
+  </ProductWrapper>
 );
 
 export default Product;
