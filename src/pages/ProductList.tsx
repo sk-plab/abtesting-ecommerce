@@ -28,6 +28,34 @@ const ProductListPage: React.FC<RouteComponentProps> = ({ history }) => {
     ABTest.track('ProductList.product_click');
   };
 
+  const columnCount = 3;
+  const chunkArray = (myArray: Array<ProductType>, chunk_size = 3) => {
+    let index = 0;
+    const arrayLength = myArray.length;
+    const tempArray = [];
+
+    for (index = 0; index < arrayLength; index += chunk_size) {
+      const myChunk = myArray.slice(index, index + chunk_size);
+      tempArray.push(myChunk);
+    }
+
+    return tempArray;
+  };
+
+  const productsMap = chunkArray(products).map((e, index) => {
+    return (
+      <Row key={index}>
+        {e.map((product) => {
+          return (
+            <Col key={product.id} xs={12 / columnCount}>
+              <Product product={product} onClickProduct={onClickProduct} />
+            </Col>
+          );
+        })}
+      </Row>
+    );
+  }, columnCount);
+
   return (
     <div data-abtest-area={expKey}>
       <h2>추천 상품</h2>
@@ -35,15 +63,7 @@ const ProductListPage: React.FC<RouteComponentProps> = ({ history }) => {
 
       <div data-abtest-area={expKey}>
         {!abtest.variables.enableFeature ? (
-          <Row>
-            {products.map((product) => {
-              return (
-                <Col key={product.id}>
-                  <Product product={product} onClickProduct={onClickProduct} />
-                </Col>
-              );
-            })}
-          </Row>
+          productsMap
         ) : (
           <Swiper {...swiperParams}>
             {products.map((product) => (

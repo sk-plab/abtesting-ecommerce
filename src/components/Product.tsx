@@ -14,7 +14,7 @@ interface Props {
 }
 const Product: React.FC<Props> = ({ product, onClickProduct }) => (
   <ProductWrapper onClick={() => onClickProduct(product.id)}>
-    <Image src={`images/${product.imageUrl}`} />
+    <Image src={`images/${product.imageUrl}`} width="100%" />
 
     <ProductName>
       {product.name} in {product.color}
