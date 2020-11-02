@@ -51,7 +51,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
 
         <td>{product.q}</td>
         <td>
-          <b>${product.price}</b>
+          <b>{product.price}</b>
         </td>
         <td>
           {/*<Button

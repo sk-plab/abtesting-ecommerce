@@ -9,16 +9,16 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import Header from './Header';
 import Footer from './Footer';
-import { ProductList, ProductView, Cart, Order } from '../pages';
+import { ProductList, ProductView, Cart, Order, Checkout } from '../pages';
 import { Container } from 'react-bootstrap';
 
 import * as actions from '../actions';
 import { ProductData } from '../api/Product';
 
-import '../styles.scss';
 import { GlobalStyle, View } from './styled/WithStyledApp';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RootState } from '../store/modules';
+import ScrollToTop from '../hooks/ScrollToTop';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const products = useSelector((state: RootState) => state.Shopping.products);
@@ -35,14 +35,14 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     fetchProductData();
   }, [dispatch]);
 
-  if (products.length === 0) return <p>등록된 항목이 없습니다.</p>;
+  if (products.length === 0) return null;
 
   return (
     <View>
       <GlobalStyle />
       <Header />
 
-      <Container>
+      <Container fluid>
         <TransitionGroup>
           <CSSTransition
             key={location.key}
@@ -50,9 +50,12 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             classNames="fade"
           >
             <Switch location={location}>
-              <Route path="/" component={ProductList} exact />
+              <Route path="/" exact>
+                <ProductList products={products} />
+              </Route>
               <Route path="/view/:id" component={ProductView} exact />
               <Route path="/cart" component={Cart} exact />
+              <Route path="/checkout" component={Checkout} exact />
               <Route path="/order" component={Order} exact />
             </Switch>
           </CSSTransition>
@@ -60,6 +63,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       </Container>
 
       <Footer />
+      <ScrollToTop />
     </View>
   );
 };

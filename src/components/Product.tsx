@@ -20,7 +20,7 @@ const Product: React.FC<Props> = ({ product, onClickProduct }) => (
       {product.name} in {product.color}
     </ProductName>
 
-    <ProductPrice>${product.price}</ProductPrice>
+    <ProductPrice>{product.price}</ProductPrice>
   </ProductWrapper>
 );
 

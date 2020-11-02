@@ -3,7 +3,7 @@ import React from 'react';
 
 const Footer: React.FC = () => {
   return (
-    <footer className="container">
+    <footer className="container-fluid">
       <hr />
       <h3>사이트 설명</h3>
       <p>

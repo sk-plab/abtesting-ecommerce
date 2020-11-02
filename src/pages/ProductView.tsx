@@ -48,8 +48,10 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
   };
   const onCheckout = () => {
     dispatch(actions.DirectCheckout({ id }));
-    history.push('/order');
+    history.push('/checkout');
   };
+
+  if (!product) return null;
 
   return (
     <Wrapper>
@@ -57,7 +59,7 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
         <div className="shopping-box">
           <div className="images">
             <img
-              src={`/images/${product?.imageUrl}`}
+              src={`/images/${product.imageUrl}`}
               width="100%"
               height="300"
               alt=""
@@ -65,10 +67,10 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
           </div>
           <div className="property">
             <ul>
-              <li>Name: {product?.name}</li>
-              <li>Price: ${product?.price}</li>
-              <li>Color: {product?.color}</li>
-              <li>Category: {product?.category}</li>
+              <li>Name: {product.name}</li>
+              <li>Price: {product.price}</li>
+              <li>Color: {product.color}</li>
+              <li>Category: {product.category}</li>
             </ul>
 
             <div className="desc">

@@ -1,6 +1,3 @@
-// eslint-disable-next-line
-import React from 'react';
-
 export const ProductData = async (): Promise<ProductType[]> => {
   const f = await fetch('/ProductData.txt');
   const data = await f.text();

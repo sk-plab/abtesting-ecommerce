@@ -14,8 +14,8 @@ export const GlobalStyle = createGlobalStyle`
     padding-top: 4.5rem;
   }
   h1 {
-    margin: 0;
     font-size: 36px;
+    font-weight: bold;
     color: #343a40;
   }
   .abtest-devtool-container {

@@ -1,14 +1,24 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
-const TotalAmount: React.FC<ProductListType> = ({ products }) => {
-  const total = products
-    .filter((e) => e.chk)
-    .reduce(
-      (pre: number, cur: ProductType): number => pre + cur.price * cur.q,
-      0
-    );
+interface IProps {
+  prefix?: string;
+  currency?: string;
+}
+const TotalAmount: React.FC<IProps & ProductListType> = ({
+  prefix,
+  products,
+  currency,
+}) => {
+  const total = products.reduce(
+    (pre: number, cur: ProductType): number => pre + cur.price * cur.q,
+    0
+  );
 
-  return <h4>Total: ${total}</h4>;
+  return (
+    <Fragment>
+      {prefix} {total} {currency || '원'}
+    </Fragment>
+  );
 };
 
 export default TotalAmount;

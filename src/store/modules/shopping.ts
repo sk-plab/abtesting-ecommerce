@@ -33,30 +33,18 @@ const Shopping = (
       if (idx === -1) {
         const product = state.products.find((e) => e.id === action.item.id);
 
-        if (isProduct(product)) {
-          const _product = { ...product, q: 1, chk: true };
-          return {
-            ...state,
-            cart: state.cart.concat(_product),
-          };
-        } else {
-          return state;
-        }
+        return isProduct(product)
+          ? {
+              ...state,
+              cart: state.cart.concat({ ...product, q: 1, chk: true }),
+            }
+          : state;
       } else {
         return {
           ...state,
-          cart: state.cart.map((e) => {
-            if (e.id === action.item.id) {
-              const result = {
-                ...e,
-                q: e.q + 1,
-              };
-
-              return result;
-            } else {
-              return e;
-            }
-          }),
+          cart: state.cart.map((e) =>
+            e.id === action.item.id ? { ...e, q: e.q + 1 } : e
+          ),
         };
       }
     case types.DELETE_CART:
@@ -75,57 +63,28 @@ const Shopping = (
           return e;
         }),
       };
+    // save to: ordered
     case types.DIRECT_CHECKOUT:
       const product = state.products.find((e) => e.id === action.item.id);
-      if (isProduct(product)) {
-        const _product = { ...product, q: 1, chk: true };
-
-        return {
-          ...state,
-          ordered: state.ordered.concat(_product),
-        };
-      } else {
-        return state;
-      }
-    case types.CHECKOUT:
-      if (action.item.id) {
-        const product = state.cart.find((e) => e.id === action.item.id);
-        if (isProduct(product)) {
-          return {
+      return isProduct(product)
+        ? {
             ...state,
-            cart: state.cart.filter((e) => e.id !== action.item.id),
-            ordered: state.ordered.concat(product),
-          };
-        } else {
-          return state;
-        }
-      } else {
-        const products: ProductType[] = state.cart.filter(
-          (e) => e.chk === true
-        );
-        const ids: Array<number> = products.map((e) => e.id);
-
-        return {
-          ...state,
-          cart: state.cart.filter((e) => !ids.includes(e.id)),
-          ordered: products,
-        };
-      }
-
-    /*const orderingProducts: any = state.cart.filter((e) =>
-        action.item.ids.includes(e.id)
-      );
-      console.log(orderingProducts);
+            ordered: state.ordered.concat({ ...product, q: 1 }),
+          }
+        : state;
+    // save to: ordered
+    case types.CHECKOUT:
+      const products: ProductType[] = state.cart.filter((e) => e.chk === true);
 
       return {
         ...state,
-        cart: state.cart.filter((e) => !action.item.ids.includes(e.id)),
-        ordered: orderingProducts,
-      };*/
-
+        ordered: products,
+      };
     case types.CHECKOUT_COMPLETE:
+      const ids: Array<number> = state.ordered.map((e) => e.id);
       return {
         ...state,
+        cart: state.cart.filter((e) => !ids.includes(e.id)),
         ordered: [],
       };
     default:

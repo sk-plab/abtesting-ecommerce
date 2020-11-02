@@ -1,8 +1,6 @@
 // eslint-disable-next-line
 import React from 'react';
-import { RouteComponentProps } from 'react-router-dom';
-import { RootState } from '../store/modules';
-import { useSelector } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row } from 'react-bootstrap';
 import Swiper from 'react-id-swiper';
@@ -14,32 +12,25 @@ ABTest.init();
 // abtesting start
 const expKey = 'ProductList';
 const abtest = ABTest.start(expKey);
+
+// config grid layout
+const columnCount = 4;
 const swiperParams = {
   slidesPerView: 2,
-  spaceBetween: 10,
+  spaceBetween: 30,
+  centeredSlides: true,
+  grabCursor: true,
 };
-const ProductListPage: React.FC<RouteComponentProps> = ({ history }) => {
-  const products = useSelector((state: RootState) => state.Shopping.products);
 
+const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
+  products,
+  history,
+}) => {
   const onClickProduct = (id: number) => {
     history.push(`/view/${id}`);
 
     // abtesting event track
     ABTest.track('ProductList.product_click');
-  };
-
-  const columnCount = 3;
-  const chunkArray = (myArray: Array<ProductType>, chunk_size = 3) => {
-    let index = 0;
-    const arrayLength = myArray.length;
-    const tempArray = [];
-
-    for (index = 0; index < arrayLength; index += chunk_size) {
-      const myChunk = myArray.slice(index, index + chunk_size);
-      tempArray.push(myChunk);
-    }
-
-    return tempArray;
   };
 
   const productsMap = chunkArray(products).map((e, index) => {
@@ -54,14 +45,14 @@ const ProductListPage: React.FC<RouteComponentProps> = ({ history }) => {
         })}
       </Row>
     );
-  }, columnCount);
+  });
 
   return (
-    <div data-abtest-area={expKey}>
-      <h2>추천 상품</h2>
-      <hr />
-
+    <div>
       <div data-abtest-area={expKey}>
+        <h2>추천 상품</h2>
+        <hr />
+
         {!abtest.variables.enableFeature ? (
           productsMap
         ) : (
@@ -78,8 +69,38 @@ const ProductListPage: React.FC<RouteComponentProps> = ({ history }) => {
           </Swiper>
         )}
       </div>
+
+      <div>
+        <h2>MD 추천 상품</h2>
+        <hr />
+
+        <Swiper {...swiperParams} slidesPerView={3} centeredSlides={false}>
+          {products.map((product) => (
+            <div key={product.id}>
+              <Product
+                key={product.id}
+                product={product}
+                onClickProduct={onClickProduct}
+              />
+            </div>
+          ))}
+        </Swiper>
+      </div>
     </div>
   );
 };
 
-export default ProductListPage;
+export default withRouter(ProductListPage);
+
+function chunkArray(myArray: Array<ProductType>, chunk_size = columnCount) {
+  let index = 0;
+  const arrayLength = myArray.length;
+  const tempArray = [];
+
+  for (index = 0; index < arrayLength; index += chunk_size) {
+    const myChunk = myArray.slice(index, index + chunk_size);
+    tempArray.push(myChunk);
+  }
+
+  return tempArray;
+}
