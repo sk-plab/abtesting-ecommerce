@@ -47,6 +47,20 @@ const Shopping = (
           ),
         };
       }
+    case types.INCREASE_CART:
+      return {
+        ...state,
+        cart: state.cart.map((e) =>
+          e.id === action.item.id ? { ...e, q: e.q + 1 } : e
+        ),
+      };
+    case types.DECREASE_CART:
+      return {
+        ...state,
+        cart: state.cart.map((e) =>
+          e.id === action.item.id && e.q !== 1 ? { ...e, q: e.q - 1 } : e
+        ),
+      };
     case types.DELETE_CART:
       return {
         ...state,

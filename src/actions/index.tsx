@@ -24,6 +24,14 @@ interface IAddToCartActionType {
   type: typeof types.ADD_TO_CART;
   item: ShoppingItemProps;
 }
+interface IIncreaseCartActionType {
+  type: typeof types.INCREASE_CART;
+  item: ShoppingItemProps;
+}
+interface IDecreaseCartActionType {
+  type: typeof types.DECREASE_CART;
+  item: ShoppingItemProps;
+}
 interface ICartSelectProductActionType {
   type: typeof types.CART_SELECT_PRODUCT;
   item: CartSelectProductProps;
@@ -50,8 +58,23 @@ export const SetProductData = (
   type: types.SET_PRODUCT_DATA,
   item,
 });
+
 export const AddToCart = (item: ShoppingItemProps): IAddToCartActionType => ({
   type: types.ADD_TO_CART,
+  item,
+});
+
+export const IncreaseCart = (
+  item: ShoppingItemProps
+): IIncreaseCartActionType => ({
+  type: types.INCREASE_CART,
+  item,
+});
+
+export const DecreaseCart = (
+  item: ShoppingItemProps
+): IDecreaseCartActionType => ({
+  type: types.DECREASE_CART,
   item,
 });
 
@@ -61,6 +84,7 @@ export const DirectCheckout = (
   type: types.DIRECT_CHECKOUT,
   item,
 });
+
 export const Checkout = (item: CheckoutProps): ICheckoutActionType => ({
   type: types.CHECKOUT,
   item,
@@ -83,6 +107,8 @@ export const CheckoutComplete = (): ICheckoutCompleteActionType => ({
 export type ShoppingAction =
   | ReturnType<typeof SetProductData>
   | ReturnType<typeof AddToCart>
+  | ReturnType<typeof IncreaseCart>
+  | ReturnType<typeof DecreaseCart>
   | ReturnType<typeof DirectCheckout>
   | ReturnType<typeof Checkout>
   | ReturnType<typeof DeleteCart>

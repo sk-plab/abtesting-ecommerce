@@ -1,7 +1,7 @@
 // eslint-disable-next-line
 import React, { createRef, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Button, Form, Image } from 'react-bootstrap';
+import { Button, Form, Image, InputGroup } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import * as actions from '../actions';
@@ -49,7 +49,37 @@ const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
           {product.name} in {product.color}
         </td>
 
-        <td>{product.q}</td>
+        <td>
+          <InputGroup size="sm" style={{ width: 100 }}>
+            <InputGroup.Prepend>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() =>
+                  dispatch(actions.IncreaseCart({ id: product.id }))
+                }
+              >
+                +
+              </Button>
+            </InputGroup.Prepend>
+
+            <Form.Control
+              value={product.q}
+              style={{ fontSize: 15, textAlign: 'center' }}
+            />
+            <InputGroup.Append>
+              <Button
+                size="sm"
+                variant="secondary"
+                onClick={() =>
+                  dispatch(actions.DecreaseCart({ id: product.id }))
+                }
+              >
+                -
+              </Button>
+            </InputGroup.Append>
+          </InputGroup>
+        </td>
         <td>
           <b>{product.price}</b>
         </td>

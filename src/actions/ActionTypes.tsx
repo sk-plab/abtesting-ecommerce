@@ -1,5 +1,7 @@
 export const SET_PRODUCT_DATA = 'SET_PRODUCT_DATA' as const;
 export const ADD_TO_CART = 'ADD_TO_CART' as const;
+export const INCREASE_CART = 'INCREASE_CART';
+export const DECREASE_CART = 'DECREASE_CART';
 export const DIRECT_CHECKOUT = 'DIRECT_CHECKOUT' as const;
 export const CHECKOUT = 'CHECKOUT' as const;
 export const CHECKOUT_COMPLETE = 'CHECKOUT_COMPLETE' as const;
