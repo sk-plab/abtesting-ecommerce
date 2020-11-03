@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../actions';
 
@@ -28,15 +28,16 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
   // dispatch
   const dispatch = useDispatch();
 
-  const addToCart = () => {
+  const addToCart = useCallback(() => {
     ABTest.track('add_to_cart');
     dispatch(actions.AddToCart({ id }));
     setCartModalShow(true);
-  };
-  const onCheckout = () => {
+  }, [dispatch, id]);
+
+  const onCheckout = useCallback(() => {
     dispatch(actions.DirectCheckout({ id }));
     history.push('/checkout');
-  };
+  }, [dispatch, id, history]);
 
   if (!product) return null;
 

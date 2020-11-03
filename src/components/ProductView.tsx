@@ -22,65 +22,59 @@ interface IProp {
   onCart: () => void;
   onCheckout: () => void;
 }
-const ProductView: React.FC<IProp> = ({ product, onCart, onCheckout }) => {
-  return (
-    <Wrapper>
-      <section className="shopping-container" data-abtest-area={expKey}>
-        <div className="shopping-box">
-          <div className="images">
-            <img src={`/images/${product.imageUrl}`} width="100%" alt="" />
+const ProductView: React.FC<IProp> = ({ product, onCart, onCheckout }) => (
+  <Wrapper>
+    <section className="shopping-container" data-abtest-area={expKey}>
+      <div className="shopping-box">
+        <div className="images">
+          <img src={`/images/${product.imageUrl}`} width="100%" alt="" />
+        </div>
+        <div className="property">
+          <ul>
+            <li>Name: {product.name}</li>
+            <li>
+              Price: ${product.price}
+              <Sale>
+                <FaMoneyBillAlt style={{ fontSize: '20px', margin: '0 5px' }} />
+                20% Sale
+              </Sale>
+            </li>
+            <li>Color: {product.color}</li>
+            <li>Category: {product.category}</li>
+          </ul>
+
+          <div className="desc">
+            Lorem Ipsum is simply dummy text of the printing and typesetting
+            industry. Lorem Ipsum has been the industrys standard dummy text
+            ever since the 1500s, when an unknown printer took a galley of type
+            and scrambled it to make a type specimen book.
           </div>
-          <div className="property">
-            <ul>
-              <li>Name: {product.name}</li>
-              <li>
-                Price: ${product.price}
-                <Sale>
-                  <FaMoneyBillAlt
-                    style={{ fontSize: '20px', margin: '0 5px' }}
-                  />
-                  20% Sale
-                </Sale>
-              </li>
-              <li>Color: {product.color}</li>
-              <li>Category: {product.category}</li>
-            </ul>
+        </div>
 
-            <div className="desc">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </div>
-          </div>
-
-          {abtest.variables.enableFeature ? (
-            <React.Fragment>
-              <CTAGroup new="true" className="btn-group-lg">
-                <CartButton new="true" onClick={onCart}>
-                  <FaCartArrowDown />
-                </CartButton>
-
-                <DirectOrderButton new="true" onClick={onCheckout}>
-                  바로 구매
-                </DirectOrderButton>
-              </CTAGroup>
-            </React.Fragment>
-          ) : (
-            <CTAGroup className="btn-group-lg">
-              <CartButton onClick={onCart}>
+        {abtest.variables.enableFeature ? (
+          <React.Fragment>
+            <CTAGroup new="true" className="btn-group-lg">
+              <CartButton new="true" onClick={onCart}>
                 <FaCartArrowDown />
               </CartButton>
 
-              <DirectOrderButton onClick={onCheckout}>
-                구매하기
+              <DirectOrderButton new="true" onClick={onCheckout}>
+                바로 구매
               </DirectOrderButton>
             </CTAGroup>
-          )}
-        </div>
-      </section>
-    </Wrapper>
-  );
-};
+          </React.Fragment>
+        ) : (
+          <CTAGroup className="btn-group-lg">
+            <CartButton onClick={onCart}>
+              <FaCartArrowDown />
+            </CartButton>
 
-export default ProductView;
+            <DirectOrderButton onClick={onCheckout}>구매하기</DirectOrderButton>
+          </CTAGroup>
+        )}
+      </div>
+    </section>
+  </Wrapper>
+);
+
+export default React.memo(ProductView);
