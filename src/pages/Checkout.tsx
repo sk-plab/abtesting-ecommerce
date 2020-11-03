@@ -60,8 +60,8 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
                 </tr>
               </thead>
               <tbody>
-                {ordered.map((product) => (
-                  <tr key={product.id}>
+                {ordered.map((product, index) => (
+                  <tr key={index}>
                     <td>
                       <Link to={`/view/${product.id}`}>
                         <Image
@@ -79,7 +79,7 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
                       <b>{product.q}</b>
                     </td>
                     <td>
-                      <b>{product.price * product.q}</b>
+                      <b>${product.price * product.q}</b>
                     </td>
                   </tr>
                 ))}
@@ -89,11 +89,25 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
           <hr style={{ margin: '30px 0' }} />
           <Header>배송정보</Header>
           <div style={{ marginTop: 20 }}>
-            <b style={{ fontSize: 15 }}>홍길동</b>
-            <br />
             <p
               style={{
                 marginTop: 10,
+                fontSize: 13,
+                background: '#ddd',
+                height: 25,
+              }}
+            ></p>
+            <p
+              style={{
+                marginTop: 0,
+                fontSize: 13,
+                background: '#ddd',
+                height: 25,
+              }}
+            ></p>
+            <p
+              style={{
+                marginTop: 0,
                 fontSize: 13,
                 background: '#ddd',
                 height: 25,
@@ -132,11 +146,11 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
           </RowClass>
           <RowClass>
             <ColClass>배송비</ColClass>
-            <ColClass>0 원</ColClass>
+            <ColClass>$0</ColClass>
           </RowClass>
           <RowClass>
             <ColClass>할인금액</ColClass>
-            <ColClass>0 원</ColClass>
+            <ColClass>$0</ColClass>
           </RowClass>
           <RowClass>
             <ColClass>합계</ColClass>

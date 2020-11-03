@@ -4,12 +4,15 @@ import { RootState } from '../store/modules';
 import styled from 'styled-components';
 import { Badge } from 'react-bootstrap';
 
-const Wrapper = styled(Badge)`
-`;
-const CartItemCount = () => {
+const Wrapper = styled(Badge)``;
+const CartItemCount: React.FC<Record<string, unknown>> = (props) => {
   const carts = useSelector((state: RootState) => state.Shopping.cart);
 
-  return <Wrapper pill variant="success">{carts.length}</Wrapper>;
+  return (
+    <Wrapper {...props} pill variant="danger">
+      {carts.length}
+    </Wrapper>
+  );
 };
 
 export default CartItemCount;

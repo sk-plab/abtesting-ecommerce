@@ -3,7 +3,7 @@ import { darken } from 'polished';
 import { Container, Button, ButtonGroup } from 'react-bootstrap';
 
 export const Wrapper = styled(Container)`
-  width: 350px;
+  width: 550px;
   position: relative;
 
   section.shopping-container {
@@ -17,12 +17,11 @@ export const Wrapper = styled(Container)`
       background: #fff;
 
       div.images {
-        overflow: hidden;
-        height: 300px;
         margin-bottom: 20px;
       }
 
       div.property {
+        position: relative;
         text-align: left;
 
         ul {
@@ -111,18 +110,18 @@ export const CartButton = styled(Button)`
 
 export const Sale = styled.div`
   position: absolute;
-  bottom: 195px;
-  right: 20px;
+  top: -32px;
+  left: 20px;
   z-index: 1;
   background: red;
   color: #fff;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-  border-radius: 30px;
-  padding: 10px 20px;
-  font-size: 1.2em;
+  border-radius: 10px;
+  padding: 2px 10px;
+  font-size: 1em;
   font-weight: bold;
 
-  animation: blinker 1s linear infinite;
+  animation: blinker 3s linear infinite;
 
   @keyframes blinker {
     50% {

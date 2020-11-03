@@ -1,32 +1,58 @@
 // eslint-disable-next-line
 import React from 'react';
-import { NavLink, RouteComponentProps, withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import ABTest from '../libs/abtest';
-import { Nav, Navbar } from 'react-bootstrap';
+import { Image, Nav, Navbar } from 'react-bootstrap';
 import CartItemCount from './CartItemCount';
+import styled from 'styled-components';
 
-const Header: React.FC<RouteComponentProps> = ({ location }) => {
+const CartItemCountWrapper = styled(CartItemCount)`
+  font-size: 13px;
+  position: absolute !important;
+  right: 0px;
+  top: 2px;
+`;
+
+const CartWrapper = styled(Nav.Link)`
+  position: relative;
+  background-image: url(/images/sprite.png);
+  background-position: -53px -198px;
+  width: 48px;
+  height: 48px;
+  background-size: 363px 275px;
+  overflow: hidden;
+  display: block;
+  line-height: 200px;
+`;
+const Header: React.FC = () => {
   return (
-    <Navbar
-      fixed="top"
-      bg="light"
-      style={{ borderBottom: '1px solid #d9d9d9' }}
-    >
-      <Nav activeKey={location.pathname} style={{ fontSize: 15 }}>
-        <Nav.Link as={NavLink} to="/">
-          Home
-        </Nav.Link>
+    <Navbar fixed="top" bg="light">
+      <Nav>
+        <Navbar.Brand
+          href="#"
+          onClick={(e: React.MouseEvent) => {
+            ABTest.debug();
+            e.preventDefault();
+          }}
+        >
+          <Image src="/images/logo.png" width="50" />
+        </Navbar.Brand>
+      </Nav>
 
-        <Nav.Link as={NavLink} to="/cart">
-          장바구니 <CartItemCount />
+      <Nav className="menu mr-auto">
+        <Nav.Link as={NavLink} to="/">
+          <strong>베스트</strong>
         </Nav.Link>
       </Nav>
 
-      <Nav.Item>
-        <Nav.Link href="#" onClick={ABTest.debug} style={{ fontSize: 15 }}>
-          A/B Testing 현황판
-        </Nav.Link>
-      </Nav.Item>
+      <Nav className="justify-content-end">
+        <Nav.Item>
+          <CartWrapper as={NavLink} to="/cart">
+            장바구니
+            <CartItemCountWrapper />
+          </CartWrapper>
+        </Nav.Item>
+      </Nav>
     </Navbar>
   );
 };

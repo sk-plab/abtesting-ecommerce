@@ -56,33 +56,32 @@ const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
                 size="sm"
                 variant="secondary"
                 onClick={() =>
-                  dispatch(actions.IncreaseCart({ id: product.id }))
+                  dispatch(actions.DecreaseCart({ id: product.id }))
                 }
               >
-                +
+                -
               </Button>
             </InputGroup.Prepend>
 
             <Form.Control
               value={product.q}
               style={{ fontSize: 15, textAlign: 'center' }}
+              readOnly
             />
             <InputGroup.Append>
               <Button
                 size="sm"
                 variant="secondary"
                 onClick={() =>
-                  dispatch(actions.DecreaseCart({ id: product.id }))
+                  dispatch(actions.IncreaseCart({ id: product.id }))
                 }
               >
-                -
+                +
               </Button>
             </InputGroup.Append>
           </InputGroup>
         </td>
-        <td>
-          <b>{product.price}</b>
-        </td>
+        <td>${product.price}</td>
         <td>
           {/*<Button
             variant="outline-primary"

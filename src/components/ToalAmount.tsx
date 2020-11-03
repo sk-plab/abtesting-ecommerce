@@ -16,7 +16,7 @@ const TotalAmount: React.FC<IProps & ProductListType> = ({
 
   return (
     <Fragment>
-      {prefix} {total} {currency || '원'}
+      {currency || '$'} {prefix} {total}
     </Fragment>
   );
 };

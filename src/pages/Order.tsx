@@ -52,50 +52,48 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
           결제금액: <TotalAmount products={ordered} />
         </p>
         <hr />
-        <p className="mb-0">
-          주문해주셔서 감사합니다.
-        </p>
+        <p className="mb-0">주문해주셔서 감사합니다.</p>
       </Alert>
-      
+
       <hr />
-      <div>
-        <Header>주문상품</Header>
-        <p>상품수량 및 옵션변경은 상품상세 또는 장바구니에서 가능합니다.</p>
-        <Table hover>
-          <thead>
-            <tr>
-              <th colSpan={2}>상품정보</th>
-              <th>수량</th>
-              <th>주문금액</th>
+
+      <Header>주문상품</Header>
+      <p>상품수량 및 옵션변경은 상품상세 또는 장바구니에서 가능합니다.</p>
+      <Table hover>
+        <thead>
+          <tr>
+            <th colSpan={2}>상품정보</th>
+            <th>수량</th>
+            <th>주문금액</th>
+          </tr>
+        </thead>
+        <tbody>
+          {ordered.map((product, index) => (
+            <tr key={index}>
+              <td>
+                <Link to={`/view/${product.id}`}>
+                  <Image
+                    src={`../images/${product.imageUrl}`}
+                    width="100"
+                    height="100"
+                    alt=""
+                  />
+                </Link>
+              </td>
+              <td>
+                {product.name} in {product.color}
+              </td>
+              <td>
+                <b>{product.q}</b>
+              </td>
+              <td>
+                <b>${product.price * product.q}</b>
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {ordered.map((product) => (
-              <tr key={product.id}>
-                <td>
-                  <Link to={`/view/${product.id}`}>
-                    <Image
-                      src={`../images/${product.imageUrl}`}
-                      width="100"
-                      height="100"
-                      alt=""
-                    />
-                  </Link>
-                </td>
-                <td>
-                  {product.name} in {product.color}
-                </td>
-                <td>
-                  <b>{product.q}</b>
-                </td>
-                <td>
-                  <b>${product.price * product.q}</b>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-      </div>
+          ))}
+        </tbody>
+      </Table>
+
       <Button size="lg" block variant="outline-primary" onClick={GoToHome}>
         쇼핑 계속하기
       </Button>

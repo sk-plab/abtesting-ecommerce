@@ -1,10 +1,10 @@
-애플 아이폰 12 5G 256GB 자급제,White,핸드폰,$100,item_1.jpg
-애플 아이폰 12 5G 256GB 자급제,Khaki,핸드폰,$37,item_2.jpg
-애플 아이폰 12 5G 256GB 자급제,Forest Green,핸드폰,$118,item_3.jpg
-애플 아이폰 12 5G 256GB 자급제,Rose,핸드폰,$84,item_4.jpg
-애플 아이폰 11 프로 맥스 256GB 자급제,Olive Green,핸드폰,$153,item_5.png
-애플 아이폰 11 프로 맥스 256GB 자급제,Pine Green,핸드폰,$107,item_6.png
-애플 아이폰 11 프로 맥스 256GB 자급제,Baby Blue,핸드폰,$54,item_7.png
-애플 아이폰 SE 2세대 128GB 자급제,Baby Blue,핸드폰,$62,item_8.jpg
-애플 아이폰 SE 2세대 128GB 자급제,Olive Green,핸드폰,$238,item_9.jpg
-애플 아이폰 SE 2세대 128GB 자급제,Olive Green,핸드폰,$238,item_10.jpg
+애플 아이폰 12 5G 256GB 자급제,White,핸드폰,$1600,item_1.jpg
+애플 아이폰 12 5G 256GB 자급제,Khaki,핸드폰,$1600,item_2.jpg
+애플 아이폰 12 5G 256GB 자급제,Forest Green,핸드폰,$1600,item_3.jpg
+애플 아이폰 12 5G 256GB 자급제,Rose,핸드폰,$1600,item_4.jpg
+애플 아이폰 11 프로 맥스 256GB 자급제,Olive Green,핸드폰,$1300,item_5.png
+애플 아이폰 11 프로 맥스 256GB 자급제,Pine Green,핸드폰,$1300,item_6.png
+애플 아이폰 11 프로 맥스 256GB 자급제,Baby Blue,핸드폰,$1300,item_7.png
+애플 아이폰 SE 2세대 128GB 자급제,Baby Blue,핸드폰,$1000,item_8.jpg
+애플 아이폰 SE 2세대 128GB 자급제,Olive Green,핸드폰,$1000,item_9.jpg
+애플 아이폰 SE 2세대 128GB 자급제,Olive Green,핸드폰,$1000,item_10.jpg

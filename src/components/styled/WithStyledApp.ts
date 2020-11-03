@@ -9,9 +9,9 @@ export const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background: #FFF;
-    font-size: 12px;
+    font-size: 15px;
 
-    padding-top: 4.5rem;
+    padding-top: 5.5rem;
   }
   h1 {
     font-size: 36px;
@@ -24,6 +24,11 @@ export const GlobalStyle = createGlobalStyle`
 
   .swiper-slide {
     overflow: hidden;
+  }
+
+  .menu {
+    color: #111;
+    font-size: 17px;
   }
 `;
 

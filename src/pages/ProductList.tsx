@@ -51,7 +51,6 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
     <div>
       <div data-abtest-area={expKey}>
         <h2>추천 상품</h2>
-        <hr />
 
         {!abtest.variables.enableFeature ? (
           productsMap
@@ -70,9 +69,8 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
         )}
       </div>
 
-      <div>
+      <div style={{ padding: '50px 0' }}>
         <h2>MD 추천 상품</h2>
-        <hr />
 
         <Swiper {...swiperParams} slidesPerView={3} centeredSlides={false}>
           {products.map((product) => (

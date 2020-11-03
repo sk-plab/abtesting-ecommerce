@@ -1,27 +1,14 @@
 // eslint-disable-next-line
-import React, { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { Fragment, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import * as actions from '../actions';
-import ABTest from '../libs/abtest';
-import {
-  Wrapper,
-  Sale,
-  DirectOrderButton,
-  CartButton,
-  CTAGroup,
-} from '../components/styled/WithStyledProductView';
+
 import { RouteComponentProps } from 'react-router-dom';
 import { RootState } from '../store/modules';
 
-import { FaCartArrowDown, FaMoneyBillAlt } from 'react-icons/fa';
+import ProductView from '../components/ProductView';
 import CartModal from '../components/CartModal';
-
-// a/b testing init.
-ABTest.init();
-
-// abtesting start
-const expKey = 'ProductView';
-const abtest = ABTest.start(expKey);
+import ABTest from '../libs/abtest';
 
 interface MatchParams {
   id: string;
@@ -54,65 +41,14 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
   if (!product) return null;
 
   return (
-    <Wrapper>
-      <section className="shopping-container" data-abtest-area={expKey}>
-        <div className="shopping-box">
-          <div className="images">
-            <img
-              src={`/images/${product.imageUrl}`}
-              width="100%"
-              height="300"
-              alt=""
-            />
-          </div>
-          <div className="property">
-            <ul>
-              <li>Name: {product.name}</li>
-              <li>Price: {product.price}</li>
-              <li>Color: {product.color}</li>
-              <li>Category: {product.category}</li>
-            </ul>
-
-            <div className="desc">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
-            </div>
-          </div>
-
-          {abtest.variables.enableFeature ? (
-            <CTAGroup new="true" className="btn-group-lg">
-              <CartButton new="true" onClick={addToCart}>
-                <FaCartArrowDown />
-              </CartButton>
-
-              <DirectOrderButton new="true" onClick={onCheckout}>
-                바로 구매
-              </DirectOrderButton>
-
-              <Sale>
-                <FaMoneyBillAlt style={{ fontSize: '20px', margin: '0 5px' }} />
-                20% Sale
-              </Sale>
-            </CTAGroup>
-          ) : (
-            <CTAGroup className="btn-group-lg">
-              <CartButton onClick={addToCart}>
-                <FaCartArrowDown />
-              </CartButton>
-
-              <DirectOrderButton onClick={onCheckout}>
-                구매하기
-              </DirectOrderButton>
-            </CTAGroup>
-          )}
-        </div>
-      </section>
-
+    <Fragment>
+      <ProductView
+        product={product}
+        onCart={addToCart}
+        onCheckout={onCheckout}
+      />
       <CartModal show={cartModalShow} onHide={() => setCartModalShow(false)} />
-    </Wrapper>
+    </Fragment>
   );
 };
-
 export default ProductViewPage;
