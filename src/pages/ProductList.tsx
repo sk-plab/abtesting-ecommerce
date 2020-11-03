@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React from 'react';
+import React, { useCallback } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row } from 'react-bootstrap';
@@ -26,12 +26,15 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,
   history,
 }) => {
-  const onClickProduct = (id: number) => {
-    history.push(`/view/${id}`);
+  const onClickProduct = useCallback(
+    (id: number) => {
+      history.push(`/view/${id}`);
 
-    // abtesting event track
-    ABTest.track('ProductList.product_click');
-  };
+      // abtesting event track
+      ABTest.track('ProductList.product_click');
+    },
+    [history]
+  );
 
   const productsMap = chunkArray(products).map((e, index) => {
     return (

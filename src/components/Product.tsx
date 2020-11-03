@@ -12,16 +12,17 @@ interface Props {
   product: ProductType;
   onClickProduct: (id: number) => void;
 }
-const Product: React.FC<Props> = ({ product, onClickProduct }) => (
-  <ProductWrapper onClick={() => onClickProduct(product.id)}>
-    <Image src={`images/${product.imageUrl}`} width="100%" />
+const Product: React.FC<Props> = ({ product, onClickProduct }) => {
+  return (
+    <ProductWrapper onClick={() => onClickProduct(product.id)}>
+      <Image src={`images/${product.imageUrl}`} width="100%" />
 
-    <ProductName>
-      {product.name} in {product.color}
-    </ProductName>
+      <ProductName>
+        {product.name} in {product.color}
+      </ProductName>
 
-    <ProductPrice>${product.price}</ProductPrice>
-  </ProductWrapper>
-);
-
-export default Product;
+      <ProductPrice>${product.price}</ProductPrice>
+    </ProductWrapper>
+  );
+};
+export default React.memo(Product);
