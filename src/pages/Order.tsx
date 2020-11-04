@@ -40,7 +40,7 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
   };
 
   return (
-    <OrderContainer>
+    <React.Fragment>
       <SuccessHeader>주문이 성공적으로 완료되었습니다.</SuccessHeader>
       <hr />
       <Alert variant="success">
@@ -97,10 +97,8 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
       <Button size="lg" block variant="outline-primary" onClick={GoToHome}>
         쇼핑 계속하기
       </Button>
-    </OrderContainer>
+    </React.Fragment>
   );
 };
-
-export const OrderContainer = styled.div``;
 
 export default OrderPage;

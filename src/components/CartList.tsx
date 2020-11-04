@@ -1,45 +1,50 @@
 // eslint-disable-next-line
-import React, { Fragment } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/modules';
-import { Button, Table } from 'react-bootstrap';
-import TotalAmount from '../components/ToalAmount';
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+import { Table } from 'react-bootstrap';
 import CartProduct from '../components/CartProduct';
 import * as actions from '../actions';
-import Noty from 'noty';
 
-const CartList: React.FC<ProductListType & RouteComponentProps> = ({
-  history,
-}) => {
+const CartList: React.FC<ProductListType> = ({ products }) => {
   const dispatch = useDispatch();
-  const onCheckout = (id: number) => {
-    dispatch(actions.Checkout({ id }));
-    history.push('/checkout');
-  };
-  const onCheckoutAll = () => {
-    const _products = products.filter((e) => e.chk);
-    if (_products.length > 0) {
-      dispatch(actions.Checkout({}));
-      history.push('/checkout');
-    } else {
-      new Noty({
-        type: 'error',
-        text: `선택한 장바구니 상품이 없습니다.`,
-        timeout: 3000,
-      }).show();
-    }
-  };
-  const onDeleteCart = (id: number) => {
-    if (window.confirm('정말 삭제하시겠습니까?')) {
-      dispatch(actions.DeleteCart({ id }));
-    }
-  };
 
-  const products = useSelector((state: RootState) => state.Shopping.cart);
+  const onCheck = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const target = e.target;
+      const dataId = target.getAttribute('data-id');
+      if (dataId) {
+        const id = parseInt(dataId, 10);
+        dispatch(actions.CartSelectProduct({ id, chk: target.checked }));
+      }
+    },
+    [dispatch]
+  );
+
+  const onIncrease = useCallback(
+    (id) => {
+      dispatch(actions.IncreaseCart({ id }));
+    },
+    [dispatch]
+  );
+
+  const onDecrease = useCallback(
+    (id) => {
+      dispatch(actions.DecreaseCart({ id }));
+    },
+    [dispatch]
+  );
+
+  const onDeleteCart = useCallback(
+    (id: number) => {
+      if (window.confirm('정말 삭제하시겠습니까?')) {
+        dispatch(actions.DeleteCart({ id }));
+      }
+    },
+    [dispatch]
+  );
 
   return (
-    <Fragment>
+    <React.Fragment>
       <Table hover>
         <thead>
           <tr>
@@ -55,34 +60,25 @@ const CartList: React.FC<ProductListType & RouteComponentProps> = ({
             <CartProduct
               key={product.id}
               product={product}
-              onCheckout={onCheckout}
+              onCheck={onCheck}
+              onIncrease={onIncrease}
+              onDecrease={onDecrease}
               onDeleteCart={onDeleteCart}
             />
           ))}
           {!products.length && <NotFound />}
         </tbody>
       </Table>
-
-      <hr />
-      <h4>
-        Total: <TotalAmount products={products} />
-      </h4>
-
-      {products.length > 0 && (
-        <Button size="lg" block onClick={onCheckoutAll}>
-          Proceed to Checkout
-        </Button>
-      )}
-    </Fragment>
+    </React.Fragment>
   );
 };
 function NotFound() {
   return (
-    <Fragment>
+    <React.Fragment>
       <tr>
         <td colSpan={6}>장바구니에 담겨진 상품이 없습니다.</td>
       </tr>
-    </Fragment>
+    </React.Fragment>
   );
 }
-export default withRouter(CartList);
+export default CartList;

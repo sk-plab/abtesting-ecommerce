@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
-import { Col, Row, Table, Image, Button, Form, Alert } from 'react-bootstrap';
+import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
+import { RootState } from '../store/modules';
+
+import CheckoutProduct from '../components/CheckoutProduct';
+import Payment from '../components/Payment';
 import TotalAmount from '../components/ToalAmount';
 
-import { RootState } from '../store/modules';
-import Payment from '../components/Payment';
+import { Col, Row, Image, Button, Form, Alert } from 'react-bootstrap';
 import {
   CheckoutWrapper,
   RowClass,
@@ -17,18 +19,24 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   const [showPayment, setShowPayment] = useState(false);
-  const handleClose = () => setShowPayment(false);
+  const handleClose = useCallback(() => setShowPayment(false), [
+    setShowPayment,
+  ]);
 
-  const onPayment = () => {
+  const onPayment = useCallback(() => {
     setShowPayment(true);
-  };
-  const onOrder = (e: React.MouseEvent) => {
-    e.currentTarget.innerHTML = '결제중...';
+  }, [setShowPayment]);
 
-    setTimeout(() => {
-      history.push('/order');
-    }, 1000);
-  };
+  const onOrder = useCallback(
+    (e: React.MouseEvent) => {
+      e.currentTarget.innerHTML = '결제중...';
+
+      setTimeout(() => {
+        history.push('/order');
+      }, 1000);
+    },
+    [history]
+  );
 
   if (!ordered.length)
     return (
@@ -44,84 +52,17 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
 
   return (
     <CheckoutWrapper fluid>
+      <Payment show={showPayment} handleClose={handleClose} onOrder={onOrder} />
+
       <h1>주문결제</h1>
       <hr />
       <RowClass>
         <Col md={8}>
-          <div>
-            <Header>주문상품</Header>
-            <p>상품수량 및 옵션변경은 상품상세 또는 장바구니에서 가능합니다.</p>
-            <Table hover>
-              <thead>
-                <tr>
-                  <th colSpan={2}>상품정보</th>
-                  <th>수량</th>
-                  <th>주문금액</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ordered.map((product, index) => (
-                  <tr key={index}>
-                    <td>
-                      <Link to={`/view/${product.id}`}>
-                        <Image
-                          src={`../images/${product.imageUrl}`}
-                          width="100"
-                          height="100"
-                          alt=""
-                        />
-                      </Link>
-                    </td>
-                    <td>
-                      {product.name} in {product.color}
-                    </td>
-                    <td>
-                      <b>{product.q}</b>
-                    </td>
-                    <td>
-                      <b>${product.price * product.q}</b>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </Table>
-          </div>
+          <CheckoutProduct products={ordered} />
+
           <hr style={{ margin: '30px 0' }} />
           <Header>배송정보</Header>
-          <div style={{ marginTop: 20 }}>
-            <p
-              style={{
-                marginTop: 10,
-                fontSize: 13,
-                background: '#ddd',
-                height: 25,
-              }}
-            ></p>
-            <p
-              style={{
-                marginTop: 0,
-                fontSize: 13,
-                background: '#ddd',
-                height: 25,
-              }}
-            ></p>
-            <p
-              style={{
-                marginTop: 0,
-                fontSize: 13,
-                background: '#ddd',
-                height: 25,
-              }}
-            ></p>
-            <p
-              style={{
-                marginTop: 0,
-                fontSize: 13,
-                background: '#ddd',
-                height: 25,
-              }}
-            ></p>
-          </div>
+          <Ship />
 
           <hr style={{ margin: '30px 0' }} />
           <div>
@@ -166,10 +107,46 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
           </Button>
         </Col>
       </RowClass>
-
-      <Payment show={showPayment} handleClose={handleClose} onOrder={onOrder} />
     </CheckoutWrapper>
   );
 };
 
+function Ship() {
+  return (
+    <div style={{ marginTop: 20 }}>
+      <p
+        style={{
+          marginTop: 10,
+          fontSize: 13,
+          background: '#ddd',
+          height: 25,
+        }}
+      ></p>
+      <p
+        style={{
+          marginTop: 0,
+          fontSize: 13,
+          background: '#ddd',
+          height: 25,
+        }}
+      ></p>
+      <p
+        style={{
+          marginTop: 0,
+          fontSize: 13,
+          background: '#ddd',
+          height: 25,
+        }}
+      ></p>
+      <p
+        style={{
+          marginTop: 0,
+          fontSize: 13,
+          background: '#ddd',
+          height: 25,
+        }}
+      ></p>
+    </div>
+  );
+}
 export default Checkout;

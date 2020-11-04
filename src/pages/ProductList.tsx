@@ -1,5 +1,5 @@
 // eslint-disable-next-line
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row } from 'react-bootstrap';
@@ -36,19 +36,17 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
     [history]
   );
 
-  const productsMap = chunkArray(products).map((e, index) => {
-    return (
-      <Row key={index}>
-        {e.map((product) => {
-          return (
-            <Col key={product.id} xs={12 / columnCount}>
-              <Product product={product} onClickProduct={onClickProduct} />
-            </Col>
-          );
-        })}
-      </Row>
-    );
-  });
+  const productsMap = chunkArray(products).map((e, index) => (
+    <Row key={index}>
+      {e.map((product) => {
+        return (
+          <Col key={product.id} xs={12} sm={6} md={12 / columnCount}>
+            <Product product={product} onClickProduct={onClickProduct} />
+          </Col>
+        );
+      })}
+    </Row>
+  ));
 
   return (
     <div>

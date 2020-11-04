@@ -15,4 +15,4 @@ const CartItemCount: React.FC<Record<string, unknown>> = (props) => {
   );
 };
 
-export default CartItemCount;
+export default React.memo(CartItemCount);

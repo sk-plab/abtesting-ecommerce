@@ -7,8 +7,6 @@ interface IProp {
   handleClose: () => void;
 }
 const Payment: React.FC<IProp> = ({ show, onOrder, handleClose }) => {
-  //if (!show) return null;
-
   return (
     <>
       <Modal
@@ -37,4 +35,4 @@ const Payment: React.FC<IProp> = ({ show, onOrder, handleClose }) => {
   );
 };
 
-export default Payment;
+export default React.memo(Payment);

@@ -1,37 +1,32 @@
 // eslint-disable-next-line
-import React, { createRef, useRef, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form, Image, InputGroup } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
-import { useDispatch } from 'react-redux';
-import * as actions from '../actions';
 
 interface CartProductProps {
   product: ProductType;
-  onCheckout: (id: number) => void;
+  onCheck: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onIncrease: (id: number) => void;
+  onDecrease: (id: number) => void;
   onDeleteCart: (id: number) => void;
 }
-const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
-  const dispatch = useDispatch();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const target = e.target;
-    const dataId = target.getAttribute('data-id');
-    if (dataId) {
-      const id = parseInt(dataId, 10);
-      dispatch(actions.CartSelectProduct({ id, chk: target.checked }));
-    }
-  };
-
+const CartProduct: React.FC<CartProductProps> = ({
+  product,
+  onCheck,
+  onIncrease,
+  onDecrease,
+  onDeleteCart,
+}) => {
   return (
-    <React.Fragment key={product.id}>
+    <React.Fragment>
       <tr>
         <td>
           <Form.Check
             type="checkbox"
             checked={product.chk}
             data-id={product.id}
-            onChange={handleChange}
+            onChange={onCheck}
           />
         </td>
         <td>
@@ -55,9 +50,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
               <Button
                 size="sm"
                 variant="secondary"
-                onClick={() =>
-                  dispatch(actions.DecreaseCart({ id: product.id }))
-                }
+                onClick={() => onDecrease(product.id)}
               >
                 -
               </Button>
@@ -72,9 +65,7 @@ const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
               <Button
                 size="sm"
                 variant="secondary"
-                onClick={() =>
-                  dispatch(actions.IncreaseCart({ id: product.id }))
-                }
+                onClick={() => onIncrease(product.id)}
               >
                 +
               </Button>
@@ -83,13 +74,6 @@ const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
         </td>
         <td>${product.price}</td>
         <td>
-          {/*<Button
-            variant="outline-primary"
-            size="sm"
-            onClick={() => onCheckout(product.id)}
-          >
-            주문
-          </Button>{' '}*/}
           <Button
             variant="dark"
             size="sm"
@@ -103,4 +87,4 @@ const CartProduct: React.FC<CartProductProps> = ({ product, onDeleteCart }) => {
   );
 };
 
-export default CartProduct;
+export default React.memo(CartProduct);

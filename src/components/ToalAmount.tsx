@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 interface IProps {
   prefix?: string;
@@ -10,15 +10,16 @@ const TotalAmount: React.FC<IProps & ProductListType> = ({
   currency,
 }) => {
   const total = products.reduce(
-    (pre: number, cur: ProductType): number => pre + cur.price * cur.q,
+    (pre: number, cur: ProductType): number =>
+      cur.chk ? pre + cur.price * cur.q : pre,
     0
   );
 
   return (
-    <Fragment>
+    <React.Fragment>
       {currency || '$'} {prefix} {total}
-    </Fragment>
+    </React.Fragment>
   );
 };
 
-export default TotalAmount;
+export default React.memo(TotalAmount);

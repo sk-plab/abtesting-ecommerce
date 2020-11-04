@@ -1,7 +1,8 @@
 {
-  "name": "a-b-javascript-sdk-sample-app-react-e-commerce",
+  "name": "abtesting-ecommerce",
   "version": "1.0.0",
   "description": "https://abtest.skplanet.com",
+  "homepage": "https://nanha.github.io/abtesting-ecommerce",
   "dependencies": {
     "@types/node": "14.14.3",
     "@types/react": "16.9.53",
@@ -39,6 +40,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "gh-pages": "^3.1.0",
     "node-sass": "^4.14.1",
     "prettier": "2.1.2",
     "redux-devtools-extension": "^2.13.8",
@@ -53,7 +55,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "browserslist": [
     ">0.2%",
