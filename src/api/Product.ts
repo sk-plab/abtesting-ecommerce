@@ -1,5 +1,8 @@
 export const ProductData = async (): Promise<ProductType[]> => {
-  const f = await fetch('/ProductData.txt');
+  const API_URL = process.env.REACT_APP_API_URL;
+  if (!API_URL) throw new Error('not found REACT_APP_API_URL');
+
+  const f = await fetch(API_URL);
   const data = await f.text();
   const parse = await parseProductData(data);
 
