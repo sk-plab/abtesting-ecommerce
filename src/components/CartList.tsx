@@ -45,7 +45,7 @@ const CartList: React.FC<ProductListType> = ({ products }) => {
 
   return (
     <React.Fragment>
-      <Table hover>
+      <Table hover responsive>
         <thead>
           <tr>
             <th>선택</th>

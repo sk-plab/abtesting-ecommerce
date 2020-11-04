@@ -3,8 +3,12 @@ import { darken } from 'polished';
 import { Container, Button, ButtonGroup } from 'react-bootstrap';
 
 export const Wrapper = styled(Container)`
-  width: 550px;
+  width: 100%; /* mobile first */
   position: relative;
+
+  @media only screen and (min-width: 768px) {
+    width: 500px;
+  }
 
   section.shopping-container {
     text-align: center;

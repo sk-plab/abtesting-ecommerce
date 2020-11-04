@@ -1,10 +1,17 @@
 // eslint-disable-next-line
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row } from 'react-bootstrap';
 import Swiper from 'react-id-swiper';
 import ABTest from '../libs/abtest';
+import { useMedia } from 'react-media';
+
+const GLOBAL_MEDIA_QUERIES = {
+  small: '(max-width: 599px)',
+  medium: '(min-width: 600px) and (max-width: 1199px)',
+  large: '(min-width: 1200px)',
+};
 
 // a/b testing init.
 ABTest.init();
@@ -15,17 +22,13 @@ const abtest = ABTest.start(expKey);
 
 // config grid layout
 const columnCount = 4;
-const swiperParams = {
-  slidesPerView: 2,
-  spaceBetween: 30,
-  centeredSlides: true,
-  grabCursor: true,
-};
 
 const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,
   history,
 }) => {
+  const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
+
   const onClickProduct = useCallback(
     (id: number) => {
       history.push(`/view/${id}`);
@@ -36,7 +39,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
     [history]
   );
 
-  const productsMap = chunkArray(products).map((e, index) => (
+  const productsMap = chunkArray(products, columnCount).map((e, index) => (
     <Row key={index}>
       {e.map((product) => {
         return (
@@ -49,14 +52,14 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   ));
 
   return (
-    <div>
+    <React.Fragment>
       <div data-abtest-area={expKey}>
         <h2>추천 상품</h2>
 
         {!abtest.variables.enableFeature ? (
           productsMap
         ) : (
-          <Swiper {...swiperParams}>
+          <Swiper slidesPerView={matches.small ? 2 : 3}>
             {products.map((product) => (
               <div key={product.id}>
                 <Product
@@ -73,7 +76,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
       <div style={{ padding: '50px 0' }}>
         <h2>MD 추천 상품</h2>
 
-        <Swiper {...swiperParams} slidesPerView={3} centeredSlides={false}>
+        <Swiper slidesPerView={matches.small ? 2 : 3}>
           {products.map((product) => (
             <div key={product.id}>
               <Product
@@ -85,13 +88,13 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
           ))}
         </Swiper>
       </div>
-    </div>
+    </React.Fragment>
   );
 };
 
 export default withRouter(ProductListPage);
 
-function chunkArray(myArray: Array<ProductType>, chunk_size = columnCount) {
+function chunkArray(myArray: Array<ProductType>, chunk_size: number) {
   let index = 0;
   const arrayLength = myArray.length;
   const tempArray = [];

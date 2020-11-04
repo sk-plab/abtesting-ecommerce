@@ -59,7 +59,7 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
 
       <Header>주문상품</Header>
       <p>상품수량 및 옵션변경은 상품상세 또는 장바구니에서 가능합니다.</p>
-      <Table hover>
+      <Table hover responsive>
         <thead>
           <tr>
             <th colSpan={2}>상품정보</th>
