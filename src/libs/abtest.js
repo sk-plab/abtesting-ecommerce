@@ -10,12 +10,16 @@ import Noty from 'noty';
 const projectKey = 'plab-demo-project';
 
 const ABTest = {
-  init(params = {}) {
+  init() {
+    const REACT_APP_SSL = process.env.REACT_APP_SSL;
+    const REACT_APP_DOMAIN = process.env.REACT_APP_DOMAIN;
+
     plab.init({
       projectKey,
       datafile: window.plabDatafile, // @see index.html datafile
-      isCrossSite: false, // false: localhost, true: SSL
-      debug: false,
+      isCrossSite: REACT_APP_SSL === 'true' ? true : false, // false: localhost, true: SSL
+      debug: true,
+      domain: REACT_APP_DOMAIN,
     });
   },
 
