@@ -83,7 +83,7 @@ const Shopping = (
       return isProduct(product)
         ? {
             ...state,
-            ordered: state.ordered.concat({ ...product, q: 1 }),
+            ordered: state.ordered.concat({ ...product, q: 1, chk: true }),
           }
         : state;
     // save to: ordered
