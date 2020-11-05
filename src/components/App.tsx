@@ -45,9 +45,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
       <Container fluid>
         <TransitionGroup>
           <CSSTransition
-            key={location.key}
-            timeout={{ enter: 200, exit: 0 }}
-            classNames="fade"
+            key={location.pathname}
+            timeout={300}
+            classNames="page"
           >
             <Switch location={location}>
               <Route path="/" exact>
