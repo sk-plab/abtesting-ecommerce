@@ -1,12 +1,16 @@
-// eslint-disable-next-line
 import React, { useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-import { Table } from 'react-bootstrap';
-import CartProduct from '../components/CartProduct';
+import { useDispatch, useSelector } from 'react-redux';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { RootState } from '../store/modules';
 import * as actions from '../actions';
+import { Table, Button } from 'react-bootstrap';
+import CartProduct from '../components/CartProduct';
+import TotalAmount from '../components/ToalAmount';
+import Noty from 'noty';
 
-const CartList: React.FC<ProductListType> = ({ products }) => {
+const CartContainer: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
+  const products = useSelector((state: RootState) => state.Shopping.cart);
 
   const onCheck = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -42,7 +46,19 @@ const CartList: React.FC<ProductListType> = ({ products }) => {
     },
     [dispatch]
   );
-
+  const onCheckoutAll = () => {
+    const _products = products.filter((e) => e.chk);
+    if (_products.length > 0) {
+      dispatch(actions.Checkout({}));
+      history.push('/checkout');
+    } else {
+      new Noty({
+        type: 'error',
+        text: `선택한 장바구니 상품이 없습니다.`,
+        timeout: 3000,
+      }).show();
+    }
+  };
   return (
     <React.Fragment>
       <Table hover responsive>
@@ -69,6 +85,16 @@ const CartList: React.FC<ProductListType> = ({ products }) => {
           {!products.length && <NotFound />}
         </tbody>
       </Table>
+      <hr />
+      <h4>
+        Total: <TotalAmount products={products} />
+      </h4>
+
+      {products.length > 0 && (
+        <Button size="lg" block onClick={onCheckoutAll}>
+          Proceed to Checkout
+        </Button>
+      )}
     </React.Fragment>
   );
 };
@@ -81,4 +107,4 @@ function NotFound() {
     </React.Fragment>
   );
 }
-export default CartList;
+export default withRouter(CartContainer);

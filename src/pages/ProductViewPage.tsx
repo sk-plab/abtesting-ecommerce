@@ -9,6 +9,7 @@ import { RootState } from '../store/modules';
 import ProductView from '../components/ProductView';
 import CartModal from '../components/CartModal';
 import ABTest from '../libs/abtest';
+import CartContainer from '../containers/CartContainer';
 
 interface MatchParams {
   id: string;
@@ -48,7 +49,9 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({
         onCart={addToCart}
         onCheckout={onCheckout}
       />
-      <CartModal show={cartModalShow} onHide={() => setCartModalShow(false)} />
+      <CartModal show={cartModalShow} onHide={() => setCartModalShow(false)}>
+        <CartContainer />
+      </CartModal>
     </Fragment>
   );
 };
