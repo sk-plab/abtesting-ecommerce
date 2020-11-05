@@ -5,7 +5,7 @@
 
 # Deployment
 
-https://abtesting-plab.netlify.app/
+https://a-b-testing.netlify.app/
 
 
 # A/B Testing

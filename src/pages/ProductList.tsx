@@ -7,26 +7,15 @@ import Swiper from 'react-id-swiper';
 import ABTest from '../libs/abtest';
 import { useMedia } from 'react-media';
 
-const GLOBAL_MEDIA_QUERIES = {
-  small: '(max-width: 599px)',
-  medium: '(min-width: 600px) and (max-width: 1199px)',
-  large: '(min-width: 1200px)',
-};
-
-// a/b testing init.
-ABTest.init();
-
-// abtesting start
-const expKey = 'ProductList';
-const abtest = ABTest.start(expKey);
-
-// config grid layout
-const columnCount = 4;
-
 const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,
   history,
 }) => {
+  const GLOBAL_MEDIA_QUERIES = {
+    small: '(max-width: 599px)',
+    medium: '(min-width: 600px) and (max-width: 1199px)',
+    large: '(min-width: 1200px)',
+  };
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
 
   const onClickProduct = useCallback(
@@ -38,6 +27,16 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
     },
     [history]
   );
+
+  // a/b testing init.
+  ABTest.init();
+
+  // abtesting start
+  const expKey = 'ProductList';
+  const abtest = ABTest.start(expKey);
+
+  // config grid layout
+  const columnCount = 4;
 
   const productsMap = chunkArray(products, columnCount).map((e, index) => (
     <Row key={index}>

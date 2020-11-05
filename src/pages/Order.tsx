@@ -10,9 +10,6 @@ import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
 import TotalAmount from '../components/ToalAmount';
 
-// a/b testing init.
-ABTest.init();
-
 const SuccessHeader = styled.h1`
   color: #f43142;
 `;
@@ -26,6 +23,8 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   useEffect(() => {
+    // a/b testing init.
+    ABTest.init();
     ABTest.track('order');
 
     return () => {
