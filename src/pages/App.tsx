@@ -7,18 +7,25 @@ import {
   RouteComponentProps,
 } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import Header from './Header';
-import Footer from './Footer';
-import { ProductList, ProductView, Cart, Order, Checkout } from '../pages';
 import { Container } from 'react-bootstrap';
 
 import * as actions from '../actions';
 import { ProductData } from '../api/Product';
 
-import { GlobalStyle, View } from './styled/WithStyledApp';
+import { GlobalStyle, View } from '../components/styled/WithStyledApp';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { RootState } from '../store/modules';
 import ScrollToTop from '../hooks/ScrollToTop';
+
+import Header from '../components/Header';
+import Footer from '../components/Footer';
+import {
+  ProductListPage,
+  ProductViewPage,
+  CartPage,
+  OrderPage,
+  CheckoutPage,
+} from '../pages';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const products = useSelector((state: RootState) => state.Shopping.products);
@@ -51,12 +58,12 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           >
             <Switch location={location}>
               <Route path="/" exact>
-                <ProductList products={products} />
+                <ProductListPage products={products} />
               </Route>
-              <Route path="/view/:id" component={ProductView} exact />
-              <Route path="/cart" component={Cart} exact />
-              <Route path="/checkout" component={Checkout} exact />
-              <Route path="/order" component={Order} exact />
+              <Route path="/view/:id" component={ProductViewPage} />
+              <Route path="/cart" component={CartPage} />
+              <Route path="/checkout" component={CheckoutPage} />
+              <Route path="/order" component={OrderPage} />
             </Switch>
           </CSSTransition>
         </TransitionGroup>

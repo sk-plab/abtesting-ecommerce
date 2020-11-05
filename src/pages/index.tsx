@@ -1,5 +1,5 @@
-export { default as ProductList } from './ProductList';
-export { default as ProductView } from './ProductView';
-export { default as Cart } from './Cart';
-export { default as Checkout } from './Checkout';
-export { default as Order } from './Order';
+export { default as ProductListPage } from './ProductListPage';
+export { default as ProductViewPage } from './ProductViewPage';
+export { default as CartPage } from './CartPage';
+export { default as CheckoutPage } from './CheckoutPage';
+export { default as OrderPage } from './OrderPage';

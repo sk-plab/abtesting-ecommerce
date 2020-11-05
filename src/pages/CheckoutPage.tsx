@@ -15,7 +15,7 @@ import {
   Header,
 } from '../components/styled/WithStyledCheckout';
 
-const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
+const CheckoutPage: React.FC<RouteComponentProps> = ({ history }) => {
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   const [showPayment, setShowPayment] = useState(false);
@@ -32,6 +32,7 @@ const Checkout: React.FC<RouteComponentProps> = ({ history }) => {
       e.currentTarget.innerHTML = '결제중...';
 
       setTimeout(() => {
+        setShowPayment(false);
         history.push('/order');
       }, 1000);
     },
@@ -149,4 +150,4 @@ function Ship() {
     </div>
   );
 }
-export default Checkout;
+export default CheckoutPage;

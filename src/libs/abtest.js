@@ -18,7 +18,7 @@ const ABTest = {
       projectKey,
       datafile: window.plabDatafile, // @see index.html datafile
       isCrossSite: REACT_APP_SSL === 'true' ? true : false, // false: localhost, true: SSL
-      debug: true,
+      debug: !true,
       domain: REACT_APP_DOMAIN,
     });
   },
