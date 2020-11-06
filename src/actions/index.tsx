@@ -1,3 +1,5 @@
+import { ThunkAction } from 'redux-thunk';
+import { RootState } from '../store/modules';
 import * as types from './ActionTypes';
 
 // prop types
@@ -63,6 +65,14 @@ export const AddToCart = (item: ShoppingItemProps): IAddToCartActionType => ({
   type: types.ADD_TO_CART,
   item,
 });
+
+export const AddToCartAsync = (
+  item: ShoppingItemProps
+): ThunkAction<void, RootState, null, IAddToCartActionType> => (dispatch) => {
+  setTimeout(() => {
+    dispatch(AddToCart(item));
+  }, 3000);
+};
 
 export const IncreaseCart = (
   item: ShoppingItemProps

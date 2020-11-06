@@ -80,15 +80,14 @@ const Shopping = (
     // save to: ordered
     case types.DIRECT_CHECKOUT:
       const product = state.products.find((e) => e.id === action.item.id);
-      return isProduct(product)
-        ? {
-            ...state,
-            ordered: state.ordered.concat({ ...product, q: 1, chk: true }),
-          }
-        : state;
+
+      return {
+        ...state,
+        ordered: isProduct(product) ? [{ ...product, q: 1, chk: true }] : [],
+      };
     // save to: ordered
     case types.CHECKOUT:
-      const products: ProductType[] = state.cart.filter((e) => e.chk === true);
+      const products = state.cart.filter((e) => e.chk === true);
 
       return {
         ...state,

@@ -1,15 +1,19 @@
+import { createStore, applyMiddleware, compose } from 'redux';
 import reducers from './modules';
-import { applyMiddleware, createStore } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
+
 import logger from 'redux-logger';
+import ReduxThunk from 'redux-thunk';
 
 import { persistStore } from 'redux-persist';
 
-const middlewares = [logger];
+const middlewares = [logger, ReduxThunk];
+
+const composeEnhancers =
+  (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
   reducers,
-  composeWithDevTools(applyMiddleware(...middlewares))
+  composeEnhancers(applyMiddleware(...middlewares))
 );
 
 export const persistor = persistStore(store);
