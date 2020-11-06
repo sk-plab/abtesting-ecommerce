@@ -25,7 +25,8 @@ const Shopping = (
     case types.SET_PRODUCT_DATA:
       return {
         ...state,
-        products: action.item.products,
+        //products: action.item.products,
+        products: action.payload.products,
       };
     case types.ADD_TO_CART:
       const idx = state.cart.findIndex((e) => e.id === action.item.id);

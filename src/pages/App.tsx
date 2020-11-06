@@ -36,7 +36,8 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     const fetchProductData = async () => {
       const products = await ProductData();
 
-      dispatch(actions.SetProductData({ products }));
+      //dispatch(actions.SetProductData({ products }));
+      dispatch(actions.SetProductData(products));
     };
 
     fetchProductData();
