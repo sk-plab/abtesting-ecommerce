@@ -1,4 +1,3 @@
-import { action } from 'typesafe-actions';
 import { ThunkAction } from 'redux-thunk';
 import { RootState } from '../store/modules';
 import * as types from './ActionTypes';
@@ -55,10 +54,7 @@ interface ICheckoutCompleteActionType {
   type: typeof types.CHECKOUT_COMPLETE;
 }
 
-export const SetProductData = (products: ProductType[]) =>
-  action(types.SET_PRODUCT_DATA, { products });
-
-export const SetProductData_ = (
+export const SetProductData = (
   item: SetProductDataPropsType
 ): ISetProductDataActionType => ({
   type: types.SET_PRODUCT_DATA,
