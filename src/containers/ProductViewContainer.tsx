@@ -12,7 +12,6 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/modules';
 import * as actions from '../actions';
-import { useCountRenders } from '../hooks/useCountRenders';
 
 interface MatchParams {
   id: string;
@@ -23,7 +22,6 @@ interface IProp {
 const ProductViewContainer: React.FC<
   IProp & RouteComponentProps<MatchParams>
 > = ({ match, history, onCartTrigger }) => {
-  useCountRenders();
   const id: number = parseInt(match.params.id, 10);
 
   const products = useSelector((state: RootState) => state.Shopping.products);

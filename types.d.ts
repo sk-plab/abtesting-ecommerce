@@ -1,5 +1,6 @@
 interface Window {
   plabDatafile: Record<string, unknown>;
+  plab: PlabInterface;
 }
 
 interface ProductType {

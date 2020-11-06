@@ -6,8 +6,18 @@
 import plab from 'plab';
 import Noty from 'noty';
 
-const ABTest = {
-  init() {
+class ABTest {
+  private static instance: ABTest;
+
+  static getInstance(): ABTest {
+    if (!ABTest.instance) {
+      ABTest.instance = new ABTest();
+    }
+
+    return ABTest.instance;
+  }
+
+  init(): void {
     // abtesting debug
     const debug = false;
 
@@ -36,9 +46,11 @@ const ABTest = {
       debug,
       domain,
     });
-  },
+  }
 
-  start(expKey) {
+  start(
+    expKey: string
+  ): { variation: string; variables: Record<string, unknown> } {
     const variation = plab.start(expKey);
     const variables = plab.getVariable(expKey);
 
@@ -46,14 +58,14 @@ const ABTest = {
       variation,
       variables,
     };
-  },
+  }
 
-  track(e) {
+  track(e: string): void {
     plab.track(
       e,
       {},
       {
-        success: (res) => {
+        success: () => {
           new Noty({
             type: 'info',
             text: `[ABTest]<br />${e} event tracked`,
@@ -61,15 +73,17 @@ const ABTest = {
             layout: 'bottomLeft',
           }).show();
         },
-        error: (e) => console.error(e),
+        error: (e: string) => console.error(e),
       }
     );
-  },
+  }
 
   debug() {
     plab.devtool(); // for debugging
     window.plab = plab; // for debugging
-  },
-};
+  }
+}
 
-export default ABTest;
+const instance = ABTest.getInstance();
+
+export default instance;
