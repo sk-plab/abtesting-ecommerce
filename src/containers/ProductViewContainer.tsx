@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   Wrapper,
   Sale,
@@ -9,13 +8,43 @@ import {
 } from '../components/styled/WithStyledProductView';
 import { FaCartArrowDown, FaMoneyBillAlt } from 'react-icons/fa';
 import ABTest from '../libs/abtest';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/modules';
+import * as actions from '../actions';
+import { useCountRenders } from '../hooks/useCountRenders';
 
-interface IProp {
-  product: ProductType;
-  onCart: () => void;
-  onCheckout: () => void;
+interface MatchParams {
+  id: string;
 }
-const ProductView: React.FC<IProp> = ({ product, onCart, onCheckout }) => {
+interface IProp {
+  onCartTrigger: () => void;
+}
+const ProductViewContainer: React.FC<
+  IProp & RouteComponentProps<MatchParams>
+> = ({ match, history, onCartTrigger }) => {
+  useCountRenders();
+  const id: number = parseInt(match.params.id, 10);
+
+  const products = useSelector((state: RootState) => state.Shopping.products);
+  const product = products.find((e) => e.id === id);
+
+  // dispatch
+  const dispatch = useDispatch();
+
+  const addToCart = useCallback(() => {
+    ABTest.track('add_to_cart');
+    dispatch(actions.AddToCart({ id }));
+    onCartTrigger();
+  }, [dispatch, id, onCartTrigger]);
+
+  const onCheckout = useCallback(() => {
+    dispatch(actions.DirectCheckout({ id }));
+    history.push('/checkout');
+  }, [dispatch, id, history]);
+
+  if (!product) return null;
+
   // a/b testing init.
   ABTest.init();
 
@@ -57,7 +86,7 @@ const ProductView: React.FC<IProp> = ({ product, onCart, onCheckout }) => {
           {abtest.variables.enableFeature ? (
             <React.Fragment>
               <CTAGroup new="true" className="btn-group-lg">
-                <CartButton new="true" onClick={onCart}>
+                <CartButton new="true" onClick={addToCart}>
                   <FaCartArrowDown />
                 </CartButton>
 
@@ -68,7 +97,7 @@ const ProductView: React.FC<IProp> = ({ product, onCart, onCheckout }) => {
             </React.Fragment>
           ) : (
             <CTAGroup className="btn-group-lg">
-              <CartButton onClick={onCart}>
+              <CartButton onClick={addToCart}>
                 <FaCartArrowDown />
               </CartButton>
 
@@ -83,4 +112,4 @@ const ProductView: React.FC<IProp> = ({ product, onCart, onCheckout }) => {
   );
 };
 
-export default React.memo(ProductView);
+export default React.memo(withRouter(ProductViewContainer));

@@ -6,30 +6,37 @@
 import plab from 'plab';
 import Noty from 'noty';
 
-// @see https://plab.skplanet.com/projects/29/experiments
-const projectKey = 'plab-demo-project';
-
 const ABTest = {
   init() {
+    // abtesting debug
+    const debug = false;
+
+    // Project Keyname
+    // @see https://abtest.skplanet.com/a-b-test-getting-started/#i-2
+    const projectKey = 'plab-demo-project';
+
+    // datafile
+    // public/index.html 파일에 설정
+    // @see https://abtest.skplanet.com/a-b-test-datafile/
+    const datafile = window.plabDatafile;
+
+    // cookie sameSite 설정
+    // false: localhost
+    // true: SSL
     const REACT_APP_SSL = process.env.REACT_APP_SSL;
-    const REACT_APP_DOMAIN = process.env.REACT_APP_DOMAIN;
+    const isCrossSite = REACT_APP_SSL === 'true' ? true : false;
+
+    // cookie domain 설정
+    const domain = process.env.REACT_APP_DOMAIN;
 
     plab.init({
       projectKey,
-      datafile: window.plabDatafile, // @see index.html datafile
-      isCrossSite: REACT_APP_SSL === 'true' ? true : false, // false: localhost, true: SSL
-      debug: !true,
-      domain: REACT_APP_DOMAIN,
+      datafile,
+      isCrossSite,
+      debug,
+      domain,
     });
   },
-
-  /*async init() {
-    return await plab.init({
-      projectKey,
-      isCrossSite: true,
-      debug: true
-    });
-  },*/
 
   start(expKey) {
     const variation = plab.start(expKey);
@@ -41,15 +48,6 @@ const ABTest = {
     };
   },
 
-  async getDatafile() {
-    const res = await fetch(
-      `https://api-plab.skplanet.com/v1/project/${projectKey}`
-    );
-    const datafile = await res.json();
-
-    return datafile;
-  },
-
   track(e) {
     plab.track(
       e,
@@ -57,9 +55,10 @@ const ABTest = {
       {
         success: (res) => {
           new Noty({
-            type: 'success',
-            text: `${e} event tracked`,
+            type: 'info',
+            text: `[ABTest]<br />${e} event tracked`,
             timeout: 3000,
+            layout: 'bottomLeft',
           }).show();
         },
         error: (e) => console.error(e),
