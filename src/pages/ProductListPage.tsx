@@ -1,22 +1,33 @@
 // eslint-disable-next-line
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row } from 'react-bootstrap';
 import Swiper from 'react-id-swiper';
 import ABTest from '../libs/abtest';
 import { useMedia } from 'react-media';
+import { Waypoint } from 'react-waypoint';
+import { Context } from '../store/context';
+import MarkingABTest from '../components/MarkingABTest';
 
 const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,
   history,
 }) => {
+  const [, setContext] = useContext(Context);
+
   const GLOBAL_MEDIA_QUERIES = {
     small: '(max-width: 599px)',
     medium: '(min-width: 600px) and (max-width: 1199px)',
     large: '(min-width: 1200px)',
   };
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
+
+  useEffect(() => {
+    return () => {
+      setContext('');
+    };
+  }, [setContext]);
 
   const onClickProduct = useCallback(
     (id: number) => {
@@ -52,8 +63,12 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
 
   return (
     <React.Fragment>
-      <div data-abtest-area={expKey}>
+      <MarkingABTest data-abtest-area={expKey}>
         <h2>추천 상품</h2>
+        <Waypoint
+          onEnter={() => setContext(expKey)}
+          onLeave={() => setContext('')}
+        />
 
         {!abtest.variables.enableFeature ? (
           productsMap
@@ -70,7 +85,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
             ))}
           </Swiper>
         )}
-      </div>
+      </MarkingABTest>
 
       <div style={{ padding: '50px 0' }}>
         <h2>MD 추천 상품</h2>

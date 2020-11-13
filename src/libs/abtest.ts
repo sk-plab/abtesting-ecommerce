@@ -68,7 +68,7 @@ class ABTest {
         success: () => {
           new Noty({
             type: 'info',
-            text: `[ABTest]<br />${e} event tracked`,
+            text: `[A/B Testing]<br />${e} event tracked`,
             timeout: 3000,
             layout: 'bottomLeft',
           }).show();

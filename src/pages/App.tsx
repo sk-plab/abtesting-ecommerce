@@ -1,13 +1,14 @@
 // eslint-disable-next-line
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Switch,
   Route,
   withRouter,
   RouteComponentProps,
 } from 'react-router-dom';
+import { Context } from '../store/context';
 import { useDispatch, useSelector } from 'react-redux';
-import { Container } from 'react-bootstrap';
+import { Col, Container, Row } from 'react-bootstrap';
 
 import * as actions from '../actions';
 import { ProductData } from '../api/Product';
@@ -26,11 +27,14 @@ import {
   OrderPage,
   CheckoutPage,
 } from '../pages';
+import GuideContainer from '../containers/GuideContainer';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const products = useSelector((state: RootState) => state.Shopping.products);
 
   const dispatch = useDispatch();
+
+  const [context, setContext] = useState('default context value');
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -45,33 +49,40 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   if (products.length === 0) return null;
 
   return (
-    <View>
-      <GlobalStyle />
-      <Header />
+    <Context.Provider value={[context, setContext]}>
+      <View>
+        <GlobalStyle />
+        <Header />
 
-      <Container fluid>
-        <TransitionGroup>
-          <CSSTransition
-            key={location.pathname}
-            timeout={300}
-            classNames="page"
-          >
-            <Switch location={location}>
-              <Route path="/" exact>
-                <ProductListPage products={products} />
-              </Route>
-              <Route path="/view/:id" component={ProductViewPage} />
-              <Route path="/cart" component={CartPage} />
-              <Route path="/checkout" component={CheckoutPage} />
-              <Route path="/order" component={OrderPage} />
-            </Switch>
-          </CSSTransition>
-        </TransitionGroup>
-      </Container>
+        <Container fluid>
+          <Row>
+            <Col xs={8} md={8} lg={8}>
+              <TransitionGroup>
+                <CSSTransition
+                  key={location.pathname}
+                  timeout={300}
+                  classNames="page"
+                >
+                  <Switch location={location}>
+                    <Route path="/" exact>
+                      <ProductListPage products={products} />
+                    </Route>
+                    <Route path="/view/:id" component={ProductViewPage} />
+                    <Route path="/cart" component={CartPage} />
+                    <Route path="/checkout" component={CheckoutPage} />
+                    <Route path="/order" component={OrderPage} />
+                  </Switch>
+                </CSSTransition>
+              </TransitionGroup>
+            </Col>
+          </Row>
+        </Container>
 
-      <Footer />
-      <ScrollToTop />
-    </View>
+        <Footer />
+        <GuideContainer />
+        <ScrollToTop />
+      </View>
+    </Context.Provider>
   );
 };
 

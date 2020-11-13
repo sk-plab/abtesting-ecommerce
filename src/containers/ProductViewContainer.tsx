@@ -1,4 +1,5 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useContext } from 'react';
+import { Context } from '../store/context';
 import {
   Wrapper,
   Sale,
@@ -12,6 +13,8 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/modules';
 import * as actions from '../actions';
+import { Waypoint } from 'react-waypoint';
+import MarkingABTest from '../components/MarkingABTest';
 
 interface MatchParams {
   id: string;
@@ -22,6 +25,8 @@ interface IProp {
 const ProductViewContainer: React.FC<
   IProp & RouteComponentProps<MatchParams>
 > = ({ match, history, onCartTrigger }) => {
+  const [, setContext] = useContext(Context);
+
   const id: number = parseInt(match.params.id, 10);
 
   const products = useSelector((state: RootState) => state.Shopping.products);
@@ -52,7 +57,7 @@ const ProductViewContainer: React.FC<
 
   return (
     <Wrapper>
-      <section className="shopping-container" data-abtest-area={expKey}>
+      <section className="shopping-container">
         <div className="shopping-box">
           <div className="images">
             <img src={`/images/${product.imageUrl}`} width="100%" alt="" />
@@ -81,29 +86,36 @@ const ProductViewContainer: React.FC<
             </div>
           </div>
 
-          {abtest.variables.enableFeature ? (
-            <React.Fragment>
-              <CTAGroup new="true" className="btn-group-lg">
-                <CartButton new="true" onClick={addToCart}>
+          <MarkingABTest data-abtest-area={expKey}>
+            {abtest.variables.enableFeature ? (
+              <React.Fragment>
+                <CTAGroup new="true" className="btn-group-lg">
+                  <CartButton new="true" onClick={addToCart}>
+                    <FaCartArrowDown />
+                  </CartButton>
+
+                  <DirectOrderButton new="true" onClick={onCheckout}>
+                    바로 구매
+                  </DirectOrderButton>
+                </CTAGroup>
+              </React.Fragment>
+            ) : (
+              <CTAGroup className="btn-group-lg">
+                <CartButton onClick={addToCart}>
                   <FaCartArrowDown />
                 </CartButton>
 
-                <DirectOrderButton new="true" onClick={onCheckout}>
-                  바로 구매
+                <DirectOrderButton onClick={onCheckout}>
+                  구매하기
                 </DirectOrderButton>
               </CTAGroup>
-            </React.Fragment>
-          ) : (
-            <CTAGroup className="btn-group-lg">
-              <CartButton onClick={addToCart}>
-                <FaCartArrowDown />
-              </CartButton>
+            )}
 
-              <DirectOrderButton onClick={onCheckout}>
-                구매하기
-              </DirectOrderButton>
-            </CTAGroup>
-          )}
+            <Waypoint
+              onEnter={() => setContext(expKey)}
+              onLeave={() => setContext('')}
+            />
+          </MarkingABTest>
         </div>
       </section>
     </Wrapper>

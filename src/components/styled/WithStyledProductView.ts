@@ -37,6 +37,10 @@ export const Wrapper = styled(Container)`
         }
       }
     }
+
+    .cta {
+      position: relative;
+    }
   }
 `;
 export const CTAGroup = styled(ButtonGroup)`
@@ -124,12 +128,4 @@ export const Sale = styled.div`
   padding: 2px 10px;
   font-size: 1em;
   font-weight: bold;
-
-  animation: blinker 3s linear infinite;
-
-  @keyframes blinker {
-    50% {
-      opacity: 0;
-    }
-  }
 `;
