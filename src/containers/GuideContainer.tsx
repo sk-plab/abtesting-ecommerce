@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 const Container = styled.div`
   position: fixed;
+  z-index: 10000;
   right: 0;
   top: 100px;
   width: 500px;
@@ -101,7 +102,7 @@ export const CartButton = styled(Button)\`
     `,
   };
 
-  //if (context) ABTest.debug();
+  console.log(`context: ${context}`);
 
   return (
     <React.Fragment>

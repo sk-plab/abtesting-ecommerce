@@ -6,7 +6,7 @@ import {
   withRouter,
   RouteComponentProps,
 } from 'react-router-dom';
-import { Context } from '../store/context';
+import { Context, GLOBAL_MEDIA_QUERIES } from '../store/context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
 
@@ -28,13 +28,16 @@ import {
   CheckoutPage,
 } from '../pages';
 import GuideContainer from '../containers/GuideContainer';
+import { useMedia } from 'react-media';
 
 const App: React.FC<RouteComponentProps> = ({ location }) => {
   const products = useSelector((state: RootState) => state.Shopping.products);
 
   const dispatch = useDispatch();
 
-  const [context, setContext] = useState('default context value');
+  const [context, setContext] = useState('');
+  const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
+  const defaultValue = [context, setContext, matches];
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -48,22 +51,33 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 
   if (products.length === 0) return null;
 
+  const layout = {
+    xs: 8,
+    md: 8,
+    lg: 8,
+  };
+  if (matches.small) {
+    layout['xs'] = 12;
+    layout['md'] = 12;
+    layout['lg'] = 12;
+  }
+
   return (
-    <Context.Provider value={[context, setContext]}>
+    <Context.Provider value={defaultValue}>
       <View>
         <GlobalStyle />
         <Header />
 
         <Container fluid>
           <Row>
-            <Col xs={8} md={8} lg={8}>
+            <Col {...layout}>
               <TransitionGroup>
                 <CSSTransition
                   key={location.pathname}
                   timeout={300}
                   classNames="page"
                 >
-                  <Switch location={location}>
+                  <Switch>
                     <Route path="/" exact>
                       <ProductListPage products={products} />
                     </Route>
@@ -79,8 +93,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
         </Container>
 
         <Footer />
-        <GuideContainer />
         <ScrollToTop />
+
+        {!matches.small && <GuideContainer />}
       </View>
     </Context.Provider>
   );
