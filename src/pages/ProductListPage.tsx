@@ -8,6 +8,7 @@ import ABTest from '../libs/abtest';
 import { Waypoint } from 'react-waypoint';
 import { Context } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
+import { Animated } from 'react-animated-css';
 
 const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,

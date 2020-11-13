@@ -2,19 +2,19 @@ import React from 'react';
 import { Context } from '../store/context';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 
-import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components';
+import { Animated } from 'react-animated-css';
 
 const Container = styled.div`
-  position: fixed;
-  z-index: 10000;
-  right: 0;
+  position: absolute;
+  z-index: 1040;
+  right: 10px;
   top: 100px;
   width: 500px;
-  height: 500px;
-  overflow: auto;
-  font-size: 12px;
-  overflow: auto;
+  height: 600px;
+  overflow-x: hidden;
+  overflow-y: auto;
   border-radius: 10px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   background: #fff;
@@ -26,9 +26,10 @@ const GuideContainer: React.FC = () => {
   const codeString: Record<string, string> = {
     ProductList: `// 실험 영역 UI 정의
 {!abtest.variables.enableFeature ? (
-  productsMap
+  <ProductComponent items={products}>
 ) : (
-  <Swiper slidesPerView={matches.small ? 2 : 3}>
+  {/* package: react-id-swiper */}
+  <Swiper>
     {products.map((product) => (
       <div key={product.id}>
         <Product
@@ -108,17 +109,23 @@ export const CartButton = styled(Button)\`
     <React.Fragment>
       {codeString[context] ? (
         <Container>
-          <h2>
-            <img src="/images/logo.png" width="50" alt="logo" />
-            <sub>A/B Testing...</sub>
-          </h2>
-          <p>해당 영역에서 실험이 진행중입니다.</p>
-          <p>실험키: {context}</p>
+          <Animated
+            animationIn="bounceInRight"
+            animationOut="fadeOut"
+            isVisible={true}
+          >
+            <h2>
+              <img src="/images/logo.png" width="50" alt="logo" />
+              <sub>A/B Testing...</sub>
+            </h2>
+            <p>해당 영역에서 실험이 진행중입니다.</p>
+            <p>실험키: {context}</p>
 
-          <p>아래코드를 참고하세요.</p>
-          <SyntaxHighlighter language="jsx" style={dark}>
-            {codeString[context]}
-          </SyntaxHighlighter>
+            <p>아래코드를 참고하세요.</p>
+            <SyntaxHighlighter language="javascript" style={atomOneDark}>
+              {codeString[context]}
+            </SyntaxHighlighter>
+          </Animated>
         </Container>
       ) : (
         '.'
