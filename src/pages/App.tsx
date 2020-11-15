@@ -77,7 +77,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
                   timeout={300}
                   classNames="page"
                 >
-                  <Switch>
+                  <Switch location={location}>
                     <Route path="/" exact>
                       <ProductListPage products={products} />
                     </Route>

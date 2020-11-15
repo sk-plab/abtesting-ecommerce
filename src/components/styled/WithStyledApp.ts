@@ -39,7 +39,7 @@ export const GlobalStyle = createGlobalStyle`
   .page-exit-active {
     opacity: 0;
     transform: scale(0.9);
-    transition: opacity 300ms, transform 300ms;
+    transition: opacity 10ms, transform 10ms;
   }
 
   .my-node-enter {
