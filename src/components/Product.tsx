@@ -2,11 +2,7 @@
 import React from 'react';
 
 import { Image } from 'react-bootstrap';
-import {
-  ProductName,
-  ProductWrapper,
-  ProductPrice,
-} from './styled/WithStyledProduct';
+import { ProductName, ProductWrapper, ProductPrice } from './styled/WithStyledProduct';
 
 interface Props {
   product: ProductType;

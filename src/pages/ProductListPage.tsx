@@ -51,10 +51,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
     <React.Fragment>
       <MarkingABTest expKey={expKey}>
         <h2>추천 상품</h2>
-        <Waypoint
-          onEnter={() => setContext(expKey)}
-          onLeave={() => setContext('')}
-        />
+        <Waypoint onEnter={() => setContext(expKey)} onLeave={() => setContext('')} />
 
         {!abtest.variables.enableFeature ? (
           productsMap
@@ -62,11 +59,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
           <Swiper slidesPerView={matches.small ? 2 : 3}>
             {products.map((product) => (
               <div key={product.id}>
-                <Product
-                  key={product.id}
-                  product={product}
-                  onClickProduct={onClickProduct}
-                />
+                <Product key={product.id} product={product} onClickProduct={onClickProduct} />
               </div>
             ))}
           </Swiper>
@@ -79,11 +72,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
         <Swiper slidesPerView={matches.small ? 2 : 3}>
           {products.map((product) => (
             <div key={product.id}>
-              <Product
-                key={product.id}
-                product={product}
-                onClickProduct={onClickProduct}
-              />
+              <Product key={product.id} product={product} onClickProduct={onClickProduct} />
             </div>
           ))}
         </Swiper>

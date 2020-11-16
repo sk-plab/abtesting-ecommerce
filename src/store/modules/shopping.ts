@@ -17,10 +17,7 @@ function isProduct(x: ProductType | undefined): x is ProductType {
   return typeof x === 'object';
 }
 
-const Shopping = (
-  state: ShoppingState = initialState,
-  action: ShoppingAction
-): ShoppingState => {
+const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): ShoppingState => {
   switch (action.type) {
     case types.SET_PRODUCT_DATA:
       return {
@@ -42,17 +39,13 @@ const Shopping = (
       } else {
         return {
           ...state,
-          cart: state.cart.map((e) =>
-            e.id === action.item.id ? { ...e, q: e.q + 1 } : e
-          ),
+          cart: state.cart.map((e) => (e.id === action.item.id ? { ...e, q: e.q + 1 } : e)),
         };
       }
     case types.INCREASE_CART:
       return {
         ...state,
-        cart: state.cart.map((e) =>
-          e.id === action.item.id ? { ...e, q: e.q + 1 } : e
-        ),
+        cart: state.cart.map((e) => (e.id === action.item.id ? { ...e, q: e.q + 1 } : e)),
       };
     case types.DECREASE_CART:
       return {

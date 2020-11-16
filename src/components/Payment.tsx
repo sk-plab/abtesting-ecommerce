@@ -9,13 +9,7 @@ interface IProp {
 const Payment: React.FC<IProp> = ({ show, onOrder, handleClose }) => {
   return (
     <>
-      <Modal
-        show={show}
-        onHide={handleClose}
-        backdrop="static"
-        keyboard={false}
-        size="sm"
-      >
+      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} size="sm">
         <Modal.Header closeButton>
           <Modal.Title>간편 결제</Modal.Title>
         </Modal.Header>

@@ -71,12 +71,7 @@ const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
             <tr key={index}>
               <td>
                 <Link to={`/view/${product.id}`}>
-                  <Image
-                    src={`../images/${product.imageUrl}`}
-                    width="100"
-                    height="100"
-                    alt=""
-                  />
+                  <Image src={`../images/${product.imageUrl}`} width="100" height="100" alt="" />
                 </Link>
               </td>
               <td>

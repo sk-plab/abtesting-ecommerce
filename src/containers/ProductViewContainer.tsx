@@ -22,9 +22,11 @@ interface MatchParams {
 interface IProp {
   onCartTrigger: () => void;
 }
-const ProductViewContainer: React.FC<
-  IProp & RouteComponentProps<MatchParams>
-> = ({ match, history, onCartTrigger }) => {
+const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> = ({
+  match,
+  history,
+  onCartTrigger,
+}) => {
   const { setContext } = useContext(Context);
 
   const id: number = parseInt(match.params.id, 10);
@@ -68,9 +70,7 @@ const ProductViewContainer: React.FC<
               <li>
                 Price: ${product.price}
                 <Sale>
-                  <FaMoneyBillAlt
-                    style={{ fontSize: '20px', margin: '0 5px' }}
-                  />
+                  <FaMoneyBillAlt style={{ fontSize: '20px', margin: '0 5px' }} />
                   20% Sale
                 </Sale>
               </li>
@@ -79,42 +79,34 @@ const ProductViewContainer: React.FC<
             </ul>
 
             <div className="desc">
-              Lorem Ipsum is simply dummy text of the printing and typesetting
-              industry. Lorem Ipsum has been the industrys standard dummy text
-              ever since the 1500s, when an unknown printer took a galley of
-              type and scrambled it to make a type specimen book.
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+              has been the industrys standard dummy text ever since the 1500s, when an unknown
+              printer took a galley of type and scrambled it to make a type specimen book.
             </div>
           </div>
 
           <MarkingABTest expKey={expKey}>
             {abtest.variables.enableFeature ? (
-              <React.Fragment>
-                <CTAGroup new="true" className="btn-group-lg">
-                  <CartButton new="true" onClick={addToCart}>
-                    <FaCartArrowDown />
-                  </CartButton>
+              <CTAGroup new="true" size="lg">
+                <CartButton new="true" onClick={addToCart}>
+                  <FaCartArrowDown />
+                </CartButton>
 
-                  <DirectOrderButton new="true" onClick={onCheckout}>
-                    바로 구매
-                  </DirectOrderButton>
-                </CTAGroup>
-              </React.Fragment>
+                <DirectOrderButton new="true" onClick={onCheckout}>
+                  바로 구매
+                </DirectOrderButton>
+              </CTAGroup>
             ) : (
-              <CTAGroup className="btn-group-lg">
+              <CTAGroup size="lg">
                 <CartButton onClick={addToCart}>
                   <FaCartArrowDown />
                 </CartButton>
 
-                <DirectOrderButton onClick={onCheckout}>
-                  구매하기
-                </DirectOrderButton>
+                <DirectOrderButton onClick={onCheckout}>구매하기</DirectOrderButton>
               </CTAGroup>
             )}
 
-            <Waypoint
-              onEnter={() => setContext(expKey)}
-              onLeave={() => setContext('')}
-            />
+            <Waypoint onEnter={() => setContext(expKey)} onLeave={() => setContext('')} />
           </MarkingABTest>
         </div>
       </section>

@@ -3,7 +3,6 @@ export const GuideCode: Record<string, string> = {
 {!abtest.variables.enableFeature ? (
   <ProductComponent items={products} />
 ) : (
-  {/* package: react-id-swiper */}
   <Swiper>
     {products.map((product) => (
       <div key={product.id}>
@@ -11,12 +10,11 @@ export const GuideCode: Record<string, string> = {
       </div>
     ))}
   </Swiper>
-)}
-  `,
+)}`,
 
   ProductView: `// 실험 영역 UI 정의
 {abtest.variables.enableFeature ? (
-  <CTAGroup new="true" className="btn-group-lg">
+  <CTAGroup new="true" size="lg">
     <CartButton new="true" onClick={addToCart}>
       <FaCartArrowDown />
     </CartButton>
@@ -26,7 +24,7 @@ export const GuideCode: Record<string, string> = {
     </DirectOrderButton>
   </CTAGroup>
 ) : (
-  <CTAGroup className="btn-group-lg">
+  <CTAGroup size="lg">
     <CartButton onClick={addToCart}>
       <FaCartArrowDown />
     </CartButton>
@@ -37,6 +35,21 @@ export const GuideCode: Record<string, string> = {
   </CTAGroup>
 )}
 
+// CTA Container
+// ---------------
+export const CTAGroup = styled(ButtonGroup)\`
+  \${(props) =>
+    props.new
+      ? css\`
+          width: 100%;
+          padding: 15px;
+        \`
+      : css\`
+          width: 100%;
+          bottom: 0;
+          background: #fff;
+        \`}
+\`;
 
 // 장바구니 버튼 정의
 // ---------------
@@ -69,6 +82,5 @@ export const CartButton = styled(Button)\`
         color: yellow;
       }
     \`}
-  \`
-  `,
+  \``,
 };

@@ -54,9 +54,7 @@ interface ICheckoutCompleteActionType {
   type: typeof types.CHECKOUT_COMPLETE;
 }
 
-export const SetProductData = (
-  item: SetProductDataPropsType
-): ISetProductDataActionType => ({
+export const SetProductData = (item: SetProductDataPropsType): ISetProductDataActionType => ({
   type: types.SET_PRODUCT_DATA,
   item,
 });
@@ -66,31 +64,25 @@ export const AddToCart = (item: ShoppingItemProps): IAddToCartActionType => ({
   item,
 });
 
-export const AddToCartAsync = (
-  item: ShoppingItemProps
-): ThunkAction<void, RootState, null, IAddToCartActionType> => (dispatch) => {
+export const AddToCartAsync = (item: ShoppingItemProps): ThunkAction<void, RootState, null, IAddToCartActionType> => (
+  dispatch
+) => {
   setTimeout(() => {
     dispatch(AddToCart(item));
   }, 3000);
 };
 
-export const IncreaseCart = (
-  item: ShoppingItemProps
-): IIncreaseCartActionType => ({
+export const IncreaseCart = (item: ShoppingItemProps): IIncreaseCartActionType => ({
   type: types.INCREASE_CART,
   item,
 });
 
-export const DecreaseCart = (
-  item: ShoppingItemProps
-): IDecreaseCartActionType => ({
+export const DecreaseCart = (item: ShoppingItemProps): IDecreaseCartActionType => ({
   type: types.DECREASE_CART,
   item,
 });
 
-export const DirectCheckout = (
-  item: ShoppingItemProps
-): IDirectCheckoutActionType => ({
+export const DirectCheckout = (item: ShoppingItemProps): IDirectCheckoutActionType => ({
   type: types.DIRECT_CHECKOUT,
   item,
 });
@@ -104,9 +96,7 @@ export const DeleteCart = (item: ShoppingItemProps): IDeleteCartActionType => ({
   type: types.DELETE_CART,
   item,
 });
-export const CartSelectProduct = (
-  item: CartSelectProductProps
-): ICartSelectProductActionType => ({
+export const CartSelectProduct = (item: CartSelectProductProps): ICartSelectProductActionType => ({
   type: types.CART_SELECT_PRODUCT,
   item,
 });

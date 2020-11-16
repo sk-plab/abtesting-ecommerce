@@ -31,12 +31,7 @@ const CartProduct: React.FC<CartProductProps> = ({
         </td>
         <td>
           <Link to={`/view/${product.id}`}>
-            <Image
-              src={`../images/${product.imageUrl}`}
-              width="100"
-              height="100"
-              alt=""
-            />
+            <Image src={`../images/${product.imageUrl}`} width="100" height="100" alt="" />
           </Link>
         </td>
 
@@ -47,11 +42,7 @@ const CartProduct: React.FC<CartProductProps> = ({
         <td>
           <InputGroup size="sm" style={{ width: 100 }}>
             <InputGroup.Prepend>
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => onDecrease(product.id)}
-              >
+              <Button size="sm" variant="secondary" onClick={() => onDecrease(product.id)}>
                 -
               </Button>
             </InputGroup.Prepend>
@@ -62,11 +53,7 @@ const CartProduct: React.FC<CartProductProps> = ({
               readOnly
             />
             <InputGroup.Append>
-              <Button
-                size="sm"
-                variant="secondary"
-                onClick={() => onIncrease(product.id)}
-              >
+              <Button size="sm" variant="secondary" onClick={() => onIncrease(product.id)}>
                 +
               </Button>
             </InputGroup.Append>
@@ -74,11 +61,7 @@ const CartProduct: React.FC<CartProductProps> = ({
         </td>
         <td>${product.price}</td>
         <td>
-          <Button
-            variant="dark"
-            size="sm"
-            onClick={() => onDeleteCart(product.id)}
-          >
+          <Button variant="dark" size="sm" onClick={() => onDeleteCart(product.id)}>
             <FaTrash />
           </Button>
         </td>

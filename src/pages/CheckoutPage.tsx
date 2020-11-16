@@ -19,9 +19,7 @@ const CheckoutPage: React.FC<RouteComponentProps> = ({ history }) => {
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   const [showPayment, setShowPayment] = useState(false);
-  const handleClose = useCallback(() => setShowPayment(false), [
-    setShowPayment,
-  ]);
+  const handleClose = useCallback(() => setShowPayment(false), [setShowPayment]);
 
   const onPayment = useCallback(() => {
     setShowPayment(true);
@@ -44,9 +42,9 @@ const CheckoutPage: React.FC<RouteComponentProps> = ({ history }) => {
       <Alert variant="danger" dismissible>
         <Alert.Heading>주문 세션을 찾을 수 없습니다.</Alert.Heading>
         <p>
-          Change this and that and try again. Duis mollis, est non commodo
-          luctus, nisi erat porttitor ligula, eget lacinia odio sem nec elit.
-          Cras mattis consectetur purus sit amet fermentum.
+          Change this and that and try again. Duis mollis, est non commodo luctus, nisi erat
+          porttitor ligula, eget lacinia odio sem nec elit. Cras mattis consectetur purus sit amet
+          fermentum.
         </p>
       </Alert>
     );

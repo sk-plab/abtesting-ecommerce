@@ -14,6 +14,7 @@ export const GlobalStyle = createGlobalStyle`
 
   code {
     font-family: 'Roboto';
+    font-weight: bold;
   }
 
   .page {

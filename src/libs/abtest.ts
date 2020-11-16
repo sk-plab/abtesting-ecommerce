@@ -47,9 +47,7 @@ class ABTest {
     });
   }
 
-  start(
-    expKey: string
-  ): { variation: string; variables: Record<string, unknown> } {
+  start(expKey: string): { variation: string; variables: Record<string, unknown> } {
     const variation = plab.start(expKey);
     const variables = plab.getVariable(expKey);
 

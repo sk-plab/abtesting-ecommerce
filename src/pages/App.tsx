@@ -1,11 +1,6 @@
 // eslint-disable-next-line
 import React, { useEffect, useState } from 'react';
-import {
-  Switch,
-  Route,
-  withRouter,
-  RouteComponentProps,
-} from 'react-router-dom';
+import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
 import { Context, GLOBAL_MEDIA_QUERIES } from '../store/context';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
@@ -20,13 +15,7 @@ import ScrollToTop from '../hooks/ScrollToTop';
 
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import {
-  ProductListPage,
-  ProductViewPage,
-  CartPage,
-  OrderPage,
-  CheckoutPage,
-} from '../pages';
+import { ProductListPage, ProductViewPage, CartPage, OrderPage, CheckoutPage } from '../pages';
 import GuideContainer from '../containers/GuideContainer';
 import { useMedia } from 'react-media';
 
@@ -72,11 +61,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
           <Row>
             <Col {...layout}>
               <TransitionGroup>
-                <CSSTransition
-                  key={location.pathname}
-                  timeout={300}
-                  classNames="page"
-                >
+                <CSSTransition key={location.pathname} timeout={300} classNames="page">
                   <Switch location={location}>
                     <Route path="/" exact>
                       <ProductListPage products={products} />
