@@ -27,7 +27,7 @@ const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> =
   history,
   onCartTrigger,
 }) => {
-  const { setContext } = useContext(Context);
+  const { abtestCtx } = useContext(Context);
 
   const id: number = parseInt(match.params.id, 10);
 
@@ -56,6 +56,7 @@ const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> =
   // abtesting start
   const expKey = 'ProductView';
   const abtest = ABTest.start(expKey);
+  abtestCtx.variation = abtest.variation;
 
   return (
     <Wrapper>
@@ -85,7 +86,7 @@ const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> =
             </div>
           </div>
 
-          <MarkingABTest expKey={expKey}>
+          <MarkingABTest expKey={expKey} variation={abtest.variation}>
             {abtest.variables.enableFeature ? (
               <CTAGroup new="true" size="lg">
                 <CartButton new="true" onClick={addToCart}>
@@ -106,7 +107,10 @@ const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> =
               </CTAGroup>
             )}
 
-            <Waypoint onEnter={() => setContext(expKey)} onLeave={() => setContext('')} />
+            <Waypoint
+              onEnter={() => abtestCtx.setExpKey(expKey)}
+              onLeave={() => abtestCtx.setExpKey('')}
+            />
           </MarkingABTest>
         </div>
       </section>

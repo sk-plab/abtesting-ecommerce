@@ -3,8 +3,14 @@
  *
  * @see https://abtest.skplanet.com
  */
-import plab from 'plab';
+import plab, { PlabStatic } from 'plab';
 import Noty from 'noty';
+
+interface NewPlabStatic extends PlabStatic {
+  forcedVariation: (experimentKey: string, variation: string) => void;
+}
+const plab2 = plab as NewPlabStatic;
+
 class ABTest {
   private static instance: ABTest;
 
@@ -73,6 +79,17 @@ class ABTest {
         error: (e: string) => console.error(e),
       }
     );
+  }
+
+  forcedVariation(experimentKey: string, variation: string): void {
+    plab2.forcedVariation(experimentKey, variation);
+
+    new Noty({
+      type: 'information',
+      text: `[A/B Testing]<br />브라우저를 새로고침하여<br/> Variation: ${variation} 화면을 확인하세요.`,
+      timeout: 3000,
+      layout: 'topCenter',
+    }).show();
   }
 
   debug() {

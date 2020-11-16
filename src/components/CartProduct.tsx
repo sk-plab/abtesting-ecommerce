@@ -1,4 +1,3 @@
-// eslint-disable-next-line
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form, Image, InputGroup } from 'react-bootstrap';

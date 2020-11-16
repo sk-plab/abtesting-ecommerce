@@ -1,5 +1,4 @@
-// eslint-disable-next-line
-import React, { useCallback, useContext, useEffect } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row } from 'react-bootstrap';
@@ -13,7 +12,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,
   history,
 }) => {
-  const { setContext, matches } = useContext(Context);
+  const { abtestCtx, matches } = useContext(Context);
 
   const onClickProduct = useCallback(
     (id: number) => {
@@ -31,6 +30,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   // abtesting start
   const expKey = 'ProductList';
   const abtest = ABTest.start(expKey);
+  abtestCtx.variation = abtest.variation;
 
   // config grid layout
   const columnCount = 4;
@@ -49,9 +49,12 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
 
   return (
     <React.Fragment>
-      <MarkingABTest expKey={expKey}>
+      <MarkingABTest expKey={expKey} variation={abtest.variation}>
         <h2>추천 상품</h2>
-        <Waypoint onEnter={() => setContext(expKey)} onLeave={() => setContext('')} />
+        <Waypoint
+          onEnter={() => abtestCtx.setExpKey(expKey)}
+          onLeave={() => abtestCtx.setExpKey('')}
+        />
 
         {!abtest.variables.enableFeature ? (
           productsMap

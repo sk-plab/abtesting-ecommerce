@@ -6,6 +6,8 @@ import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import styled from 'styled-components';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
+import ABTest from '../../libs/abtest';
+import { Button, ButtonGroup } from 'react-bootstrap';
 
 const Container = styled.div`
   position: fixed;
@@ -19,7 +21,7 @@ const Container = styled.div`
   border-radius: 10px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
   background: #fff;
-  padding: 20px;
+  padding: 5px 20px;
 `;
 const LogoImage = styled.img`
   position: absolute;
@@ -29,13 +31,13 @@ const LogoImage = styled.img`
   width: 180px;
 `;
 const GuideContainer: React.FC = () => {
-  const { context } = React.useContext(Context);
+  const { abtestCtx } = React.useContext(Context);
 
   useEffect(() => {
     AOS.init();
   });
 
-  if (!GuideCode[context]) return null;
+  if (!GuideCode[abtestCtx.expKey]) return null;
 
   return (
     <Container data-aos="fade-up">
@@ -43,12 +45,31 @@ const GuideContainer: React.FC = () => {
       <h2>
         <sub>A/B Testing...</sub>
       </h2>
-      <p>해당 영역에서 실험이 진행중입니다.</p>
-      <p>실험키: {context}</p>
-
-      <p>아래코드를 참고하세요.</p>
+      <p>
+        해당 영역에서 실험이 진행중입니다. 아래코드를 참고하세요.
+        <br />
+        실험키: {abtestCtx.expKey}
+        <br />
+        현재 Variation: {abtestCtx.variation}
+      </p>
+      <ButtonGroup size="sm">
+        <Button
+          onClick={() => {
+            ABTest.forcedVariation(abtestCtx.expKey, 'A');
+          }}
+        >
+          Variation: A 강제 설정
+        </Button>
+        <Button
+          onClick={() => {
+            ABTest.forcedVariation(abtestCtx.expKey, 'B');
+          }}
+        >
+          Variation: B 강제 설정
+        </Button>
+      </ButtonGroup>
       <SyntaxHighlighter language="javascript" style={atomOneDark}>
-        {GuideCode[context]}
+        {GuideCode[abtestCtx.expKey]}
       </SyntaxHighlighter>
     </Container>
   );

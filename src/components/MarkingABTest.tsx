@@ -49,15 +49,16 @@ const ContainerClass = styled.div`
 
 interface IProps {
   expKey: string;
+  variation: string;
   children: React.ReactNode;
 }
-const MarkingABTesting: React.FC<IProps> = ({ expKey, children }) => {
+const MarkingABTesting: React.FC<IProps> = ({ expKey, variation, children }) => {
   return (
     <ContainerClass data-abtest-area={expKey}>
       <div className="badge-promo">
         <span className="badge-promo-content">
           <img src="/images/logo.png" width="25" alt="logo" />
-          A/B Testing...
+          A/B Testing... (Variation: {variation})
         </span>
       </div>
       {children}
