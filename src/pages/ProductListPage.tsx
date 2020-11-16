@@ -13,7 +13,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,
   history,
 }) => {
-  const [, setContext, matches] = useContext(Context);
+  const { setContext, matches } = useContext(Context);
 
   const onClickProduct = useCallback(
     (id: number) => {
@@ -49,7 +49,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
 
   return (
     <React.Fragment>
-      <MarkingABTest data-abtest-area={expKey}>
+      <MarkingABTest expKey={expKey}>
         <h2>추천 상품</h2>
         <Waypoint
           onEnter={() => setContext(expKey)}

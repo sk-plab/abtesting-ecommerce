@@ -37,7 +37,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 
   const [context, setContext] = useState('');
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
-  const defaultValue = [context, setContext, matches];
+  const defaultValue = { context, setContext, matches };
 
   useEffect(() => {
     const fetchProductData = async () => {

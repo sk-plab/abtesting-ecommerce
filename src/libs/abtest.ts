@@ -5,7 +5,6 @@
  */
 import plab from 'plab';
 import Noty from 'noty';
-
 class ABTest {
   private static instance: ABTest;
 

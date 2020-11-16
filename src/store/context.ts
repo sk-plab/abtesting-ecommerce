@@ -1,6 +1,12 @@
 import React from 'react';
+import { QueryResults } from 'react-media';
 
-export const Context = React.createContext<any>([]);
+interface IContext {
+  context: string;
+  setContext: React.Dispatch<React.SetStateAction<string>>;
+  matches: QueryResults;
+}
+export const Context = React.createContext({} as IContext);
 
 export const GLOBAL_MEDIA_QUERIES = {
   small: '(max-width: 599px)',

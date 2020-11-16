@@ -3,6 +3,7 @@ import styled from 'styled-components';
 
 const ContainerClass = styled.div`
   position: relative;
+
   // ribbon code
   .badge-promo {
     position: relative;
@@ -43,17 +44,16 @@ const ContainerClass = styled.div`
   .badge-promo-content {
     position: relative;
     z-index: 1;
-    font-family: sans-serif;
-    font-size: 18px;
   }
 `;
 
 interface IProps {
+  expKey: string;
   children: React.ReactNode;
 }
-const MarkingABTesting: React.FC<IProps> = ({ children }) => {
+const MarkingABTesting: React.FC<IProps> = ({ expKey, children }) => {
   return (
-    <ContainerClass>
+    <ContainerClass data-abtest-area={expKey}>
       <div className="badge-promo">
         <span className="badge-promo-content">
           <img src="/images/logo.png" width="25" alt="logo" />

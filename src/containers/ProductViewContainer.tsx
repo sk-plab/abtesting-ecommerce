@@ -25,7 +25,7 @@ interface IProp {
 const ProductViewContainer: React.FC<
   IProp & RouteComponentProps<MatchParams>
 > = ({ match, history, onCartTrigger }) => {
-  const [, setContext] = useContext(Context);
+  const { setContext } = useContext(Context);
 
   const id: number = parseInt(match.params.id, 10);
 
@@ -86,7 +86,7 @@ const ProductViewContainer: React.FC<
             </div>
           </div>
 
-          <MarkingABTest data-abtest-area={expKey}>
+          <MarkingABTest expKey={expKey}>
             {abtest.variables.enableFeature ? (
               <React.Fragment>
                 <CTAGroup new="true" className="btn-group-lg">

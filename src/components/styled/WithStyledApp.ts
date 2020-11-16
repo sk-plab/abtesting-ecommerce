@@ -41,21 +41,6 @@ export const GlobalStyle = createGlobalStyle`
     transform: scale(0.9);
     transition: opacity 10ms, transform 10ms;
   }
-
-  .my-node-enter {
-    opacity: 0;
-  }
-  .my-node-enter-active {
-    opacity: 1;
-    transition: opacity 2000ms;
-  }
-  .my-node-exit {
-    opacity: 1;
-  }
-  .my-node-exit-active {
-    opacity: 0;
-    transition: opacity 2000ms;
-  }
   
   h1 {
     font-size: 36px;
