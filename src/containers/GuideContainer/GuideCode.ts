@@ -1,26 +1,21 @@
 export const GuideCode: Record<string, string> = {
   ProductList: `// 실험 영역 UI 정의
 {!abtest.variables.enableFeature ? (
-<ProductComponent items={products}>
+  <ProductComponent items={products} />
 ) : (
-{/* package: react-id-swiper */}
-<Swiper>
-  {products.map((product) => (
-    <div key={product.id}>
-      <Product
-        key={product.id}
-        product={product}
-        onClickProduct={onClickProduct}
-      />
-    </div>
-  ))}
-</Swiper>
+  {/* package: react-id-swiper */}
+  <Swiper>
+    {products.map((product) => (
+      <div key={product.id}>
+        <Product items={product} />
+      </div>
+    ))}
+  </Swiper>
 )}
   `,
 
   ProductView: `// 실험 영역 UI 정의
 {abtest.variables.enableFeature ? (
-<React.Fragment>
   <CTAGroup new="true" className="btn-group-lg">
     <CartButton new="true" onClick={addToCart}>
       <FaCartArrowDown />
@@ -30,21 +25,21 @@ export const GuideCode: Record<string, string> = {
       바로 구매
     </DirectOrderButton>
   </CTAGroup>
-</React.Fragment>
 ) : (
-<CTAGroup className="btn-group-lg">
-  <CartButton onClick={addToCart}>
-    <FaCartArrowDown />
-  </CartButton>
+  <CTAGroup className="btn-group-lg">
+    <CartButton onClick={addToCart}>
+      <FaCartArrowDown />
+    </CartButton>
 
-  <DirectOrderButton onClick={onCheckout}>
-    구매하기
-  </DirectOrderButton>
-</CTAGroup>
+    <DirectOrderButton onClick={onCheckout}>
+      구매하기
+    </DirectOrderButton>
+  </CTAGroup>
 )}
 
 
 // 장바구니 버튼 정의
+// ---------------
 export const CartButton = styled(Button)\`
 \${(props) =>
   props.new
