@@ -109,7 +109,7 @@ const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> =
 
             <Waypoint
               onEnter={() => abtestCtx.setExpKey(expKey)}
-              onLeave={() => abtestCtx.setExpKey('')}
+              onPositionChange={() => abtestCtx.setExpKey('')}
             />
           </MarkingABTest>
         </div>
