@@ -5,7 +5,7 @@ import { RootState } from '../store/modules';
 
 import CheckoutProduct from '../components/CheckoutProduct';
 import Payment from '../components/Payment';
-import TotalAmount from '../components/ToalAmount';
+import TotalAmount from '../components/TotalAmount';
 
 import { Col, Row, Image, Button, Form, Alert } from 'react-bootstrap';
 import {

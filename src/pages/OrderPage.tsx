@@ -7,7 +7,7 @@ import { Table, Button, Image, Alert } from 'react-bootstrap';
 
 import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
-import TotalAmount from '../components/ToalAmount';
+import TotalAmount from '../components/TotalAmount';
 
 const SuccessHeader = styled.h1`
   color: #f43142;

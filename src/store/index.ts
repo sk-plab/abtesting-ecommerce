@@ -6,7 +6,12 @@ import ReduxThunk from 'redux-thunk';
 
 import { persistStore } from 'redux-persist';
 
-const middlewares = [logger, ReduxThunk];
+let middlewares;
+if (['development'].includes(process.env.NODE_ENV)) {
+  middlewares = [logger, ReduxThunk];
+} else {
+  middlewares = [ReduxThunk];
+}
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

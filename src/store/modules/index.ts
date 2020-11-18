@@ -21,3 +21,4 @@ export type RootState = ReturnType<typeof rootReducer>;
 
 // selector
 export const productsSelector = (state: RootState): ProductType[] => state.Shopping.products;
+export const cartSelector = (state: RootState): ProductType[] => state.Shopping.cart;

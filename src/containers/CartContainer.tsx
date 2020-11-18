@@ -5,7 +5,7 @@ import { RootState } from '../store/modules';
 import * as actions from '../actions';
 import { Table, Button } from 'react-bootstrap';
 import CartProduct from '../components/CartProduct';
-import TotalAmount from '../components/ToalAmount';
+import TotalAmount from '../components/TotalAmount';
 import Noty from 'noty';
 
 const CartContainer: React.FC<RouteComponentProps> = ({ history }) => {

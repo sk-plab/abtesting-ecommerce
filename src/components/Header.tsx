@@ -5,12 +5,8 @@ import { Image, Nav, Navbar } from 'react-bootstrap';
 import CartItemCount from './CartItemCount';
 import styled from 'styled-components';
 
-const CartItemCountWrapper = styled(CartItemCount)`
-  font-size: 13px;
-  position: absolute !important;
-  right: 0px;
-  top: 2px;
-`;
+import { useSelector } from 'react-redux';
+import { cartSelector } from '../store/modules';
 
 const CartWrapper = styled(Nav.Link)`
   position: relative;
@@ -24,6 +20,8 @@ const CartWrapper = styled(Nav.Link)`
   line-height: 200px;
 `;
 const Header: React.FC = () => {
+  const carts = useSelector(cartSelector);
+
   return (
     <Navbar fixed="top" bg="light">
       <Nav>
@@ -48,7 +46,7 @@ const Header: React.FC = () => {
         <Nav.Item>
           <CartWrapper as={NavLink} to="/cart">
             장바구니
-            <CartItemCountWrapper />
+            <CartItemCount carts={carts} />
           </CartWrapper>
         </Nav.Item>
       </Nav>
