@@ -7,43 +7,38 @@ import {
   GuideLayout,
   NotGuideLayout,
 } from '../store/context';
+
+import * as actions from '../actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import * as actions from '../actions';
-import { ProductData } from '../api/Product';
-
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { RootState } from '../store/modules';
+import { productsSelector } from '../store/modules';
 
 import { ProductListPage, ProductViewPage, CartPage, OrderPage, CheckoutPage } from '../pages';
 import GuideContainer from '../containers/GuideContainer';
 import { useMedia } from 'react-media';
 
+import { ProductService } from '../services/ProductService';
+
 const App: React.FC<RouteComponentProps> = ({ location }) => {
-  const products = useSelector((state: RootState) => state.Shopping.products);
+  // get products
+  const products = useSelector(productsSelector);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    // products settings
+    const products = ProductService();
+    dispatch(actions.SetProductData({ products }));
+  }, [dispatch]);
+
+  // context settings
   const [expKey, setExpKey] = useState('');
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
   const defaultValue: IContext = { abtestCtx: { expKey, setExpKey }, matches };
 
-  useEffect(() => {
-    const fetchProductData = async () => {
-      const products = await ProductData();
-
-      dispatch(actions.SetProductData({ products }));
-    };
-
-    fetchProductData();
-  }, [dispatch]);
-
-  let layout = GuideLayout;
-  if (matches.small) {
-    layout = NotGuideLayout();
-  }
-
-  if (!products.length) return null;
+  // layout settings
+  const layout = matches.small ? NotGuideLayout() : GuideLayout;
 
   return (
     <Context.Provider value={defaultValue}>
@@ -69,7 +64,7 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
         </Row>
       </Container>
 
-      {!matches.small && <GuideContainer />}
+      <GuideContainer />
     </Context.Provider>
   );
 };

@@ -31,12 +31,13 @@ const LogoImage = styled.img`
   width: 180px;
 `;
 const GuideContainer: React.FC = () => {
-  const { abtestCtx } = React.useContext(Context);
+  const { abtestCtx, matches } = React.useContext(Context);
 
   useEffect(() => {
     AOS.init();
   });
 
+  if (matches.small) return null; // only desktop
   if (!GuideCode[abtestCtx.expKey]) return null;
 
   return (

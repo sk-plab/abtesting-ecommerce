@@ -1,0 +1,82 @@
+{
+   "data": [{
+      "id":0,
+      "name":"애플 아이폰 12 5G 256GB 자급제",
+      "color":"White",
+      "category":"핸드폰",
+      "price":1600,
+      "imageUrl":"item_1.jpg"
+   },
+   {
+      "id":1,
+      "name":"애플 아이폰 12 5G 256GB 자급제",
+      "color":"Khaki",
+      "category":"핸드폰",
+      "price":1600,
+      "imageUrl":"item_2.jpg"
+   },
+   {
+      "id":2,
+      "name":"애플 아이폰 12 5G 256GB 자급제",
+      "color":"Forest Green",
+      "category":"핸드폰",
+      "price":1600,
+      "imageUrl":"item_3.jpg"
+   },
+   {
+      "id":3,
+      "name":"애플 아이폰 12 5G 256GB 자급제",
+      "color":"Rose",
+      "category":"핸드폰",
+      "price":1600,
+      "imageUrl":"item_4.jpg"
+   },
+   {
+      "id":4,
+      "name":"애플 아이폰 11 프로 맥스 256GB 자급제",
+      "color":"Olive Green",
+      "category":"핸드폰",
+      "price":1300,
+      "imageUrl":"item_5.png"
+   },
+   {
+      "id":5,
+      "name":"애플 아이폰 11 프로 맥스 256GB 자급제",
+      "color":"Pine Green",
+      "category":"핸드폰",
+      "price":1300,
+      "imageUrl":"item_6.png"
+   },
+   {
+      "id":6,
+      "name":"애플 아이폰 11 프로 맥스 256GB 자급제",
+      "color":"Baby Blue",
+      "category":"핸드폰",
+      "price":1300,
+      "imageUrl":"item_7.png"
+   },
+   {
+      "id":7,
+      "name":"애플 아이폰 SE 2세대 128GB 자급제",
+      "color":"Baby Blue",
+      "category":"핸드폰",
+      "price":1000,
+      "imageUrl":"item_8.jpg"
+   },
+   {
+      "id":8,
+      "name":"애플 아이폰 SE 2세대 128GB 자급제",
+      "color":"Olive Green",
+      "category":"핸드폰",
+      "price":1000,
+      "imageUrl":"item_9.jpg"
+   },
+   {
+      "id":9,
+      "name":"애플 아이폰 SE 2세대 128GB 자급제",
+      "color":"Olive Green",
+      "category":"핸드폰",
+      "price":1000,
+      "imageUrl":"item_10.jpg"
+   }]
+}
