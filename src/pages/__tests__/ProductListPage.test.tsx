@@ -3,11 +3,16 @@ import { render, screen } from '../../test-utils';
 
 import ProductListPage from '../ProductListPage';
 import { ProductService } from '../../services/ProductService';
+import { BrowserRouter as Router } from 'react-router-dom';
 
 it('renders without crashing', async () => {
   const products = ProductService();
 
-  render(<ProductListPage products={products} />);
+  render(
+    <Router>
+      <ProductListPage products={products} />
+    </Router>
+  );
   //screen.debug();
 
   expect(screen.queryByText('추천 상품')).toBeInTheDocument();

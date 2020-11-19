@@ -1,10 +1,15 @@
 import React from 'react';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { render, screen } from '../../test-utils';
 
 import App from '../App';
 
 it('renders without crashing', () => {
-  render(<App />);
+  render(
+    <Router>
+      <App />
+    </Router>
+  );
   //screen.debug();
 
   expect(screen.queryByText('추천 상품')).toBeInTheDocument();

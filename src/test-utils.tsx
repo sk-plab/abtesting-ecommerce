@@ -1,12 +1,12 @@
 import React, { ReactNode } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { Context, IContext } from './store/context';
-
+import { Router, Route } from 'react-router-dom';
+import { Context } from './store/context';
 import { AnyAction, Action, createStore, Store } from 'redux';
 import { Provider } from 'react-redux';
 import { render, RenderResult } from '@testing-library/react';
 import { rootReducer } from './store/modules';
 import { initialState as _initialState, ShoppingState } from './store/modules/shopping';
+import { createMemoryHistory, MemoryHistory } from 'history';
 
 interface RenderWithRedux<S = ShoppingState, A extends Action = AnyAction> {
   (
@@ -30,12 +30,34 @@ const customRender: RenderWithRedux = (
 
   return render(
     <Context.Provider value={defaultValue}>
-      <Provider store={store}>
-        <Router>{ui}</Router>
-      </Provider>
+      <Provider store={store}>{ui}</Provider>
     </Context.Provider>
   );
 };
+
+// Helper function
+interface IRenderWithRouterMatch {
+  path?: string;
+  route?: string;
+  history?: MemoryHistory;
+}
+export function renderWithRouterMatch(
+  ui: ReactNode,
+  {
+    path = '/',
+    route = '/',
+    history = createMemoryHistory({ initialEntries: [route] }),
+  }: IRenderWithRouterMatch = {}
+): RenderResult {
+  return {
+    ...render(
+      <Router history={history}>
+        {/* <Route path={path} component={ui} /> */}
+        {ui}
+      </Router>
+    ),
+  };
+}
 
 export * from '@testing-library/react';
 export { customRender as render };
