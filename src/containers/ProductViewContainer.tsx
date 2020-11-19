@@ -1,4 +1,4 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useContext } from 'react';
 import { Context } from '../store/context';
 import {
   Wrapper,
@@ -8,47 +8,19 @@ import {
   CTAGroup,
 } from '../components/styled/WithStyledProductView';
 import { FaCartArrowDown, FaMoneyBillAlt } from 'react-icons/fa';
-import ABTest from '../libs/abtest';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../store/modules';
-import * as actions from '../actions';
+
 import { Waypoint } from 'react-waypoint';
+
+import ABTest from '../libs/abtest';
 import MarkingABTest from '../components/MarkingABTest';
 
-interface MatchParams {
-  id: string;
-}
 interface IProp {
-  onCartTrigger: () => void;
+  product: ProductType;
+  addToCart: () => void;
+  onCheckout: () => void;
 }
-const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> = ({
-  match,
-  history,
-  onCartTrigger,
-}) => {
+const ProductViewContainer: React.FC<IProp> = ({ product, addToCart, onCheckout }) => {
   const { abtestCtx } = useContext(Context);
-
-  const id: number = parseInt(match.params.id, 10);
-
-  const products = useSelector((state: RootState) => state.Shopping.products);
-  const product = products.find((e) => e.id === id);
-
-  // dispatch
-  const dispatch = useDispatch();
-
-  const addToCart = useCallback(() => {
-    ABTest.track('add_to_cart');
-    dispatch(actions.AddToCart({ id }));
-    onCartTrigger();
-  }, [dispatch, id, onCartTrigger]);
-
-  const onCheckout = useCallback(() => {
-    dispatch(actions.DirectCheckout({ id }));
-    history.push('/checkout');
-  }, [dispatch, id, history]);
-
-  if (!product) return null;
 
   // a/b testing init.
   ABTest.init();
@@ -118,4 +90,4 @@ const ProductViewContainer: React.FC<IProp & RouteComponentProps<MatchParams>> =
   );
 };
 
-export default React.memo(withRouter(ProductViewContainer));
+export default React.memo(ProductViewContainer);

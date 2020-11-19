@@ -34,10 +34,10 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
 
   // context settings
   const [expKey, setExpKey] = useState('');
-  const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
-  const defaultValue: IContext = { abtestCtx: { expKey, setExpKey }, matches };
+  const defaultValue: IContext = { abtestCtx: { expKey, setExpKey } };
 
   // layout settings
+  const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
   const layout = matches.small ? NotGuideLayout() : GuideLayout;
 
   return (

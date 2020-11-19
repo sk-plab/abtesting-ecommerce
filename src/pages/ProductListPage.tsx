@@ -5,14 +5,16 @@ import { Col, Row } from 'react-bootstrap';
 import Swiper from 'react-id-swiper';
 import ABTest from '../libs/abtest';
 import { Waypoint } from 'react-waypoint';
-import { Context } from '../store/context';
+import { Context, GLOBAL_MEDIA_QUERIES } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
+import { useMedia } from 'react-media';
 
 const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   products,
   history,
 }) => {
-  const { abtestCtx, matches } = useContext(Context);
+  const { abtestCtx } = useContext(Context);
+  const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
 
   const onClickProduct = useCallback(
     (id: number) => {

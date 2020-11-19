@@ -1,5 +1,4 @@
 import React from 'react';
-import { QueryResults } from 'react-media';
 
 export interface IContext {
   abtestCtx: {
@@ -7,7 +6,6 @@ export interface IContext {
     setExpKey: React.Dispatch<React.SetStateAction<string>>;
     variation?: string;
   };
-  matches: QueryResults;
 }
 export const Context = React.createContext({} as IContext);
 

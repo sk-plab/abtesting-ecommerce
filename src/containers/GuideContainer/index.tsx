@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Context } from '../../store/context';
+import { Context, GLOBAL_MEDIA_QUERIES } from '../../store/context';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { GuideCode } from './GuideCode';
 import { atomOneDark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
@@ -8,6 +8,7 @@ import AOS from 'aos';
 import 'aos/dist/aos.css';
 import ABTest from '../../libs/abtest';
 import { Button, ButtonGroup } from 'react-bootstrap';
+import { useMedia } from 'react-media';
 
 const Container = styled.div`
   position: fixed;
@@ -31,7 +32,8 @@ const LogoImage = styled.img`
   width: 180px;
 `;
 const GuideContainer: React.FC = () => {
-  const { abtestCtx, matches } = React.useContext(Context);
+  const { abtestCtx } = React.useContext(Context);
+  const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
 
   useEffect(() => {
     AOS.init();

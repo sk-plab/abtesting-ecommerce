@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 
-import TotalAmount from './TotalAmount';
+import TotalAmount from '../TotalAmount';
 
 test('renders without crashing', () => {
   const products = [

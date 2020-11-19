@@ -10,7 +10,7 @@ const persistConfig = {
   whitelist: ['Shopping'],
 };
 
-const rootReducer = combineReducers({
+export const rootReducer = combineReducers({
   Shopping,
 });
 

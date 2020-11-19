@@ -14,7 +14,9 @@ it('renders without crashing', () => {
     q: 1,
     chk: true,
   };
-  render(<Product product={product} onClickProduct={(1) => {}} />);
-  // screen.debug();
-  screen.getByText(/애플 아이폰 12 5G 256GB 자급제/);
+
+  const onClickProduct = jest.fn();
+  render(<Product product={product} onClickProduct={onClickProduct} />);
+
+  expect(screen.getByText(/애플 아이폰 12 5G 256GB 자급제/)).toBeInTheDocument();
 });

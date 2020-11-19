@@ -6,7 +6,7 @@ export interface ShoppingState {
   cart: ProductType[];
   ordered: ProductType[];
 }
-const initialState: ShoppingState = {
+export const initialState: ShoppingState = {
   products: [],
   cart: [],
   ordered: [],

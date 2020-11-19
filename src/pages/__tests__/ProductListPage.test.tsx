@@ -1,10 +1,13 @@
 import React from 'react';
 import { render, screen } from '../../test-utils';
 
-import App from '../App';
+import ProductListPage from '../ProductListPage';
+import { ProductService } from '../../services/ProductService';
 
-it('renders without crashing', () => {
-  render(<App />);
+it('renders without crashing', async () => {
+  const products = ProductService();
+
+  render(<ProductListPage products={products} />);
   //screen.debug();
 
   expect(screen.queryByText('추천 상품')).toBeInTheDocument();
