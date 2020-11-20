@@ -36,24 +36,23 @@ const customRender: RenderWithRedux = (
 };
 
 // Helper function
-interface IRenderWithRouterMatch {
+interface IRenderWithRouter {
   path?: string;
   route?: string;
   history?: MemoryHistory;
 }
-export function renderWithRouterMatch(
+export function renderWithRouter(
   ui: ReactNode,
   {
     path = '/',
     route = '/',
     history = createMemoryHistory({ initialEntries: [route] }),
-  }: IRenderWithRouterMatch = {}
+  }: IRenderWithRouter = {}
 ): RenderResult {
   return {
     ...render(
       <Router history={history}>
-        {/* <Route path={path} component={ui} /> */}
-        {ui}
+        <Route path={path}>{ui}</Route>
       </Router>
     ),
   };

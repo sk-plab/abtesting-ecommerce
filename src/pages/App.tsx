@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Switch, Route, withRouter, RouteComponentProps } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import {
   Context,
   GLOBAL_MEDIA_QUERIES,
@@ -21,7 +21,10 @@ import { useMedia } from 'react-media';
 
 import { ProductService } from '../services/ProductService';
 
-const App: React.FC<RouteComponentProps> = ({ location }) => {
+const App: React.FC = () => {
+  const location = useLocation();
+  const history = useHistory();
+
   // get products
   const products = useSelector(productsSelector);
   const dispatch = useDispatch();
@@ -30,7 +33,11 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
     // products settings
     const products = ProductService();
     dispatch(actions.SetProductData({ products }));
-  }, [dispatch]);
+
+    return history.listen((location) =>
+      console.log(`You chanaged the page to: ${location.pathname}`)
+    );
+  }, [history, dispatch]);
 
   // context settings
   const [expKey, setExpKey] = useState('');
@@ -48,11 +55,9 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
             <TransitionGroup>
               <CSSTransition key={location.pathname} timeout={300} classNames="page">
                 <Switch location={location}>
-                  <Route
-                    path="/"
-                    exact
-                    render={() => <ProductListPage products={products} />}
-                  ></Route>
+                  <Route path="/" exact>
+                    <ProductListPage products={products} />
+                  </Route>
                   <Route path="/view/:id" component={ProductViewPage} />
                   <Route path="/cart" component={CartPage} />
                   <Route path="/checkout" component={CheckoutPage} />
@@ -69,4 +74,4 @@ const App: React.FC<RouteComponentProps> = ({ location }) => {
   );
 };
 
-export default withRouter(App);
+export default App;

@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import ABTest from '../libs/abtest';
 import { Image, Nav, Navbar } from 'react-bootstrap';
 import CartItemCount from './CartItemCount';
@@ -54,4 +54,4 @@ const Header: React.FC = () => {
   );
 };
 
-export default withRouter(Header);
+export default Header;

@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RouteComponentProps } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { RootState } from '../store/modules';
 
 import CheckoutProduct from '../components/CheckoutProduct';
@@ -15,7 +15,8 @@ import {
   Header,
 } from '../components/styled/WithStyledCheckout';
 
-const CheckoutPage: React.FC<RouteComponentProps> = ({ history }) => {
+const CheckoutPage: React.FC = () => {
+  const history = useHistory();
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   const [showPayment, setShowPayment] = useState(false);

@@ -40,6 +40,8 @@
     "swiper": "^6.3.4"
   },
   "devDependencies": {
+    "@testing-library/dom": "^7.28.0",
+    "@testing-library/user-event": "^12.2.2",
     "@types/react-transition-group": "^4.4.0",
     "@types/redux-logger": "^3.0.8",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
@@ -49,6 +51,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest-environment-jsdom-sixteen": "^1.0.3",
     "node-sass": "^4.14.1",
     "prettier": "2.1.2",
     "redux-devtools-extension": "^2.13.8",
@@ -63,7 +66,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
+    "test": "react-scripts test --maxWorkers=4 --env=jest-environment-jsdom-sixteen --transformIgnorePatterns \"node_modules/(?!your-module-name)/\"",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"

@@ -1,5 +1,5 @@
 import React, { useCallback, useContext } from 'react';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row } from 'react-bootstrap';
 import Swiper from 'react-id-swiper';
@@ -9,10 +9,8 @@ import { Context, GLOBAL_MEDIA_QUERIES } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
 import { useMedia } from 'react-media';
 
-const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
-  products,
-  history,
-}) => {
+const ProductListPage: React.FC<ProductListType> = ({ products }) => {
+  const history = useHistory();
   const { abtestCtx } = useContext(Context);
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
 
@@ -86,7 +84,7 @@ const ProductListPage: React.FC<ProductListType & RouteComponentProps> = ({
   );
 };
 
-export default withRouter(ProductListPage);
+export default ProductListPage;
 
 function chunkArray(myArray: Array<ProductType>, chunk_size: number) {
   let index = 0;

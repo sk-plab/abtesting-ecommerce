@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import ProductViewContainer from '../containers/ProductViewContainer';
 import CartModal from '../components/CartModal';
 import CartContainer from '../containers/CartContainer';
@@ -12,12 +12,14 @@ import * as actions from '../actions';
 interface MatchParams {
   id: string;
 }
-const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({ match, history }) => {
+const ProductViewPage: React.FC = () => {
+  const params = useParams<MatchParams>();
+  const history = useHistory();
   const dispatch = useDispatch();
 
-  const id: number = parseInt(match.params.id, 10);
+  const id: number = parseInt(params.id, 10);
   const products = useSelector(productsSelector);
-  const product = products.find((e) => e.id === id);
+  const product = products.filter((e) => e.id === id)[0];
 
   const [cartModalShow, setCartModalShow] = useState(false);
 
@@ -36,7 +38,7 @@ const ProductViewPage: React.FC<RouteComponentProps<MatchParams>> = ({ match, hi
     history.push('/checkout');
   }, [dispatch, id, history]);
 
-  if (!product) return null;
+  if (!product) throw new Error('Not found product');
 
   return (
     <Fragment>

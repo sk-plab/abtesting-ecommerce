@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RouteComponentProps, withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { RootState } from '../store/modules';
 import * as actions from '../actions';
 import { Table, Button } from 'react-bootstrap';
@@ -8,7 +8,8 @@ import CartProduct from '../components/CartProduct';
 import TotalAmount from '../components/TotalAmount';
 import Noty from 'noty';
 
-const CartContainer: React.FC<RouteComponentProps> = ({ history }) => {
+const CartContainer: React.FC = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.Shopping.cart);
 
@@ -107,4 +108,4 @@ function NotFound() {
     </React.Fragment>
   );
 }
-export default withRouter(CartContainer);
+export default CartContainer;

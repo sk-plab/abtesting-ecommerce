@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import styled from 'styled-components';
 import { Table, Button, Image, Alert } from 'react-bootstrap';
@@ -17,7 +17,8 @@ const Header = styled.h2`
   margin-bottom: 10px;
 `;
 
-const OrderPage: React.FC<RouteComponentProps> = ({ history }) => {
+const OrderPage: React.FC = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
