@@ -19,30 +19,19 @@ const CartContainer: React.FC = () => {
       const dataId = target.getAttribute('data-id');
       if (dataId) {
         const id = parseInt(dataId, 10);
-        dispatch(actions.CartSelectProduct({ id, chk: target.checked }));
+        dispatch(actions.CartSelectProduct(id));
       }
     },
     [dispatch]
   );
 
-  const onIncrease = useCallback(
-    (id) => {
-      dispatch(actions.IncreaseCart({ id }));
-    },
-    [dispatch]
-  );
-
-  const onDecrease = useCallback(
-    (id) => {
-      dispatch(actions.DecreaseCart({ id }));
-    },
-    [dispatch]
-  );
+  const onIncrease = useCallback((id) => dispatch(actions.IncreaseCart(id)), [dispatch]);
+  const onDecrease = useCallback((id) => dispatch(actions.DecreaseCart(id)), [dispatch]);
 
   const onDeleteCart = useCallback(
     (id: number) => {
       if (window.confirm('정말 삭제하시겠습니까?')) {
-        dispatch(actions.DeleteCart({ id }));
+        dispatch(actions.DeleteCart(id));
       }
     },
     [dispatch]
@@ -50,7 +39,7 @@ const CartContainer: React.FC = () => {
   const onCheckoutAll = () => {
     const _products = products.filter((e) => e.chk);
     if (_products.length > 0) {
-      dispatch(actions.Checkout({}));
+      dispatch(actions.Checkout());
       history.push('/checkout');
     } else {
       new Noty({

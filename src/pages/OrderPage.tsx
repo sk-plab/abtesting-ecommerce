@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
 
+import * as actions from '../actions';
+
 import styled from 'styled-components';
 import { Table, Button, Image, Alert } from 'react-bootstrap';
 
@@ -28,9 +30,7 @@ const OrderPage: React.FC = () => {
     ABTest.track('order');
 
     return () => {
-      dispatch({
-        type: 'CHECKOUT_COMPLETE',
-      });
+      dispatch(actions.CheckoutComplete());
     };
   }, [dispatch]);
 

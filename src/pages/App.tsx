@@ -32,7 +32,7 @@ const App: React.FC = () => {
   useEffect(() => {
     // products settings
     const products = ProductService();
-    dispatch(actions.SetProductData({ products }));
+    dispatch(actions.SetProductData(products));
 
     return history.listen((location) =>
       console.log(`You chanaged the page to: ${location.pathname}`)

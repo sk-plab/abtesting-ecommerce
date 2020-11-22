@@ -1,4 +1,5 @@
-import * as types from '../../actions/ActionTypes';
+import { Reducer } from 'redux';
+import * as ActionType from '../../actions/ActionTypes';
 import { ShoppingAction } from '../../actions';
 
 export interface ShoppingState {
@@ -17,18 +18,18 @@ function isProduct(x: ProductType | undefined): x is ProductType {
   return typeof x === 'object';
 }
 
-const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): ShoppingState => {
+const reducer: Reducer<ShoppingState, ShoppingAction> = (state = initialState, action) => {
   switch (action.type) {
-    case types.SET_PRODUCT_DATA:
+    case ActionType.SET_PRODUCT_DATA:
       return {
         ...state,
-        products: action.item.products,
+        products: action.payload ?? [],
       };
-    case types.ADD_TO_CART:
-      const idx = state.cart.findIndex((e) => e.id === action.item.id);
+    case ActionType.ADD_TO_CART:
+      const idx = state.cart.findIndex((e) => e.id === action.payload);
 
       if (idx === -1) {
-        const product = state.products.find((e) => e.id === action.item.id);
+        const product = state.products.find((e) => e.id === action.payload);
 
         return isProduct(product)
           ? {
@@ -39,31 +40,31 @@ const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): 
       } else {
         return {
           ...state,
-          cart: state.cart.map((e) => (e.id === action.item.id ? { ...e, q: e.q + 1 } : e)),
+          cart: state.cart.map((e) => (e.id === action.payload ? { ...e, q: e.q + 1 } : e)),
         };
       }
-    case types.INCREASE_CART:
+    case ActionType.INCREASE_CART:
       return {
         ...state,
-        cart: state.cart.map((e) => (e.id === action.item.id ? { ...e, q: e.q + 1 } : e)),
+        cart: state.cart.map((e) => (e.id === action.payload ? { ...e, q: e.q + 1 } : e)),
       };
-    case types.DECREASE_CART:
+    case ActionType.DECREASE_CART:
       return {
         ...state,
         cart: state.cart.map((e) =>
-          e.id === action.item.id && e.q !== 1 ? { ...e, q: e.q - 1 } : e
+          e.id === action.payload && e.q !== 1 ? { ...e, q: e.q - 1 } : e
         ),
       };
-    case types.DELETE_CART:
+    case ActionType.DELETE_CART:
       return {
         ...state,
-        cart: state.cart.filter((e) => e.id !== action.item.id),
+        cart: state.cart.filter((e) => e.id !== action.payload),
       };
-    case types.CART_SELECT_PRODUCT:
+    case ActionType.CART_SELECT_PRODUCT:
       return {
         ...state,
         cart: state.cart.map((e) => {
-          if (e.id === action.item.id) {
+          if (e.id === action.payload) {
             e = { ...e, chk: !e.chk };
           }
 
@@ -71,22 +72,22 @@ const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): 
         }),
       };
     // save to: ordered
-    case types.DIRECT_CHECKOUT:
-      const product = state.products.find((e) => e.id === action.item.id);
+    case ActionType.DIRECT_CHECKOUT:
+      const product = state.products.find((e) => e.id === action.payload);
 
       return {
         ...state,
         ordered: isProduct(product) ? [{ ...product, q: 1, chk: true }] : [],
       };
     // save to: ordered
-    case types.CHECKOUT:
+    case ActionType.CHECKOUT:
       const products = state.cart.filter((e) => e.chk === true);
 
       return {
         ...state,
         ordered: products,
       };
-    case types.CHECKOUT_COMPLETE:
+    case ActionType.CHECKOUT_COMPLETE:
       const ids: Array<number> = state.ordered.map((e) => e.id);
       return {
         ...state,
@@ -98,4 +99,4 @@ const Shopping = (state: ShoppingState = initialState, action: ShoppingAction): 
   }
 };
 
-export default Shopping;
+export default reducer;

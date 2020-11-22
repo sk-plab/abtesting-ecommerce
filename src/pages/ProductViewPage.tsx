@@ -29,12 +29,12 @@ const ProductViewPage: React.FC = () => {
 
   const addToCart = useCallback(() => {
     ABTest.track('add_to_cart');
-    dispatch(actions.AddToCart({ id }));
+    dispatch(actions.AddToCart(id));
     onCartTrigger();
   }, [dispatch, id, onCartTrigger]);
 
   const onCheckout = useCallback(() => {
-    dispatch(actions.DirectCheckout({ id }));
+    dispatch(actions.DirectCheckout(id));
     history.push('/checkout');
   }, [dispatch, id, history]);
 
