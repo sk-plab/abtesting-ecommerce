@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
+import { Context } from '../store/context';
+import { Waypoint } from 'react-waypoint';
 
 const ContainerClass = styled.div`
   position: relative;
@@ -53,6 +55,9 @@ interface IProps {
   children: React.ReactNode;
 }
 const MarkingABTesting: React.FC<IProps> = ({ expKey, variation, children }) => {
+  const { abtestCtx } = useContext(Context);
+  abtestCtx.variation = variation;
+
   return (
     <ContainerClass data-abtest-area={expKey}>
       <div className="badge-promo">
@@ -61,6 +66,11 @@ const MarkingABTesting: React.FC<IProps> = ({ expKey, variation, children }) => 
           A/B Testing... (Variation: {variation})
         </span>
       </div>
+      <Waypoint
+        onEnter={() => abtestCtx.setExpKey(expKey)}
+        onLeave={() => abtestCtx.setExpKey('')}
+      />
+
       {children}
     </ContainerClass>
   );

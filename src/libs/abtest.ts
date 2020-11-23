@@ -13,6 +13,7 @@ const plab2 = plab as NewPlabStatic;
 
 class ABTest {
   private static instance: ABTest;
+  private static isInit = false;
 
   static getInstance(): ABTest {
     if (!ABTest.instance) {
@@ -23,6 +24,8 @@ class ABTest {
   }
 
   init(): void {
+    if (ABTest.isInit) return;
+
     // abtesting debug
     const debug = false;
 
@@ -51,6 +54,9 @@ class ABTest {
       debug,
       domain,
     });
+
+    ABTest.isInit = true;
+    console.log('[A/B Testing] init.');
   }
 
   start(expKey: string): { variation: string; variables: Record<string, unknown> } {

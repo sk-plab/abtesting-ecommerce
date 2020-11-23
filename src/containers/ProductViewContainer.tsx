@@ -1,5 +1,4 @@
-import React, { useContext } from 'react';
-import { Context } from '../store/context';
+import React from 'react';
 import {
   Wrapper,
   Sale,
@@ -8,24 +7,21 @@ import {
   CTAGroup,
 } from '../components/styled/WithStyledProductView';
 import { FaCartArrowDown, FaMoneyBillAlt } from 'react-icons/fa';
-import { Waypoint } from 'react-waypoint';
 import ABTest from '../libs/abtest';
 import MarkingABTest from '../components/MarkingABTest';
 import useShoppingCart from '../hooks/useShoppingCart';
+
+// a/b testing init.
+ABTest.init();
+
 interface IProp {
   product: ProductType;
   onCartTrigger: () => void;
 }
 const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
-  const { abtestCtx } = useContext(Context);
-
-  // a/b testing init.
-  ABTest.init();
-
   // abtesting start
   const expKey = 'ProductView';
   const abtest = ABTest.start(expKey);
-  abtestCtx.variation = abtest.variation;
 
   const { addToItem, checkoutSingleItem } = useShoppingCart();
 
@@ -104,11 +100,6 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
                 </DirectOrderButton>
               </CTAGroup>
             )}
-
-            <Waypoint
-              onEnter={() => abtestCtx.setExpKey(expKey)}
-              onPositionChange={() => abtestCtx.setExpKey('')}
-            />
           </MarkingABTest>
         </div>
       </section>

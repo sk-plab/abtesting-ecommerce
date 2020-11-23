@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import * as actions from '../actions';
 
 import styled from 'styled-components';
-import { Table, Button, Image, Alert } from 'react-bootstrap';
+import { Table, Button, Image, Alert, Container } from 'react-bootstrap';
 
 import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
@@ -19,14 +19,15 @@ const Header = styled.h2`
   margin-bottom: 10px;
 `;
 
+// a/b testing init.
+ABTest.init();
+
 const OrderPage: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const ordered = useSelector((state: RootState) => state.Shopping.ordered);
 
   useEffect(() => {
-    // a/b testing init.
-    ABTest.init();
     ABTest.track('order');
 
     return () => {
@@ -34,12 +35,12 @@ const OrderPage: React.FC = () => {
     };
   }, [dispatch]);
 
-  const GoToHome = () => {
+  const redicectToHome = () => {
     history.push('/');
   };
 
   return (
-    <React.Fragment>
+    <Container fluid>
       <SuccessHeader>주문이 성공적으로 완료되었습니다.</SuccessHeader>
       <hr />
       <Alert variant="success">
@@ -88,10 +89,10 @@ const OrderPage: React.FC = () => {
         </tbody>
       </Table>
 
-      <Button size="lg" block variant="outline-primary" onClick={GoToHome}>
+      <Button size="lg" block variant="outline-primary" onClick={redicectToHome}>
         쇼핑 계속하기
       </Button>
-    </React.Fragment>
+    </Container>
   );
 };
 

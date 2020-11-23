@@ -1,17 +1,22 @@
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row, Container } from 'react-bootstrap';
 import Swiper from 'react-id-swiper';
 import ABTest from '../libs/abtest';
-import { Waypoint } from 'react-waypoint';
-import { Context, GLOBAL_MEDIA_QUERIES } from '../store/context';
+import { GLOBAL_MEDIA_QUERIES } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
 import { useMedia } from 'react-media';
 
+// a/b testing init.
+ABTest.init();
+
 const ProductListPage: React.FC<ProductListType> = ({ products }) => {
+  // abtesting start
+  const expKey = 'ProductList';
+  const abtest = ABTest.start(expKey);
+
   const history = useHistory();
-  const { abtestCtx } = useContext(Context);
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
 
   const onClickProduct = useCallback(
@@ -23,14 +28,6 @@ const ProductListPage: React.FC<ProductListType> = ({ products }) => {
     },
     [history]
   );
-
-  // a/b testing init.
-  ABTest.init();
-
-  // abtesting start
-  const expKey = 'ProductList';
-  const abtest = ABTest.start(expKey);
-  abtestCtx.variation = abtest.variation;
 
   // config grid layout
   const columnCount = 4;
@@ -51,10 +48,6 @@ const ProductListPage: React.FC<ProductListType> = ({ products }) => {
     <Container fluid>
       <MarkingABTest expKey={expKey} variation={abtest.variation}>
         <h2>추천 상품</h2>
-        <Waypoint
-          onEnter={() => abtestCtx.setExpKey(expKey)}
-          onLeave={() => abtestCtx.setExpKey('')}
-        />
 
         {!abtest.variables.enableFeature ? (
           productsMap
