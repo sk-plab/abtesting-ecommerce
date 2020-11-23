@@ -6,12 +6,11 @@ import { ProductService } from '../../services/ProductService';
 
 it('renders without crashing', async () => {
   const id = 1;
-  const products = ProductService();
+  const products = await ProductService();
   const product = products.filter((e) => e.id === id)[0];
-  const addToCart = jest.fn();
-  const onCheckout = jest.fn();
+  const onCartTrigger = jest.fn();
 
-  render(<ProductViewContainer product={product} addToCart={addToCart} onCheckout={onCheckout} />);
+  render(<ProductViewContainer product={product} onCartTrigger={onCartTrigger} />);
   //screen.debug();
 
   expect(screen.queryByText('구매하기')).toBeInTheDocument();

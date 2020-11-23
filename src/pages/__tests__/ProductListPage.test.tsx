@@ -8,11 +8,11 @@ import { Router, Route } from 'react-router-dom';
 import { fireEvent } from '@testing-library/react';
 import { initialState } from '../../store/modules/shopping';
 
-beforeEach(() => {
+beforeEach(async () => {
   const route = '/';
   const history = createMemoryHistory({ initialEntries: [route] });
 
-  const products = ProductService();
+  const products = await ProductService();
   const initialState_ = { ...initialState, products };
 
   render(
@@ -39,5 +39,5 @@ test('상품 클릭후 상세 페이지 이동해야 한다.', () => {
   const target = screen.queryAllByText(/애플 아이폰 12 5G 256GB 자급제/)[0];
   fireEvent.click(target);
 
-  expect(screen.getByText('구매하기')).toBeInTheDocument();
+  expect(screen.getByText(/구매/)).toBeInTheDocument();
 });

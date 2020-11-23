@@ -10,10 +10,10 @@ import { initialState } from '../../store/modules/shopping';
 import { fireEvent } from '@testing-library/react';
 
 describe('ProductViewPage', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     const route = '/view/0';
     const history = createMemoryHistory({ initialEntries: [route] });
-    const products = ProductService();
+    const products = await ProductService();
     const initialState_ = { ...initialState, products };
 
     render(
@@ -36,18 +36,16 @@ describe('ProductViewPage', () => {
     fireEvent.click(cartButton[0]);
 
     await waitFor(() => {
-      //screen.debug();
       expect(screen.getByRole('dialog')).toBeInTheDocument();
       expect(screen.getByText('장바구니')).toBeInTheDocument();
     });
   });
 
   test('구매하기 버튼 클릭시 체크아웃 페이지로 이동해야 한다.', async () => {
-    const target = screen.getByText('구매하기');
+    const target = screen.getByText(/구매/);
     fireEvent.click(target);
 
     await waitFor(() => {
-      //screen.debug();
       expect(screen.getByText('주문결제')).toBeInTheDocument();
     });
   });

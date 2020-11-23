@@ -7,7 +7,7 @@ import { ProductService } from '../../services/ProductService';
 import { initialState } from '../../store/modules/shopping';
 
 it('renders without crashing', async () => {
-  const products = ProductService();
+  const products = await ProductService();
   const initialState_ = { ...initialState, ordered: products };
   const history = createMemoryHistory({ initialEntries: ['/order'] });
 

@@ -3,8 +3,8 @@ import { render, screen } from '@testing-library/react';
 
 import { ProductService } from '../ProductService';
 
-test('get product data', () => {
-  const products = ProductService();
+test('get product data', async () => {
+  const products = await ProductService();
 
   expect(products.length).toBe(10);
 });
