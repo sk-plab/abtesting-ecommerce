@@ -38,7 +38,8 @@ const ProductViewPage: React.FC = () => {
     history.push('/checkout');
   }, [dispatch, id, history]);
 
-  if (!product) throw new Error('Not found product');
+  // if (!product) throw new Error('Not found product');
+  if (!product) return <div>loading...</div>;
 
   return (
     <Fragment>

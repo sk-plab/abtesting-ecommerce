@@ -7,37 +7,21 @@ import {
   GuideLayout,
   NotGuideLayout,
 } from '../store/context';
-
-import * as actions from '../actions';
-import { useDispatch, useSelector } from 'react-redux';
 import { Col, Container, Row } from 'react-bootstrap';
-
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { productsSelector } from '../store/modules';
 
 import { ProductListPage, ProductViewPage, CartPage, OrderPage, CheckoutPage } from '../pages';
 import GuideContainer from '../containers/GuideContainer';
 import { useMedia } from 'react-media';
 
-import { ProductService } from '../services/ProductService';
+import { useProducts } from '../hooks/useProductService';
 
 const App: React.FC = () => {
-  const location = useLocation();
-  const history = useHistory();
-
   // get products
-  const products = useSelector(productsSelector);
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    // products settings
-    const products = ProductService();
-    dispatch(actions.SetProductData(products));
-
-    return history.listen((location) =>
-      console.log(`You chanaged the page to: ${location.pathname}`)
-    );
-  }, [history, dispatch]);
+  // products settings
+  const { payload } = useProducts();
+  const products = payload;
 
   // context settings
   const [expKey, setExpKey] = useState('');
@@ -46,6 +30,15 @@ const App: React.FC = () => {
   // layout settings
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
   const layout = matches.small ? NotGuideLayout() : GuideLayout;
+
+  const location = useLocation();
+  const history = useHistory();
+
+  useEffect(() => {
+    return history.listen((location) =>
+      console.log(`You chanaged the page to: ${location.pathname}`)
+    );
+  }, [history]);
 
   return (
     <Context.Provider value={defaultValue}>
