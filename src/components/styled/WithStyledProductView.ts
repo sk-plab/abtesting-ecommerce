@@ -22,6 +22,7 @@ export const Wrapper = styled(Container)`
 
       div.images {
         margin-bottom: 20px;
+        min-height: 200px;
       }
 
       div.property {

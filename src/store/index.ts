@@ -1,14 +1,13 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import reducers from './modules';
 
-import logger from 'redux-logger';
 import ReduxThunk from 'redux-thunk';
 
 import { persistStore } from 'redux-persist';
 
 let middlewares;
 if (['development'].includes(process.env.NODE_ENV)) {
-  middlewares = [logger, ReduxThunk];
+  middlewares = [ReduxThunk];
 } else {
   middlewares = [ReduxThunk];
 }

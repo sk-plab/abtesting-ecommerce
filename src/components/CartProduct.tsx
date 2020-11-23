@@ -2,21 +2,14 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Form, Image, InputGroup } from 'react-bootstrap';
 import { FaTrash } from 'react-icons/fa';
+import useShoppingCart from '../hooks/useShoppingCart';
 
-interface CartProductProps {
+interface IProps {
   product: ProductType;
-  onCheck: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onIncrease: (id: number) => void;
-  onDecrease: (id: number) => void;
-  onDeleteCart: (id: number) => void;
 }
-const CartProduct: React.FC<CartProductProps> = ({
-  product,
-  onCheck,
-  onIncrease,
-  onDecrease,
-  onDeleteCart,
-}) => {
+const CartProduct: React.FC<IProps> = ({ product }) => {
+  const { increaseItem, decreaseItem, removeItem, selectCheckoutItem } = useShoppingCart();
+
   return (
     <React.Fragment>
       <tr>
@@ -24,8 +17,7 @@ const CartProduct: React.FC<CartProductProps> = ({
           <Form.Check
             type="checkbox"
             checked={product.chk}
-            data-id={product.id}
-            onChange={onCheck}
+            onChange={() => selectCheckoutItem(product.id)}
           />
         </td>
         <td>
@@ -41,7 +33,7 @@ const CartProduct: React.FC<CartProductProps> = ({
         <td>
           <InputGroup size="sm" style={{ width: 100 }}>
             <InputGroup.Prepend>
-              <Button size="sm" variant="secondary" onClick={() => onDecrease(product.id)}>
+              <Button size="sm" variant="secondary" onClick={() => decreaseItem(product.id)}>
                 -
               </Button>
             </InputGroup.Prepend>
@@ -52,7 +44,7 @@ const CartProduct: React.FC<CartProductProps> = ({
               readOnly
             />
             <InputGroup.Append>
-              <Button size="sm" variant="secondary" onClick={() => onIncrease(product.id)}>
+              <Button size="sm" variant="secondary" onClick={() => increaseItem(product.id)}>
                 +
               </Button>
             </InputGroup.Append>
@@ -60,7 +52,7 @@ const CartProduct: React.FC<CartProductProps> = ({
         </td>
         <td>${product.price}</td>
         <td>
-          <Button variant="dark" size="sm" onClick={() => onDeleteCart(product.id)}>
+          <Button variant="dark" size="sm" onClick={() => removeItem(product.id)}>
             <FaTrash />
           </Button>
         </td>
@@ -69,4 +61,4 @@ const CartProduct: React.FC<CartProductProps> = ({
   );
 };
 
-export default React.memo(CartProduct);
+export default CartProduct;

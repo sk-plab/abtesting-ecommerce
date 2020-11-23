@@ -1,7 +1,7 @@
 import React, { useCallback, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Product from '../components/Product';
-import { Col, Row } from 'react-bootstrap';
+import { Col, Row, Container } from 'react-bootstrap';
 import Swiper from 'react-id-swiper';
 import ABTest from '../libs/abtest';
 import { Waypoint } from 'react-waypoint';
@@ -48,7 +48,7 @@ const ProductListPage: React.FC<ProductListType> = ({ products }) => {
   ));
 
   return (
-    <React.Fragment>
+    <Container fluid>
       <MarkingABTest expKey={expKey} variation={abtest.variation}>
         <h2>추천 상품</h2>
         <Waypoint
@@ -80,7 +80,7 @@ const ProductListPage: React.FC<ProductListType> = ({ products }) => {
           ))}
         </Swiper>
       </div>
-    </React.Fragment>
+    </Container>
   );
 };
 

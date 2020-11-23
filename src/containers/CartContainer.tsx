@@ -1,54 +1,16 @@
-import React, { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store/modules';
-import * as actions from '../actions';
 import { Table, Button } from 'react-bootstrap';
 import CartProduct from '../components/CartProduct';
 import TotalAmount from '../components/TotalAmount';
-import Noty from 'noty';
+import useShoppingCart from '../hooks/useShoppingCart';
 
 const CartContainer: React.FC = () => {
-  const history = useHistory();
-  const dispatch = useDispatch();
   const products = useSelector((state: RootState) => state.Shopping.cart);
 
-  const onCheck = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const target = e.target;
-      const dataId = target.getAttribute('data-id');
-      if (dataId) {
-        const id = parseInt(dataId, 10);
-        dispatch(actions.CartSelectProduct(id));
-      }
-    },
-    [dispatch]
-  );
+  const { redirectToCheckout } = useShoppingCart();
 
-  const onIncrease = useCallback((id) => dispatch(actions.IncreaseCart(id)), [dispatch]);
-  const onDecrease = useCallback((id) => dispatch(actions.DecreaseCart(id)), [dispatch]);
-
-  const onDeleteCart = useCallback(
-    (id: number) => {
-      if (window.confirm('정말 삭제하시겠습니까?')) {
-        dispatch(actions.DeleteCart(id));
-      }
-    },
-    [dispatch]
-  );
-  const onCheckoutAll = () => {
-    const _products = products.filter((e) => e.chk);
-    if (_products.length > 0) {
-      dispatch(actions.Checkout());
-      history.push('/checkout');
-    } else {
-      new Noty({
-        type: 'error',
-        text: `선택한 장바구니 상품이 없습니다.`,
-        timeout: 3000,
-      }).show();
-    }
-  };
   return (
     <React.Fragment>
       <Table hover responsive>
@@ -63,14 +25,7 @@ const CartContainer: React.FC = () => {
         </thead>
         <tbody>
           {products.map((product) => (
-            <CartProduct
-              key={product.id}
-              product={product}
-              onCheck={onCheck}
-              onIncrease={onIncrease}
-              onDecrease={onDecrease}
-              onDeleteCart={onDeleteCart}
-            />
+            <CartProduct key={product.id} product={product} />
           ))}
           {!products.length && <NotFound />}
         </tbody>
@@ -81,7 +36,7 @@ const CartContainer: React.FC = () => {
       </h4>
 
       {products.length > 0 && (
-        <Button size="lg" block onClick={onCheckoutAll}>
+        <Button size="lg" block onClick={redirectToCheckout}>
           Proceed to Checkout
         </Button>
       )}

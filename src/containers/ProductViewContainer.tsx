@@ -8,18 +8,15 @@ import {
   CTAGroup,
 } from '../components/styled/WithStyledProductView';
 import { FaCartArrowDown, FaMoneyBillAlt } from 'react-icons/fa';
-
 import { Waypoint } from 'react-waypoint';
-
 import ABTest from '../libs/abtest';
 import MarkingABTest from '../components/MarkingABTest';
-
+import useShoppingCart from '../hooks/useShoppingCart';
 interface IProp {
   product: ProductType;
-  addToCart: () => void;
-  onCheckout: () => void;
+  onCartTrigger: () => void;
 }
-const ProductViewContainer: React.FC<IProp> = ({ product, addToCart, onCheckout }) => {
+const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
   const { abtestCtx } = useContext(Context);
 
   // a/b testing init.
@@ -30,12 +27,19 @@ const ProductViewContainer: React.FC<IProp> = ({ product, addToCart, onCheckout 
   const abtest = ABTest.start(expKey);
   abtestCtx.variation = abtest.variation;
 
+  const { addToItem, checkoutSingleItem } = useShoppingCart();
+
   return (
     <Wrapper>
       <section className="shopping-container">
         <div className="shopping-box">
           <div className="images">
-            <img src={`/images/${product.imageUrl}`} width="100%" alt="" />
+            <img
+              src={`/images/${product.imageUrl}`}
+              width="100%"
+              style={{ minHeight: 200 }}
+              alt=""
+            />
           </div>
           <div className="property">
             <ul>
@@ -61,21 +65,43 @@ const ProductViewContainer: React.FC<IProp> = ({ product, addToCart, onCheckout 
           <MarkingABTest expKey={expKey} variation={abtest.variation}>
             {abtest.variables.enableFeature ? (
               <CTAGroup new="true" size="lg">
-                <CartButton new="true" onClick={addToCart}>
+                <CartButton
+                  new="true"
+                  onClick={() => {
+                    addToItem(product);
+                    onCartTrigger();
+                  }}
+                >
                   <FaCartArrowDown />
                 </CartButton>
 
-                <DirectOrderButton new="true" onClick={onCheckout}>
+                <DirectOrderButton
+                  new="true"
+                  onClick={() => {
+                    checkoutSingleItem(product.id);
+                  }}
+                >
                   바로 구매
                 </DirectOrderButton>
               </CTAGroup>
             ) : (
               <CTAGroup size="lg">
-                <CartButton onClick={addToCart}>
+                <CartButton
+                  onClick={() => {
+                    addToItem(product);
+                    onCartTrigger();
+                  }}
+                >
                   <FaCartArrowDown />
                 </CartButton>
 
-                <DirectOrderButton onClick={onCheckout}>구매하기</DirectOrderButton>
+                <DirectOrderButton
+                  onClick={() => {
+                    checkoutSingleItem(product.id);
+                  }}
+                >
+                  구매하기
+                </DirectOrderButton>
               </CTAGroup>
             )}
 

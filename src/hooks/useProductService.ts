@@ -1,27 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import * as actions from '../actions';
 import { useDispatch } from 'react-redux';
-import { ProductService } from '../services/ProductService';
+import { ProductService as fetcher } from '../services/ProductService';
+import useSWR from 'swr';
 
 export const useProducts = (): {
-  status: string;
-  payload: ProductType[];
+  products: ProductType[];
 } => {
-  const [status, setStatus] = useState('initial');
-  const [payload, setPayload] = useState<ProductType[]>([]);
-
   const dispatch = useDispatch();
 
+  const { data = [] } = useSWR<ProductType[]>('/api/products', fetcher);
+
   useEffect(() => {
-    setStatus('loading');
+    dispatch(actions.SetProductData(data));
+  }, [dispatch, data]);
 
-    ProductService().then((data) => {
-      setPayload(data);
-      setStatus('success');
-
-      dispatch(actions.SetProductData({ products: data }));
-    });
-  }, [dispatch]);
-
-  return { status, payload };
+  return { products: data };
 };
