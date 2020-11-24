@@ -1,6 +1,5 @@
 import { Reducer } from 'redux';
-import * as ActionType from '../../actions/ActionTypes';
-import { ShoppingAction } from '../../actions';
+import { ShoppingAction, ActionType } from './actions';
 
 export interface ShoppingState {
   products: ProductType[];

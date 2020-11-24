@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as actions from '../actions';
+import * as actions from '../store/modules/actions';
 import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
 import Noty from 'noty';

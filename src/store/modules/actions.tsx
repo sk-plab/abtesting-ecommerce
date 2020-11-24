@@ -1,5 +1,16 @@
-import * as ActionType from './ActionTypes';
 import { Action as AnyAction } from 'redux';
+
+export enum ActionType {
+  SET_PRODUCT_DATA = 'SET_PRODUCT_DATA',
+  ADD_TO_CART = 'ADD_TO_CART',
+  INCREASE_CART = 'INCREASE_CART',
+  DECREASE_CART = 'DECREASE_CART',
+  DIRECT_CHECKOUT = 'DIRECT_CHECKOUT',
+  CHECKOUT = 'CHECKOUT',
+  CHECKOUT_COMPLETE = 'CHECKOUT_COMPLETE',
+  DELETE_CART = 'DELETE_CART',
+  CART_SELECT_PRODUCT = 'CART_SELECT_PRODUCT',
+}
 
 export interface FSA<Type extends string, Payload = null> extends AnyAction {
   type: Type;

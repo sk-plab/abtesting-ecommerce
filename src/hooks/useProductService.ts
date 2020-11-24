@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import * as actions from '../actions';
+import * as actions from '../store/modules/actions';
 import { useDispatch } from 'react-redux';
 import { ProductService as fetcher } from '../services/ProductService';
 import useSWR from 'swr';

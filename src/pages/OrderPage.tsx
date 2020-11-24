@@ -1,12 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-
-import * as actions from '../actions';
-
+import * as actions from '../store/modules/actions';
 import styled from 'styled-components';
 import { Table, Button, Image, Alert, Container } from 'react-bootstrap';
-
 import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
 import TotalAmount from '../components/TotalAmount';
