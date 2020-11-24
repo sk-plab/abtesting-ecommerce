@@ -28,7 +28,7 @@ const OrderPage: React.FC = () => {
     ABTest.track('order');
 
     return () => {
-      dispatch(actions.CheckoutComplete());
+      dispatch(actions.checkoutComplete());
     };
   }, [dispatch]);
 

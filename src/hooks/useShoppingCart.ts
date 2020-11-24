@@ -11,9 +11,9 @@ interface IResult {
   increaseItem: (id: number) => void;
   decreaseItem: (id: number) => void;
   removeItem: (id: number) => void;
-  checkoutSingleItem: (id: number) => void;
-  redirectToCheckout: () => void;
   selectCheckoutItem: (id: number) => void;
+  checkoutSingleItem: (id: number) => void;
+  checkoutItems: () => void;
 }
 const useShoppingCart = (): IResult => {
   const dispatch = useDispatch();
@@ -22,16 +22,16 @@ const useShoppingCart = (): IResult => {
   const addToItem = useCallback(
     (product: ProductType) => {
       ABTest.track('add_to_cart');
-      dispatch(actions.AddToCart(product.id));
+      dispatch(actions.addItem(product.id));
     },
     [dispatch]
   );
-  const increaseItem = useCallback((id: number) => dispatch(actions.IncreaseCart(id)), [dispatch]);
-  const decreaseItem = useCallback((id: number) => dispatch(actions.DecreaseCart(id)), [dispatch]);
+  const increaseItem = useCallback((id: number) => dispatch(actions.increaseItem(id)), [dispatch]);
+  const decreaseItem = useCallback((id: number) => dispatch(actions.decreaseItem(id)), [dispatch]);
   const removeItem = useCallback(
     (id: number) => {
       if (window.confirm('정말 삭제하시겠습니까?')) {
-        dispatch(actions.DeleteCart(id));
+        dispatch(actions.removeItem(id));
       }
     },
     [dispatch]
@@ -39,7 +39,7 @@ const useShoppingCart = (): IResult => {
 
   const checkoutSingleItem = useCallback(
     (id: number) => {
-      dispatch(actions.DirectCheckout(id));
+      dispatch(actions.checkoutSingleItem(id));
       history.push('/checkout');
     },
     [dispatch, history]
@@ -47,17 +47,17 @@ const useShoppingCart = (): IResult => {
 
   const selectCheckoutItem = useCallback(
     (id: number) => {
-      dispatch(actions.CartSelectProduct(id));
+      dispatch(actions.selectCheckoutItem(id));
     },
     [dispatch]
   );
 
   const cartItems = useSelector((state: RootState) => state.Shopping.cart);
 
-  const redirectToCheckout = useCallback(() => {
+  const checkoutItems = useCallback(() => {
     const items = cartItems.filter((e) => e.chk);
     if (items.length > 0) {
-      dispatch(actions.Checkout());
+      dispatch(actions.checkoutItems());
       history.push('/checkout');
     } else {
       new Noty({
@@ -74,7 +74,7 @@ const useShoppingCart = (): IResult => {
     decreaseItem,
     removeItem,
     checkoutSingleItem,
-    redirectToCheckout,
+    checkoutItems,
     selectCheckoutItem,
   };
 };

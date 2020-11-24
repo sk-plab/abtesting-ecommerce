@@ -12,7 +12,7 @@ export const useProducts = (): {
   const { data = [] } = useSWR<ProductType[]>('/api/products', fetcher);
 
   useEffect(() => {
-    dispatch(actions.SetProductData(data));
+    dispatch(actions.setProductItem(data));
   }, [dispatch, data]);
 
   return { products: data };

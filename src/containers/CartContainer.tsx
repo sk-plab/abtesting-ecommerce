@@ -9,7 +9,7 @@ import useShoppingCart from '../hooks/useShoppingCart';
 const CartContainer: React.FC = () => {
   const products = useSelector((state: RootState) => state.Shopping.cart);
 
-  const { redirectToCheckout } = useShoppingCart();
+  const { checkoutItems } = useShoppingCart();
 
   return (
     <React.Fragment>
@@ -36,7 +36,7 @@ const CartContainer: React.FC = () => {
       </h4>
 
       {products.length > 0 && (
-        <Button size="lg" block onClick={redirectToCheckout}>
+        <Button size="lg" block onClick={checkoutItems}>
           Proceed to Checkout
         </Button>
       )}
