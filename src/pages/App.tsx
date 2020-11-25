@@ -2,7 +2,6 @@ import React, { Suspense, lazy } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import { Context, useSettings } from '../store/context';
 import { useLoading } from '../hooks/useLoading';
-import { useProducts } from '../hooks/useProductService';
 
 const ProductListPage = lazy(() => import('./ProductListPage'));
 const ProductViewPage = lazy(() => import('./ProductViewPage'));
@@ -14,8 +13,6 @@ const GuideContainer = lazy(() => import('../containers/GuideContainer'));
 const App: React.FC = () => {
   // context settings
   const defaultValue = useSettings();
-
-  useProducts();
 
   return (
     <Context.Provider value={defaultValue}>

@@ -1,10 +1,10 @@
 import { Reducer } from 'redux';
 import { ShoppingAction, ActionType } from './actions';
 
-export interface ShoppingState<T = ProductType[]> {
+export interface ShoppingState<T = ProductType[], A = CartProductType[]> {
   products: T;
-  cart: T;
-  ordered: T;
+  cart: A;
+  ordered: A;
 }
 
 export const initialState: ShoppingState = {

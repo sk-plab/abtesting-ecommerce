@@ -2,11 +2,11 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 
 import ProductViewContainer from '../ProductViewContainer';
-import { ProductService } from '../../services/ProductService';
+import * as API from '../../api/fetchItems';
 
 it('renders without crashing', async () => {
   const id = 1;
-  const products = await ProductService();
+  const products = await API.fetchItems();
   const product = products.filter((e) => e.id === id)[0];
   const onCartTrigger = jest.fn();
 

@@ -3,7 +3,7 @@ import { render, screen } from '../../test-utils';
 import { createMemoryHistory } from 'history';
 import ProductListPage from '../ProductListPage';
 import ProductViewPage from '../ProductViewPage';
-import { ProductService } from '../../services/ProductService';
+import * as API from '../../api/fetchItems';
 import { Router, Route } from 'react-router-dom';
 import { fireEvent } from '@testing-library/react';
 import { initialState } from '../../store/modules/shopping';
@@ -12,13 +12,13 @@ beforeEach(async () => {
   const route = '/';
   const history = createMemoryHistory({ initialEntries: [route] });
 
-  const products = await ProductService();
+  const products = await API.fetchItems();
   const initialState_ = { ...initialState, products };
 
   render(
     <Router history={history}>
       <Route path="/" exact>
-        <ProductListPage products={products} />
+        <ProductListPage />
       </Route>
       <Route path="/view/:id">
         <ProductViewPage />

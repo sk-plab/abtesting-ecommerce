@@ -5,7 +5,7 @@ import { FaTrash } from 'react-icons/fa';
 import useShoppingCart from '../hooks/useShoppingCart';
 
 interface IProps {
-  product: ProductType;
+  product: CartProductType;
 }
 const CartProduct: React.FC<IProps> = ({ product }) => {
   const { increaseItem, decreaseItem, removeItem, selectCheckoutItem } = useShoppingCart();

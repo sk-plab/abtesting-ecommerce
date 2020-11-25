@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom';
 import { Table, Image } from 'react-bootstrap';
 import { Header } from './styled/WithStyledCheckout';
 
-const CheckoutProduct: React.FC<ProductListType> = ({ products }) => {
+interface IProps {
+  products: CartProductType[];
+}
+const CheckoutProduct: React.FC<IProps> = ({ products }) => {
   return (
     <React.Fragment>
       <Header>주문상품</Header>
@@ -26,7 +29,7 @@ const CheckoutProduct: React.FC<ProductListType> = ({ products }) => {
   );
 };
 
-function Product({ product }: { product: ProductType }) {
+function Product({ product }: { product: CartProductType }) {
   return (
     <React.Fragment>
       <tr>

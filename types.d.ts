@@ -10,10 +10,13 @@ interface ProductType {
   category: string;
   price: number;
   imageUrl: string;
-  q: number;
-  chk?: boolean;
 }
 
 interface ProductListType {
   products: ProductType[];
+}
+
+interface CartProductType extends ProductType {
+  q: number;
+  chk: boolean;
 }

@@ -1,12 +1,13 @@
 import React, { ReactNode } from 'react';
 import { Router, Route } from 'react-router-dom';
 import { Context } from './store/context';
-import { AnyAction, Action, createStore, Store } from 'redux';
+import { AnyAction, Action, createStore, Store, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { render, RenderResult } from '@testing-library/react';
 import { rootReducer } from './store/modules';
 import { initialState as _initialState, ShoppingState } from './store/modules/shopping';
 import { createMemoryHistory, MemoryHistory } from 'history';
+import ReduxThunk from 'redux-thunk';
 
 interface RenderWithRedux<S = ShoppingState, A extends Action = AnyAction> {
   (
@@ -21,7 +22,13 @@ const customRender: RenderWithRedux = (
   ui,
   {
     initialState = _initialState,
-    store = createStore(rootReducer, { Shopping: initialState }),
+    store = createStore(
+      rootReducer,
+      {
+        Shopping: initialState,
+      },
+      compose(applyMiddleware(ReduxThunk))
+    ),
   } = {}
 ) => {
   const defaultValue = {

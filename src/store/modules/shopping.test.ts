@@ -1,6 +1,6 @@
 import reducer, { initialState as initialState_, ShoppingState } from './shopping';
 import * as actions from './actions';
-import { ProductService } from '../../services/ProductService';
+import * as API from '../../api/fetchItems';
 
 describe('Shopping Reducers', () => {
   let initialState: ShoppingState;
@@ -13,7 +13,7 @@ describe('Shopping Reducers', () => {
   const PID = 0;
 
   beforeAll(async () => {
-    products = await ProductService();
+    products = await API.fetchItems();
     product = products.slice(0, 1)[0];
 
     initialState = { ...initialState_, products };
@@ -39,9 +39,15 @@ describe('Shopping Reducers', () => {
     it('ADD_ITEM', () => {
       const action = actions.addItem(PID);
       expect(reducer(initialState, action).cart.length).toEqual(1);
+
+      const cartProducts: CartProductType[] = initialState.cart.concat({
+        ...product,
+        chk: true,
+        q: 1,
+      });
       expect(reducer(initialState, action)).toEqual({
         ...initialState,
-        cart: initialState.cart.concat({ ...product, chk: true }),
+        cart: cartProducts,
       });
     });
     it('INCREASE_ITEM', () => {

@@ -3,8 +3,8 @@ import { render, screen } from '../../test-utils';
 import { Router, Route } from 'react-router-dom';
 import Cartpage from '../CartPage';
 import { createMemoryHistory } from 'history';
-import { ProductService } from '../../services/ProductService';
-import { initialState as iState } from '../../store/modules/shopping';
+import { ProductService } from '../../api/fetchItems';
+import { initialState as iState, ShoppingState } from '../../store/modules/shopping';
 import { fireEvent, waitFor } from '@testing-library/react';
 import CheckoutPage from '../CheckoutPage';
 
@@ -13,12 +13,12 @@ describe('CartPage', () => {
     const route = '/cart';
     const history = createMemoryHistory({ initialEntries: [route] });
     const products = await ProductService();
-    const initialState = {
+    const cartProducts: CartProductType[] = products.slice(0, 1).map((e) => {
+      return { ...e, chk: true, q: 1 };
+    });
+    const initialState: ShoppingState = {
       ...iState,
-      cart: products.slice(0, 1).map((e) => {
-        e.chk = true;
-        return e;
-      }),
+      cart: cartProducts,
     };
 
     render(

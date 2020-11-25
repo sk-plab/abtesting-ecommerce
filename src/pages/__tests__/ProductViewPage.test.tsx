@@ -5,7 +5,7 @@ import { createMemoryHistory } from 'history';
 
 import ProductViewPage from '../ProductViewPage';
 import CheckoutPage from '../CheckoutPage';
-import { ProductService } from '../../services/ProductService';
+import * as API from '../../api/fetchItems';
 import { initialState } from '../../store/modules/shopping';
 import { fireEvent } from '@testing-library/react';
 
@@ -13,7 +13,7 @@ describe('ProductViewPage', () => {
   beforeEach(async () => {
     const route = '/view/0';
     const history = createMemoryHistory({ initialEntries: [route] });
-    const products = await ProductService();
+    const products = await API.fetchItems();
     const initialState_ = { ...initialState, products };
 
     render(

@@ -1,7 +1,10 @@
-import { Action as AnyAction } from 'redux';
+import { Action as AnyAction, Dispatch } from 'redux';
+import { ThunkAction } from 'redux-thunk';
+import * as API from '../../api/fetchItems';
 
 export enum ActionType {
   SET_PRODUCT_ITEM = 'SET_PRODUCT_ITEM',
+  GET_ITEM = 'GET_ITEM',
   ADD_ITEM = 'ADD_ITEM',
   INCREASE_ITEM = 'INCREASE_ITEM',
   DECREASE_ITEM = 'DECREASE_ITEM',
@@ -20,6 +23,7 @@ export interface FSA<Type extends string, Payload = null> extends AnyAction {
 // action types
 export type ShoppingAction =
   | FSA<typeof ActionType.SET_PRODUCT_ITEM, ProductType[]>
+  | FSA<typeof ActionType.GET_ITEM, number>
   | FSA<typeof ActionType.ADD_ITEM, number>
   | FSA<typeof ActionType.INCREASE_ITEM, number>
   | FSA<typeof ActionType.DECREASE_ITEM, number>
@@ -33,6 +37,13 @@ export const setProductItem = (products: ProductType[]): ShoppingAction => ({
   type: ActionType.SET_PRODUCT_ITEM,
   payload: products,
 });
+
+export const fetchItems = (): ThunkAction<void, undefined, undefined, AnyAction> => {
+  return async (dispatch: Dispatch) => {
+    const response = await API.fetchItems();
+    dispatch(setProductItem(response));
+  };
+};
 
 export const addItem = (id: number): ShoppingAction => ({
   type: ActionType.ADD_ITEM,

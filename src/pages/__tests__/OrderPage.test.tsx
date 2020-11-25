@@ -3,12 +3,15 @@ import { render, screen } from '../../test-utils';
 import { Router, Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import OrderPage from '../OrderPage';
-import { ProductService } from '../../services/ProductService';
+import * as API from '../../api/fetchItems';
 import { initialState } from '../../store/modules/shopping';
 
 it('renders without crashing', async () => {
-  const products = await ProductService();
-  const initialState_ = { ...initialState, ordered: products };
+  const products = await API.fetchItems();
+  const cartProducts: CartProductType[] = products.slice(0, 1).map((e) => {
+    return { ...e, chk: true, q: 1 };
+  });
+  const initialState_ = { ...initialState, ordered: cartProducts };
   const history = createMemoryHistory({ initialEntries: ['/order'] });
 
   render(

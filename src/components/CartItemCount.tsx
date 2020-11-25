@@ -9,7 +9,7 @@ const Wrapper = styled(Badge)`
   top: 2px;
 `;
 interface IProps {
-  carts: ProductType[];
+  carts: CartProductType[];
 }
 const CartItemCount: React.FC<IProps> = ({ carts = [] }) => (
   <Wrapper pill variant="danger">

@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row, Container } from 'react-bootstrap';
@@ -8,7 +8,8 @@ import { GLOBAL_MEDIA_QUERIES } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
 import { useMedia } from 'react-media';
 import { productsSelector } from '../store/modules';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import * as actions from '../store/modules/actions';
 
 // a/b testing init.
 ABTest.init();
@@ -30,6 +31,12 @@ const ProductListPage: React.FC = () => {
     },
     [history]
   );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(actions.fetchItems());
+  }, [dispatch]);
 
   const products = useSelector(productsSelector);
 
