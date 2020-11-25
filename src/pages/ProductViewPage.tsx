@@ -19,8 +19,6 @@ const ProductViewPage: React.FC = () => {
     setCartModalShow(true);
   }, [setCartModalShow]);
 
-  if (!product) return <div>loading...</div>;
-
   return (
     <Container fluid>
       <ProductViewContainer product={product} onCartTrigger={onCartTrigger} />

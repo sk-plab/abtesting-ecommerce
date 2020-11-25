@@ -13,6 +13,6 @@ it('renders without crashing', async () => {
   render(<ProductViewContainer product={product} onCartTrigger={onCartTrigger} />);
   //screen.debug();
 
-  expect(screen.queryByText('구매하기')).toBeInTheDocument();
+  expect(screen.queryByText(/구매/)).toBeInTheDocument();
   expect(screen.queryAllByText(/애플 아이폰 12 5G 256GB 자급제/)[0]).toBeInTheDocument();
 });

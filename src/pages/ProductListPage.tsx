@@ -7,11 +7,13 @@ import ABTest from '../libs/abtest';
 import { GLOBAL_MEDIA_QUERIES } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
 import { useMedia } from 'react-media';
+import { productsSelector } from '../store/modules';
+import { useSelector } from 'react-redux';
 
 // a/b testing init.
 ABTest.init();
 
-const ProductListPage: React.FC<ProductListType> = ({ products }) => {
+const ProductListPage: React.FC = () => {
   // abtesting start
   const expKey = 'ProductList';
   const abtest = ABTest.start(expKey);
@@ -28,6 +30,8 @@ const ProductListPage: React.FC<ProductListType> = ({ products }) => {
     },
     [history]
   );
+
+  const products = useSelector(productsSelector);
 
   // config grid layout
   const columnCount = 4;

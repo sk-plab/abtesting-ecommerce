@@ -56,7 +56,6 @@ class ABTest {
     });
 
     ABTest.isInit = true;
-    console.log('[A/B Testing] init.');
   }
 
   start(expKey: string): { variation: string; variables: Record<string, unknown> } {
