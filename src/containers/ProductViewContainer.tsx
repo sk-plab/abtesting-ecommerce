@@ -74,7 +74,7 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
                 <DirectOrderButton
                   new="true"
                   onClick={() => {
-                    checkoutSingleItem(product.id);
+                    checkoutSingleItem(product);
                   }}
                 >
                   바로 구매
@@ -93,7 +93,7 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
 
                 <DirectOrderButton
                   onClick={() => {
-                    checkoutSingleItem(product.id);
+                    checkoutSingleItem(product);
                   }}
                 >
                   구매하기

@@ -5,7 +5,7 @@ import { createMemoryHistory } from 'history';
 
 import ProductViewPage from '../ProductViewPage';
 import CheckoutPage from '../CheckoutPage';
-import * as API from '../../api/fetchItems';
+import * as API from '../../api';
 import { initialState } from '../../store/modules/shopping';
 import { fireEvent } from '@testing-library/react';
 
@@ -28,7 +28,9 @@ describe('ProductViewPage', () => {
   });
 
   test('상품 상세 페이지가 이상없이 보여야 한다.', async () => {
-    expect(screen.queryAllByText(/애플 아이폰 12 5G 256GB 자급제/)[0]).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryAllByText(/애플 아이폰 12 5G 256GB 자급제/)[0]).toBeInTheDocument();
+    });
   });
 
   test('장바구니 버튼 클릭하면 모달창이 보여야 한다.', async () => {

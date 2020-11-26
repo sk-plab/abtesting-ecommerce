@@ -5,7 +5,7 @@ export const fetchItems = (id: number | null = null): Promise<ProductType[]> => 
     setTimeout(() => {
       let result: ProductType[];
 
-      if (id !== null) {
+      if (id !== null && id !== undefined) {
         result = items.data.filter((e) => e.id === id);
       } else {
         result = items.data.map((e) => {
@@ -15,5 +15,11 @@ export const fetchItems = (id: number | null = null): Promise<ProductType[]> => 
 
       resolve(result);
     }, 500);
+  });
+};
+
+export const addToCart = (item: ProductType): Promise<ProductType> => {
+  return new Promise((resolve) => {
+    resolve(item);
   });
 };

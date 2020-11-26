@@ -3,7 +3,7 @@ import { render, screen } from '../../test-utils';
 import { Router, Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import OrderPage from '../OrderPage';
-import * as API from '../../api/fetchItems';
+import * as API from '../../api';
 import { initialState } from '../../store/modules/shopping';
 
 it('renders without crashing', async () => {

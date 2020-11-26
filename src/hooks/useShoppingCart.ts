@@ -7,12 +7,12 @@ import { RootState } from '../store/modules';
 import Noty from 'noty';
 
 interface IResult {
-  addToItem: (product: ProductType) => void;
+  addToItem: (item: ProductType) => void;
   increaseItem: (id: number) => void;
   decreaseItem: (id: number) => void;
   removeItem: (id: number) => void;
   selectCheckoutItem: (id: number) => void;
-  checkoutSingleItem: (id: number) => void;
+  checkoutSingleItem: (item: ProductType) => void;
   checkoutItems: () => void;
 }
 const useShoppingCart = (): IResult => {
@@ -20,12 +20,20 @@ const useShoppingCart = (): IResult => {
   const history = useHistory();
 
   const addToItem = useCallback(
-    (product: ProductType) => {
+    (item: ProductType) => {
       ABTest.track('add_to_cart');
-      dispatch(actions.addItem(product.id));
+      dispatch(actions.addItem(item));
     },
     [dispatch]
   );
+  const checkoutSingleItem = useCallback(
+    (item: ProductType) => {
+      dispatch(actions.checkoutSingleItem(item));
+      history.push('/checkout');
+    },
+    [dispatch, history]
+  );
+
   const increaseItem = useCallback((id: number) => dispatch(actions.increaseItem(id)), [dispatch]);
   const decreaseItem = useCallback((id: number) => dispatch(actions.decreaseItem(id)), [dispatch]);
   const removeItem = useCallback(
@@ -35,14 +43,6 @@ const useShoppingCart = (): IResult => {
       }
     },
     [dispatch]
-  );
-
-  const checkoutSingleItem = useCallback(
-    (id: number) => {
-      dispatch(actions.checkoutSingleItem(id));
-      history.push('/checkout');
-    },
-    [dispatch, history]
   );
 
   const selectCheckoutItem = useCallback(

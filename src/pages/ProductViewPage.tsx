@@ -3,7 +3,7 @@ import { useRouteMatch } from 'react-router-dom';
 import ProductViewContainer from '../containers/ProductViewContainer';
 import CartModal from '../components/CartModal';
 import CartContainer from '../containers/CartContainer';
-import { fetchItems } from '../api/fetchItems';
+import { fetchItems } from '../api';
 import { Container } from 'react-bootstrap';
 import useSWR from 'swr';
 import Skeleton from 'react-loading-skeleton';

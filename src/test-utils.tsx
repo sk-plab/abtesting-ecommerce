@@ -8,6 +8,7 @@ import { rootReducer } from './store/modules';
 import { initialState as _initialState, ShoppingState } from './store/modules/shopping';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import ReduxThunk from 'redux-thunk';
+import * as api from './api';
 
 interface RenderWithRedux<S = ShoppingState, A extends Action = AnyAction> {
   (
@@ -27,7 +28,7 @@ const customRender: RenderWithRedux = (
       {
         Shopping: initialState,
       },
-      compose(applyMiddleware(ReduxThunk))
+      compose(applyMiddleware(ReduxThunk.withExtraArgument(api)))
     ),
   } = {}
 ) => {

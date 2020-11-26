@@ -1,4 +1,4 @@
-import * as API from '../fetchItems';
+import * as API from '../';
 
 test('get product data', async () => {
   const products = await API.fetchItems();

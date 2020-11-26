@@ -1,10 +1,9 @@
-import { Action as AnyAction, Dispatch } from 'redux';
+import API from 'API';
+import { Action as AnyAction } from 'redux';
 import { ThunkAction } from 'redux-thunk';
-import * as API from '../../api/fetchItems';
+import { ShoppingState } from './shopping';
 
 export enum ActionType {
-  SET_PRODUCT_ITEM = 'SET_PRODUCT_ITEM',
-  GET_ITEM = 'GET_ITEM',
   ADD_ITEM = 'ADD_ITEM',
   INCREASE_ITEM = 'INCREASE_ITEM',
   DECREASE_ITEM = 'DECREASE_ITEM',
@@ -20,35 +19,40 @@ export interface FSA<Type extends string, Payload = null> extends AnyAction {
   payload?: Payload;
 }
 
+type ThunkResult<R> = ThunkAction<R, ShoppingState, API, AnyAction<string>>;
+
 // action types
 export type ShoppingAction =
-  | FSA<typeof ActionType.SET_PRODUCT_ITEM, ProductType[]>
-  | FSA<typeof ActionType.GET_ITEM, number>
-  | FSA<typeof ActionType.ADD_ITEM, number>
+  | FSA<typeof ActionType.ADD_ITEM, ProductType>
+  | FSA<typeof ActionType.SELECT_CHECKOUT_ITEM, number>
   | FSA<typeof ActionType.INCREASE_ITEM, number>
   | FSA<typeof ActionType.DECREASE_ITEM, number>
   | FSA<typeof ActionType.REMOVE_ITEM, number>
-  | FSA<typeof ActionType.SELECT_CHECKOUT_ITEM, number>
-  | FSA<typeof ActionType.CHECKOUT_SINGLE_ITEM, number>
+  | FSA<typeof ActionType.CHECKOUT_SINGLE_ITEM, ProductType>
   | FSA<typeof ActionType.CHECKOUT_ITEMS>
   | FSA<typeof ActionType.CHECKOUT_COMPLETE>;
 
-export const setProductItem = (products: ProductType[]): ShoppingAction => ({
-  type: ActionType.SET_PRODUCT_ITEM,
-  payload: products,
-});
+export const addItem = (item: ProductType): ThunkResult<void> => {
+  return async (dispatch, _, api) => {
+    const payload = await api.addToCart(item);
 
-export const fetchItems = (): ThunkAction<void, undefined, undefined, AnyAction> => {
-  return async (dispatch: Dispatch) => {
-    const response = await API.fetchItems();
-    dispatch(setProductItem(response));
+    dispatch<ShoppingAction>({
+      type: ActionType.ADD_ITEM,
+      payload,
+    });
   };
 };
 
-export const addItem = (id: number): ShoppingAction => ({
-  type: ActionType.ADD_ITEM,
-  payload: id,
-});
+export const checkoutSingleItem = (
+  item: ProductType
+): ThunkAction<void, undefined, API, AnyAction> => {
+  return async (dispatch) => {
+    dispatch<ShoppingAction>({
+      type: ActionType.CHECKOUT_SINGLE_ITEM,
+      payload: item,
+    });
+  };
+};
 
 export const increaseItem = (id: number): ShoppingAction => ({
   type: ActionType.INCREASE_ITEM,
@@ -62,11 +66,6 @@ export const decreaseItem = (id: number): ShoppingAction => ({
 
 export const removeItem = (id: number): ShoppingAction => ({
   type: ActionType.REMOVE_ITEM,
-  payload: id,
-});
-
-export const checkoutSingleItem = (id: number): ShoppingAction => ({
-  type: ActionType.CHECKOUT_SINGLE_ITEM,
   payload: id,
 });
 

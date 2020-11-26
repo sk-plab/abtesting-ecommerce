@@ -3,7 +3,7 @@ import { render, screen } from '../../test-utils';
 import { Router, Route } from 'react-router-dom';
 import Cartpage from '../CartPage';
 import { createMemoryHistory } from 'history';
-import { ProductService } from '../../api/fetchItems';
+import * as API from '../../api';
 import { initialState as iState, ShoppingState } from '../../store/modules/shopping';
 import { fireEvent, waitFor } from '@testing-library/react';
 import CheckoutPage from '../CheckoutPage';
@@ -12,7 +12,7 @@ describe('CartPage', () => {
   beforeEach(async () => {
     const route = '/cart';
     const history = createMemoryHistory({ initialEntries: [route] });
-    const products = await ProductService();
+    const products = await API.fetchItems();
     const cartProducts: CartProductType[] = products.slice(0, 1).map((e) => {
       return { ...e, chk: true, q: 1 };
     });

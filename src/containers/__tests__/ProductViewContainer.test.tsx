@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '../../test-utils';
 
 import ProductViewContainer from '../ProductViewContainer';
-import * as API from '../../api/fetchItems';
+import * as API from '../../api';
 
 it('renders without crashing', async () => {
   const id = 1;

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import Product from '../components/Product';
 import { Col, Row, Container } from 'react-bootstrap';
@@ -7,9 +7,9 @@ import ABTest from '../libs/abtest';
 import { GLOBAL_MEDIA_QUERIES } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
 import { useMedia } from 'react-media';
-import { productsSelector } from '../store/modules';
-import { useDispatch, useSelector } from 'react-redux';
-import * as actions from '../store/modules/actions';
+import { fetchItems } from '../api';
+import useSWR from 'swr';
+import Skeleton from 'react-loading-skeleton';
 
 // a/b testing init.
 ABTest.init();
@@ -32,13 +32,18 @@ const ProductListPage: React.FC = () => {
     [history]
   );
 
-  const dispatch = useDispatch();
+  const { data } = useSWR('/api/items', () => fetchItems());
 
-  useEffect(() => {
-    dispatch(actions.fetchItems());
-  }, [dispatch]);
+  if (!data)
+    return (
+      <Container fluid>
+        <Skeleton height={260} />
+        <Skeleton height={24} style={{ marginTop: 22 }} />
+        <Skeleton height={20} style={{ marginTop: 10, marginBottom: 22 }} />
+      </Container>
+    );
 
-  const products = useSelector(productsSelector);
+  const products = data;
 
   // config grid layout
   const columnCount = 4;

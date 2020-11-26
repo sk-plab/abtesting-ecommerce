@@ -1,15 +1,15 @@
 import { createStore, applyMiddleware, compose } from 'redux';
 import reducers from './modules';
 
-import ReduxThunk from 'redux-thunk';
+import thunk from 'redux-thunk';
+import * as api from '../api';
 
 import { persistStore } from 'redux-persist';
 
-let middlewares;
+const middlewares = [thunk.withExtraArgument(api)];
+
 if (['development'].includes(process.env.NODE_ENV)) {
-  middlewares = [ReduxThunk];
 } else {
-  middlewares = [ReduxThunk];
 }
 
 const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
