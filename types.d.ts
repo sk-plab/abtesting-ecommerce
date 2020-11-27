@@ -1,6 +1,8 @@
 interface Window {
   plabDatafile: Record<string, unknown>;
   plab: PlabInterface;
+
+  __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
 }
 
 interface ProductType {
@@ -22,7 +24,6 @@ interface CartProductType extends ProductType {
 }
 
 declare module 'API' {
-  //export const fetchItems = (id: number | null = null): Promise<ProductType[]> => {
   interface API {
     fetchItems: (id?: number | null) => Promise<ProductType[]>;
     addToCart: (item: ProductType) => Promise<ProductType>;

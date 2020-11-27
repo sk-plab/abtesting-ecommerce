@@ -43,9 +43,7 @@ export const addItem = (item: ProductType): ThunkResult<void> => {
   };
 };
 
-export const checkoutSingleItem = (
-  item: ProductType
-): ThunkAction<void, undefined, API, AnyAction> => {
+export const checkoutSingleItem = (item: ProductType): ThunkResult<void> => {
   return async (dispatch) => {
     dispatch<ShoppingAction>({
       type: ActionType.CHECKOUT_SINGLE_ITEM,

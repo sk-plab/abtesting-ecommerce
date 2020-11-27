@@ -1,12 +1,14 @@
 import reducer, { initialState, ShoppingState } from './shopping';
 import * as actions from './actions';
-import * as API from '../../api';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import * as api from '../../api';
+import configureMockStore from 'redux-mock-store';
+import thunk, { ThunkDispatch } from 'redux-thunk';
+import API from 'API';
 
-const middlewares = [thunk.withExtraArgument(API)];
-const mockStore = configureStore(middlewares);
-const store = mockStore(initialState);
+type DispatchExts = ThunkDispatch<ShoppingState, API, actions.ShoppingAction>;
+const middlewares = [thunk.withExtraArgument<API>(api)];
+const mockStore = configureMockStore<ShoppingState, DispatchExts>(middlewares);
+const store = mockStore();
 
 describe('Shopping Reducers', () => {
   let initialStateCart: ShoppingState;
@@ -18,7 +20,7 @@ describe('Shopping Reducers', () => {
   const PID = 0;
 
   beforeAll(async () => {
-    products = await API.fetchItems();
+    products = await api.fetchItems();
     product = products.slice(0, 1)[0];
 
     initialStateCart = {
@@ -29,7 +31,7 @@ describe('Shopping Reducers', () => {
 
   describe('ITEM', () => {
     it('ADD_ITEM', async () => {
-      await store.dispatch<any>(actions.addItem(product));
+      await store.dispatch(actions.addItem(product));
 
       expect(reducer(initialState, store.getActions()[0]).cart.length).toEqual(1);
 
@@ -95,7 +97,7 @@ describe('Shopping Reducers', () => {
 
   describe('CHECKOUT', () => {
     it('ordered 프로퍼티 필수', async () => {
-      await store.dispatch<any>(actions.checkoutSingleItem(product));
+      await store.dispatch(actions.checkoutSingleItem(product));
 
       expect(reducer(initialState, store.getActions()[0])).toHaveProperty('ordered');
       expect(reducer(initialState, store.getActions()[0]).ordered.length).toEqual(1);
@@ -103,7 +105,7 @@ describe('Shopping Reducers', () => {
       store.clearActions();
     });
     it('바로 구매', async () => {
-      await store.dispatch<any>(actions.checkoutSingleItem(product));
+      await store.dispatch(actions.checkoutSingleItem(product));
 
       expect(reducer(initialState, store.getActions()[0])).toEqual({
         ...initialState,
@@ -113,7 +115,7 @@ describe('Shopping Reducers', () => {
       store.clearActions();
     });
     it('chk property 값은 true', async () => {
-      await store.dispatch<any>(actions.checkoutSingleItem(product));
+      await store.dispatch(actions.checkoutSingleItem(product));
 
       expect(reducer(initialState, store.getActions()[0])).toEqual({
         ...initialState,
