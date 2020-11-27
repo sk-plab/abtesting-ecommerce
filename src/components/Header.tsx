@@ -6,7 +6,7 @@ import CartItemCount from './CartItemCount';
 import styled from 'styled-components';
 
 import { useSelector } from 'react-redux';
-import { cartSelector } from '../store/modules';
+import { RootState } from '../store/modules';
 
 const CartWrapper = styled(Nav.Link)`
   position: relative;
@@ -20,7 +20,7 @@ const CartWrapper = styled(Nav.Link)`
   line-height: 200px;
 `;
 const Header: React.FC = () => {
-  const carts = useSelector(cartSelector);
+  const carts = useSelector((state: RootState) => state.cartItems.items);
 
   return (
     <Navbar fixed="top" bg="light">

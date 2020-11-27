@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "https://abtest.skplanet.com",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.4.0",
     "@testing-library/jest-dom": "^5.11.6",
     "@testing-library/react": "^11.1.2",
     "@types/aos": "^3.0.3",

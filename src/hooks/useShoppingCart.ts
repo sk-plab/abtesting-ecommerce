@@ -5,6 +5,7 @@ import * as actions from '../store/modules/actions';
 import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
 import Noty from 'noty';
+import * as actions2 from '../store/modules/cartItemSlice';
 
 interface IResult {
   addToItem: (item: ProductType) => void;
@@ -20,9 +21,10 @@ const useShoppingCart = (): IResult => {
   const history = useHistory();
 
   const addToItem = useCallback(
-    (item: ProductType) => {
+    async (item: ProductType) => {
       ABTest.track('add_to_cart');
-      dispatch(actions.addItem(item));
+      const resultAction = await dispatch(actions2.addItem(item));
+      console.log(resultAction);
     },
     [dispatch]
   );
@@ -39,7 +41,8 @@ const useShoppingCart = (): IResult => {
   const removeItem = useCallback(
     (id: number) => {
       if (window.confirm('정말 삭제하시겠습니까?')) {
-        dispatch(actions.removeItem(id));
+        //dispatch(actions.removeItem(id));
+        dispatch(actions2.removeItem(id));
       }
     },
     [dispatch]

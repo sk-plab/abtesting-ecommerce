@@ -20,6 +20,8 @@ export const fetchItems = (id: number | null = null): Promise<ProductType[]> => 
 
 export const addToCart = (item: ProductType): Promise<ProductType> => {
   return new Promise((resolve) => {
-    resolve(item);
+    setTimeout(() => {
+      resolve(item);
+    }, 1000);
   });
 };

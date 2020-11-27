@@ -7,7 +7,7 @@ import TotalAmount from '../components/TotalAmount';
 import useShoppingCart from '../hooks/useShoppingCart';
 
 const CartContainer: React.FC = () => {
-  const products = useSelector((state: RootState) => state.Shopping.cart);
+  const products = useSelector((state: RootState) => state.cartItems.items);
 
   const { checkoutItems } = useShoppingCart();
 
