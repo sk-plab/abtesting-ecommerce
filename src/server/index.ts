@@ -22,25 +22,29 @@ export function makeServer(): Server {
     routes() {
       this.namespace = 'api';
 
-      this.get('/items', (schema: AppSchema) => {
+      this.get('/products', (schema: AppSchema) => {
         return schema.db.items;
       });
-
-      this.get('/items/:id', (schema: AppSchema, request) => {
+      this.get('/products/:id', (schema: AppSchema, request) => {
         const id = request.params.id;
         return schema.db.items.find(id);
       });
 
-      this.get('/cart', (schema: AppSchema, request) => {
-        return {};
-      });
       this.post('/cart/add', (schema: AppSchema, request) => {
-        const id = request.params.id;
-        return {};
+        return JSON.parse(request.requestBody);
       });
-      this.post('/cart/change', (schema: AppSchema, request) => {
-        const id = request.params.id;
-        return {};
+      this.post('/cart/increase', (schema: AppSchema, request) => {
+        return JSON.parse(request.requestBody);
+      });
+      this.post('/cart/decrease', (schema: AppSchema, request) => {
+        return JSON.parse(request.requestBody);
+      });
+      this.delete('/cart', (schema: AppSchema, request) => {
+        return JSON.parse(request.requestBody);
+      });
+
+      this.post('/checkout', (schema: AppSchema, request) => {
+        return JSON.parse(request.requestBody);
       });
 
       this.passthrough('https://api-plab.skplanet.com/**');

@@ -7,7 +7,8 @@ import TotalAmount from '../components/TotalAmount';
 import useShoppingCart from '../hooks/useShoppingCart';
 
 const CartContainer: React.FC = () => {
-  const products = useSelector((state: RootState) => state.Shopping.cart);
+  const items = useSelector((state: RootState) => state.cartItems.items);
+  const checkedItems = items.filter((e) => e.chk);
 
   const { checkoutItems } = useShoppingCart();
 
@@ -24,19 +25,19 @@ const CartContainer: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {products.map((product) => (
+          {items.map((product) => (
             <CartProduct key={product.id} product={product} />
           ))}
-          {!products.length && <NotFound />}
+          {!items.length && <NotFound />}
         </tbody>
       </Table>
       <hr />
       <h4>
-        Total: <TotalAmount products={products} />
+        Total: <TotalAmount products={items} />
       </h4>
 
-      {products.length > 0 && (
-        <Button size="lg" block onClick={checkoutItems}>
+      {items.length > 0 && checkedItems.length > 0 && (
+        <Button size="lg" block onClick={() => checkoutItems()}>
           Proceed to Checkout
         </Button>
       )}

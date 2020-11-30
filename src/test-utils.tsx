@@ -5,12 +5,12 @@ import { AnyAction, Action, createStore, Store, applyMiddleware, compose } from 
 import { Provider } from 'react-redux';
 import { render, RenderResult } from '@testing-library/react';
 import { rootReducer } from './store/modules';
-import { initialState as _initialState, ShoppingState } from './store/modules/shopping';
+import { initialState as _initialState, itemState } from './store/modules/cartItemSlice';
 import { createMemoryHistory, MemoryHistory } from 'history';
 import ReduxThunk from 'redux-thunk';
 import * as api from './api';
 
-interface RenderWithRedux<S = ShoppingState, A extends Action = AnyAction> {
+interface RenderWithRedux<S = itemState, A extends Action = AnyAction> {
   (
     ui: ReactNode,
     reduxOptions?: {
@@ -26,7 +26,7 @@ const customRender: RenderWithRedux = (
     store = createStore(
       rootReducer,
       {
-        Shopping: initialState,
+        cartItems: initialState,
       },
       compose(applyMiddleware(ReduxThunk.withExtraArgument(api)))
     ),

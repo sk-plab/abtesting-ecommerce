@@ -23,7 +23,7 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
   const expKey = 'ProductView';
   const abtest = ABTest.start(expKey);
 
-  const { addToItem, checkoutSingleItem } = useShoppingCart();
+  const { addItem, checkoutSingleItem } = useShoppingCart();
 
   return (
     <Wrapper>
@@ -64,7 +64,7 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
                 <CartButton
                   new="true"
                   onClick={() => {
-                    addToItem(product);
+                    addItem(product);
                     onCartTrigger();
                   }}
                 >
@@ -84,7 +84,7 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
               <CTAGroup size="lg">
                 <CartButton
                   onClick={() => {
-                    addToItem(product);
+                    addItem(product);
                     onCartTrigger();
                   }}
                 >

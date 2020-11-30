@@ -1,21 +1,47 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import reducers from './modules';
+import { configureStore } from '@reduxjs/toolkit';
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
 
-import thunk from 'redux-thunk';
-import * as api from '../api';
+import { rootReducer } from './modules';
 
-import { persistStore } from 'redux-persist';
-import API from 'API';
+import thunk, { ThunkAction } from 'redux-thunk';
+import { Action } from 'redux';
 
-const middlewares = [thunk.withExtraArgument<API>(api)];
+const persistConfig = {
+  key: 'root',
+  storage,
+};
 
-if (['development'].includes(process.env.NODE_ENV)) {
-} else {
-}
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const middlewares = [thunk];
 
-export const store = createStore(reducers, composeEnhancers(applyMiddleware(...middlewares)));
+export const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(middlewares),
+});
 
 export const persistor = persistStore(store);
-//persistor.purge();
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+export type AppThunk<ReturnType = void> = ThunkAction<
+  ReturnType,
+  RootState,
+  unknown,
+  Action<string>
+>;

@@ -1,49 +1,48 @@
 import { useCallback } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import * as actions from '../store/modules/actions';
 import ABTest from '../libs/abtest';
-import { RootState } from '../store/modules';
-import Noty from 'noty';
+import { actions } from '../store/modules/cartItemSlice';
+import { useMutation } from 'react-query';
+import * as API from '../api';
 
 interface IResult {
-  addToItem: (item: ProductType) => void;
-  increaseItem: (id: number) => void;
-  decreaseItem: (id: number) => void;
-  removeItem: (id: number) => void;
+  addItem: (item: ProductType) => void;
+  increaseItem: (item: ProductType) => void;
+  decreaseItem: (item: ProductType) => void;
+  removeItem: (item: ProductType) => void;
   selectCheckoutItem: (id: number) => void;
   checkoutSingleItem: (item: ProductType) => void;
   checkoutItems: () => void;
+  checkoutComplete: () => void;
 }
 const useShoppingCart = (): IResult => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const addToItem = useCallback(
-    (item: ProductType) => {
+  const [addItem] = useMutation(API.addItem, {
+    onSuccess: (data) => {
+      dispatch(actions.addItem(data));
       ABTest.track('add_to_cart');
-      dispatch(actions.addItem(item));
     },
-    [dispatch]
-  );
-  const checkoutSingleItem = useCallback(
-    (item: ProductType) => {
-      dispatch(actions.checkoutSingleItem(item));
-      history.push('/checkout');
-    },
-    [dispatch, history]
-  );
+  });
 
-  const increaseItem = useCallback((id: number) => dispatch(actions.increaseItem(id)), [dispatch]);
-  const decreaseItem = useCallback((id: number) => dispatch(actions.decreaseItem(id)), [dispatch]);
-  const removeItem = useCallback(
-    (id: number) => {
-      if (window.confirm('정말 삭제하시겠습니까?')) {
-        dispatch(actions.removeItem(id));
-      }
+  const [increaseItem] = useMutation(API.increaseQtyItem, {
+    onSuccess: (data) => {
+      dispatch(actions.increaseItem(data));
     },
-    [dispatch]
-  );
+  });
+  const [decreaseItem] = useMutation(API.decreaseQtyItem, {
+    onSuccess: (data) => {
+      dispatch(actions.decreaseItem(data));
+    },
+  });
+
+  const [removeItem] = useMutation(API.removeItem, {
+    onSuccess: (data) => {
+      dispatch(actions.removeItem(data));
+    },
+  });
 
   const selectCheckoutItem = useCallback(
     (id: number) => {
@@ -52,30 +51,36 @@ const useShoppingCart = (): IResult => {
     [dispatch]
   );
 
-  const cartItems = useSelector((state: RootState) => state.Shopping.cart);
+  const [checkoutSingleItem] = useMutation(API.checkoutItems, {
+    onSuccess: (data) => {
+      dispatch(actions.checkoutSingleItem(data));
+      history.push('/checkout');
+    },
+  });
 
-  const checkoutItems = useCallback(() => {
-    const items = cartItems.filter((e) => e.chk);
-    if (items.length > 0) {
+  const [checkoutItems] = useMutation(API.checkoutItems, {
+    onSuccess: () => {
       dispatch(actions.checkoutItems());
       history.push('/checkout');
-    } else {
-      new Noty({
-        type: 'error',
-        text: `선택한 장바구니 상품이 없습니다.`,
-        timeout: 3000,
-      }).show();
-    }
-  }, [dispatch, history, cartItems]);
+    },
+    onError: (error) => {
+      alert(error);
+    },
+  });
+
+  const checkoutComplete = () => {
+    dispatch(actions.checkoutComplete());
+  };
 
   return {
-    addToItem,
+    addItem,
     increaseItem,
     decreaseItem,
     removeItem,
     checkoutSingleItem,
     checkoutItems,
     selectCheckoutItem,
+    checkoutComplete,
   };
 };
 

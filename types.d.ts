@@ -25,7 +25,8 @@ interface CartProductType extends ProductType {
 
 declare module 'API' {
   interface API {
-    fetchItems: (id?: number | null) => Promise<ProductType[]>;
+    fetchItems: () => Promise<ProductType[]>;
+    fetchItemById: (id: number) => Promise<ProductType>;
     addToCart: (item: ProductType) => Promise<ProductType>;
   }
   export default API;

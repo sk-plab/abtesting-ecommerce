@@ -33,7 +33,7 @@ const CartProduct: React.FC<IProps> = ({ product }) => {
         <td>
           <InputGroup size="sm" style={{ width: 100 }}>
             <InputGroup.Prepend>
-              <Button size="sm" variant="secondary" onClick={() => decreaseItem(product.id)}>
+              <Button size="sm" variant="secondary" onClick={() => decreaseItem(product)}>
                 -
               </Button>
             </InputGroup.Prepend>
@@ -44,7 +44,7 @@ const CartProduct: React.FC<IProps> = ({ product }) => {
               readOnly
             />
             <InputGroup.Append>
-              <Button size="sm" variant="secondary" onClick={() => increaseItem(product.id)}>
+              <Button size="sm" variant="secondary" onClick={() => increaseItem(product)}>
                 +
               </Button>
             </InputGroup.Append>
@@ -52,7 +52,15 @@ const CartProduct: React.FC<IProps> = ({ product }) => {
         </td>
         <td>${product.price}</td>
         <td>
-          <Button variant="dark" size="sm" onClick={() => removeItem(product.id)}>
+          <Button
+            variant="dark"
+            size="sm"
+            onClick={() => {
+              if (window.confirm('정말 삭제하시겠습니까?')) {
+                removeItem(product);
+              }
+            }}
+          >
             <FaTrash />
           </Button>
         </td>

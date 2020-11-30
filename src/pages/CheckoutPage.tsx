@@ -17,7 +17,7 @@ import {
 
 const CheckoutPage: React.FC = () => {
   const history = useHistory();
-  const ordered = useSelector((state: RootState) => state.Shopping.ordered);
+  const checkout = useSelector((state: RootState) => state.cartItems.checkout);
 
   const [showPayment, setShowPayment] = useState(false);
   const handleClose = useCallback(() => setShowPayment(false), [setShowPayment]);
@@ -38,7 +38,7 @@ const CheckoutPage: React.FC = () => {
     [history]
   );
 
-  if (!ordered.length)
+  if (!checkout.length)
     return (
       <Alert variant="danger" dismissible>
         <Alert.Heading>주문 세션을 찾을 수 없습니다.</Alert.Heading>
@@ -58,7 +58,7 @@ const CheckoutPage: React.FC = () => {
       <hr />
       <RowClass>
         <Col md={8}>
-          <CheckoutProduct products={ordered} />
+          <CheckoutProduct products={checkout} />
 
           <hr style={{ margin: '30px 0' }} />
           <Header>배송정보</Header>
@@ -82,7 +82,7 @@ const CheckoutPage: React.FC = () => {
           <RowClass>
             <ColClass>상품금액</ColClass>
             <ColClass>
-              <TotalAmount products={ordered} />
+              <TotalAmount products={checkout} />
             </ColClass>
           </RowClass>
           <RowClass>
@@ -97,13 +97,13 @@ const CheckoutPage: React.FC = () => {
             <ColClass>합계</ColClass>
             <ColClass>
               <h4 style={{ color: '#f43142', fontWeight: 'bold' }}>
-                <TotalAmount products={ordered} />
+                <TotalAmount products={checkout} />
               </h4>
             </ColClass>
           </RowClass>
 
           <Button size="lg" block onClick={onPayment}>
-            총 {ordered.length} 개 결제하기
+            총 {checkout.length} 개 결제하기
           </Button>
         </Col>
       </RowClass>

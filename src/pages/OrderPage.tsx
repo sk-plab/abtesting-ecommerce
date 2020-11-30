@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
-import * as actions from '../store/modules/actions';
 import styled from 'styled-components';
 import { Table, Button, Image, Alert, Container } from 'react-bootstrap';
 import ABTest from '../libs/abtest';
 import { RootState } from '../store/modules';
 import TotalAmount from '../components/TotalAmount';
+import useShoppingCart from '../hooks/useShoppingCart';
 
 const SuccessHeader = styled.h1`
   color: #f43142;
@@ -21,16 +21,16 @@ ABTest.init();
 
 const OrderPage: React.FC = () => {
   const history = useHistory();
-  const dispatch = useDispatch();
-  const ordered = useSelector((state: RootState) => state.Shopping.ordered);
+  const checkout = useSelector((state: RootState) => state.cartItems.checkout);
+  const { checkoutComplete } = useShoppingCart();
 
   useEffect(() => {
     ABTest.track('order');
 
     return () => {
-      dispatch(actions.checkoutComplete());
+      checkoutComplete();
     };
-  }, [dispatch]);
+  }, [checkoutComplete]);
 
   const redicectToHome = () => {
     history.push('/');
@@ -46,7 +46,7 @@ const OrderPage: React.FC = () => {
           <br />
           주문일자: 20201212 09:12:12
           <br />
-          결제금액: <TotalAmount products={ordered} />
+          결제금액: <TotalAmount products={checkout} />
         </p>
         <hr />
         <p className="mb-0">주문해주셔서 감사합니다.</p>
@@ -65,7 +65,7 @@ const OrderPage: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {ordered.map((product, index) => (
+          {checkout.map((product, index) => (
             <tr key={index}>
               <td>
                 <Link to={`/view/${product.id}`}>
