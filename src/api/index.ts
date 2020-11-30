@@ -1,21 +1,23 @@
-import items from './mockItems.json';
+import axios from 'axios';
 
-export const fetchItems = (id: number | null = null): Promise<ProductType[]> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      let result: ProductType[];
+export const fetchItems = async (): Promise<ProductType[]> => {
+  try {
+    const res = await axios.get('/api/items');
+    return res.data;
+  } catch (e) {
+    const error = new Error(`An error occurred while fetching the data. ${e.message}`);
+    throw error;
+  }
+};
 
-      if (id !== null && id !== undefined) {
-        result = items.data.filter((e) => e.id === id);
-      } else {
-        result = items.data.map((e) => {
-          return { ...e, q: 1 };
-        });
-      }
-
-      resolve(result);
-    }, 500);
-  });
+export const fetchItemById = async (id: number): Promise<ProductType> => {
+  try {
+    const res = await axios.get<ProductType>(`/api/items/${id}`);
+    return res.data;
+  } catch (e) {
+    const error = new Error(`An error occurred while fetching the data. ${e.message}`);
+    throw error;
+  }
 };
 
 export const addToCart = (item: ProductType): Promise<ProductType> => {

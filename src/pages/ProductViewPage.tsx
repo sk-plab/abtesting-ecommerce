@@ -3,10 +3,10 @@ import { useRouteMatch } from 'react-router-dom';
 import ProductViewContainer from '../containers/ProductViewContainer';
 import CartModal from '../components/CartModal';
 import CartContainer from '../containers/CartContainer';
-import { fetchItems } from '../api';
+import { fetchItemById } from '../api';
 import { Container } from 'react-bootstrap';
-import useSWR from 'swr';
 import Skeleton from 'react-loading-skeleton';
+import { useQuery } from 'react-query';
 
 const ProductViewPage: React.FC = () => {
   const match = useRouteMatch<{ id: string }>();
@@ -18,11 +18,12 @@ const ProductViewPage: React.FC = () => {
     setCartModalShow(true);
   }, [setCartModalShow]);
 
-  const { data } = useSWR(['/api/items', id], (url: string, id: number) => {
-    return fetchItems(id);
-  });
+  const { isLoading, error, data } = useQuery<ProductType, Error>(`items/${id}`, () =>
+    fetchItemById(id)
+  );
+  if (error) return <div>An error has occurred: {error.message}</div>;
 
-  if (!data)
+  if (!data || isLoading)
     return (
       <Container fluid>
         <Skeleton height={260} />
@@ -33,7 +34,7 @@ const ProductViewPage: React.FC = () => {
 
   return (
     <Container fluid>
-      <ProductViewContainer product={data[0]} onCartTrigger={onCartTrigger} />
+      <ProductViewContainer product={data} onCartTrigger={onCartTrigger} />
 
       <CartModal show={cartModalShow} onHide={() => setCartModalShow(false)}>
         <CartContainer />

@@ -8,7 +8,7 @@ import { GLOBAL_MEDIA_QUERIES } from '../store/context';
 import MarkingABTest from '../components/MarkingABTest';
 import { useMedia } from 'react-media';
 import { fetchItems } from '../api';
-import useSWR from 'swr';
+import { useQuery } from 'react-query';
 import Skeleton from 'react-loading-skeleton';
 
 // a/b testing init.
@@ -32,9 +32,11 @@ const ProductListPage: React.FC = () => {
     [history]
   );
 
-  const { data } = useSWR('/api/items', () => fetchItems());
+  const { isLoading, error, data } = useQuery<ProductType[], Error>(`items`, fetchItems);
 
-  if (!data)
+  if (error) return <div>{error.message}</div>;
+
+  if (!data || isLoading)
     return (
       <Container fluid>
         <Skeleton height={260} />
