@@ -1,26 +1,24 @@
-import items from '../../api/mockItems.json';
-import * as actions from './actions';
-import thunk, { ThunkAction, ThunkDispatch } from 'redux-thunk';
+import items from '../../server/mockItems.json';
+import thunk, { ThunkDispatch } from 'redux-thunk';
+import { AppThunk, RootState } from '../../store';
+import { actions } from './cartItemSlice';
 import configureMockStore from 'redux-mock-store';
-import * as api from '../../api';
-import { ShoppingState } from './shopping';
-import { ActionType, ShoppingAction } from './actions';
-import API from 'API';
+import { Action } from 'redux';
 
-type DispatchExts = ThunkDispatch<ShoppingState, API, ShoppingAction>;
-const middlewares = [thunk.withExtraArgument<API>(api)];
-const mockStore = configureMockStore<ShoppingState, DispatchExts>(middlewares);
+type DispatchExts = ThunkDispatch<RootState, unknown, Action<string>>;
+const middlewares = [thunk];
+const mockStore = configureMockStore<RootState, DispatchExts>(middlewares);
 const store = mockStore();
 
 describe('Shopping Action Creators', () => {
-  it('ADD_ITEM', async () => {
+  it('addItem', async () => {
     const products: ProductType[] = items.data;
     const product = products[0];
 
     await store.dispatch(actions.addItem(product));
 
     expect(store.getActions()[0]).toEqual({
-      type: 'ADD_ITEM',
+      type: 'cartItem/addItem',
       payload: product,
     });
 
@@ -34,7 +32,7 @@ describe('Shopping Action Creators', () => {
     await store.dispatch(actions.checkoutSingleItem(product));
 
     expect(store.getActions()[0]).toEqual({
-      type: 'CHECKOUT_SINGLE_ITEM',
+      type: 'cartItem/checkoutSingleItem',
       payload: product,
     });
 
@@ -42,50 +40,53 @@ describe('Shopping Action Creators', () => {
   });
 
   it('INCREASE_ITEM', () => {
-    expect(actions.increaseItem(1)).toEqual({
-      type: 'INCREASE_ITEM',
-      payload: 1,
+    const product: ProductType = items.data[0];
+    expect(actions.increaseItem(product)).toEqual({
+      type: 'cartItem/increaseItem',
+      payload: product,
     });
   });
 
   it('DECREASE_ITEM', () => {
-    expect(actions.decreaseItem(1)).toEqual({
-      type: 'DECREASE_ITEM',
-      payload: 1,
+    const product: ProductType = items.data[0];
+    expect(actions.decreaseItem(product)).toEqual({
+      type: 'cartItem/decreaseItem',
+      payload: product,
     });
   });
 
   it('REMOVE_ITEM', () => {
-    expect(actions.removeItem(1)).toEqual({
-      type: 'REMOVE_ITEM',
-      payload: 1,
+    const product: ProductType = items.data[0];
+    expect(actions.removeItem(product)).toEqual({
+      type: 'cartItem/removeItem',
+      payload: product,
     });
   });
 
   it('SELECT_CHECKOUT_ITEM', () => {
     expect(actions.selectCheckoutItem(1)).toEqual({
-      type: 'SELECT_CHECKOUT_ITEM',
+      type: 'cartItem/selectCheckoutItem',
       payload: 1,
     });
   });
 
   it('CHECKOUT_ITEMS', () => {
     expect(actions.checkoutItems()).toEqual({
-      type: 'CHECKOUT_ITEMS',
+      type: 'cartItem/checkoutItems',
     });
   });
 
   it('CHECKOUT_COMPLETE', () => {
     expect(actions.checkoutComplete()).toEqual({
-      type: 'CHECKOUT_COMPLETE',
+      type: 'cartItem/checkoutComplete',
     });
   });
 
   it('asynchronously dispatches SUCCESS', async () => {
     const store = mockStore(/* initial state */);
-    const success = { type: ActionType.CHECKOUT_ITEMS };
+    const success = { type: 'cartItem/checkoutComplete' };
 
-    const func = (): ThunkAction<void, ShoppingState, API, ShoppingAction> => async (dispatch) => {
+    const func = (): AppThunk => async (dispatch) => {
       dispatch(success);
     };
 

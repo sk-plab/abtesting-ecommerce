@@ -1,17 +1,17 @@
-import reducer, { initialState, ShoppingState } from './shopping';
-import * as actions from './actions';
-import * as api from '../../api';
-import configureMockStore from 'redux-mock-store';
 import thunk, { ThunkDispatch } from 'redux-thunk';
-import API from 'API';
+import { RootState } from '../../store';
+import reducer, { initialState, itemState, actions } from './cartItemSlice';
+import configureMockStore from 'redux-mock-store';
+import { Action } from 'redux';
+import mockProducts from '../../server/mockItems.json';
 
-type DispatchExts = ThunkDispatch<ShoppingState, API, actions.ShoppingAction>;
-const middlewares = [thunk.withExtraArgument<API>(api)];
-const mockStore = configureMockStore<ShoppingState, DispatchExts>(middlewares);
+type DispatchExts = ThunkDispatch<RootState, unknown, Action<string>>;
+const middlewares = [thunk];
+const mockStore = configureMockStore<RootState, DispatchExts>(middlewares);
 const store = mockStore();
 
 describe('Shopping Reducers', () => {
-  let initialStateCart: ShoppingState;
+  let initialStateCart: itemState;
 
   let products: ProductType[];
   let product: ProductType;
@@ -20,12 +20,12 @@ describe('Shopping Reducers', () => {
   const PID = 0;
 
   beforeAll(async () => {
-    products = await api.fetchItems();
+    products = mockProducts.data;
     product = products.slice(0, 1)[0];
 
     initialStateCart = {
       ...initialState,
-      cart: [{ ...product, chk: true, q: 1 }],
+      items: [{ ...product, chk: true, q: 1 }],
     };
   });
 
@@ -33,51 +33,52 @@ describe('Shopping Reducers', () => {
     it('ADD_ITEM', async () => {
       await store.dispatch(actions.addItem(product));
 
-      expect(reducer(initialState, store.getActions()[0]).cart.length).toEqual(1);
+      expect(reducer(initialState, store.getActions()[0]).items.length).toEqual(1);
 
-      const cartProducts: CartProductType[] = initialState.cart.concat({
+      const cartProducts: CartProductType[] = initialState.items.concat({
         ...product,
         chk: true,
         q: 1,
       });
       expect(reducer(initialState, store.getActions()[0])).toEqual({
         ...initialState,
-        cart: cartProducts,
+        items: cartProducts,
       });
       store.clearActions();
     });
+
     it('INCREASE_ITEM', () => {
-      const action = actions.increaseItem(PID);
+      const action = actions.increaseItem(product);
       const state = reducer(initialStateCart, action);
       expect(state).toEqual({
         ...initialState,
-        cart: [{ ...product, chk: true, q: 2 }],
+        items: [{ ...product, chk: true, q: 2 }],
       });
       const state2 = reducer(state, action);
       expect(state2).toEqual({
         ...initialState,
-        cart: [{ ...product, chk: true, q: 3 }],
+        items: [{ ...product, chk: true, q: 3 }],
       });
     });
     it('DECREASE_ITEM', () => {
-      const action = actions.decreaseItem(PID);
+      const action = actions.decreaseItem(product);
       expect(reducer(initialStateCart, action)).toEqual({
         ...initialState,
-        cart: [{ ...product, chk: true, q: 1 }],
+        items: [{ ...product, chk: true, q: 1 }],
       });
     });
     it('아이템 최소 수량은 1', () => {
-      const action = actions.decreaseItem(PID);
+      const action = actions.decreaseItem(product);
       expect(reducer(initialStateCart, action)).not.toEqual({
         ...initialState,
-        cart: [{ ...product, chk: true, q: 0 }],
+        items: [{ ...product, chk: true, q: 0 }],
       });
     });
     it('REMOVE_ITEM', () => {
-      const action = actions.removeItem(PID);
+      const action = actions.removeItem(product);
       expect(reducer(initialStateCart, action)).toEqual({
         ...initialState,
-        cart: [],
+        items: [],
       });
     });
     it('장바구니에서 체크박스 선택한 상품 반전 테스트', () => {
@@ -85,22 +86,22 @@ describe('Shopping Reducers', () => {
       const state = reducer(initialStateCart, action);
       expect(state).toEqual({
         ...initialState,
-        cart: [{ ...product, chk: !true, q: 1 }],
+        items: [{ ...product, chk: !true, q: 1 }],
       });
       const state2 = reducer(state, action);
       expect(state2).toEqual({
         ...initialState,
-        cart: [{ ...product, chk: true, q: 1 }],
+        items: [{ ...product, chk: true, q: 1 }],
       });
     });
   });
 
   describe('CHECKOUT', () => {
-    it('ordered 프로퍼티 필수', async () => {
+    it('checkout 프로퍼티 필수', async () => {
       await store.dispatch(actions.checkoutSingleItem(product));
 
-      expect(reducer(initialState, store.getActions()[0])).toHaveProperty('ordered');
-      expect(reducer(initialState, store.getActions()[0]).ordered.length).toEqual(1);
+      expect(reducer(initialState, store.getActions()[0])).toHaveProperty('checkout');
+      expect(reducer(initialState, store.getActions()[0]).checkout.length).toEqual(1);
 
       store.clearActions();
     });
@@ -109,7 +110,7 @@ describe('Shopping Reducers', () => {
 
       expect(reducer(initialState, store.getActions()[0])).toEqual({
         ...initialState,
-        ordered: [{ ...product, chk: true, q: 1 }],
+        checkout: [{ ...product, chk: true, q: 1 }],
       });
 
       store.clearActions();
@@ -119,7 +120,7 @@ describe('Shopping Reducers', () => {
 
       expect(reducer(initialState, store.getActions()[0])).toEqual({
         ...initialState,
-        ordered: [{ ...product, chk: true, q: 1 }],
+        checkout: [{ ...product, chk: true, q: 1 }],
       });
 
       store.clearActions();
@@ -128,19 +129,19 @@ describe('Shopping Reducers', () => {
       const action = actions.checkoutItems();
       expect(reducer(initialStateCart, action)).toEqual({
         ...initialStateCart,
-        ordered: [{ ...product, chk: true, q: 1 }],
+        checkout: [{ ...product, chk: true, q: 1 }],
       });
     });
-    it('주문완료후 orderd 비워야 함.', () => {
+    it('주문완료후 checkout property should clear.', () => {
       const initialStateOrdered = {
         ...initialStateCart,
-        ordered: [{ ...product, chk: true, q: 1 }],
+        checkout: [{ ...product, chk: true, q: 1 }],
       };
       const action = actions.checkoutComplete();
       expect(reducer(initialStateOrdered, action)).toEqual({
         ...initialState,
-        cart: [],
-        ordered: [],
+        items: [],
+        checkout: [],
       });
     });
   });
