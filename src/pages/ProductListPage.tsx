@@ -23,7 +23,7 @@ const ProductListPage: React.FC = () => {
   const matches = useMedia({ queries: GLOBAL_MEDIA_QUERIES });
 
   const onClickProduct = useCallback(
-    (id: number) => {
+    (id: string) => {
       history.push(`/view/${id}`);
 
       // abtesting event track

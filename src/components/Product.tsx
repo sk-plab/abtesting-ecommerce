@@ -5,7 +5,7 @@ import { ProductName, ProductWrapper, ProductPrice } from './styled/WithStyledPr
 
 interface Props {
   product: ProductType;
-  onClickProduct: (id: number) => void;
+  onClickProduct: (id: string) => void;
 }
 const Product: React.FC<Props> = ({ product, onClickProduct }) => {
   return (

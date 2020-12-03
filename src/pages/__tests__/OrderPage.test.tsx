@@ -4,14 +4,18 @@ import { Router, Route } from 'react-router-dom';
 import { createMemoryHistory } from 'history';
 import OrderPage from '../OrderPage';
 import * as API from '../../api';
-import { initialState } from '../../store/modules/shopping';
+import { initialState } from '../../store/modules/cartItemSlice';
+import { makeServer } from '../../server';
+
+const server = makeServer();
+server.logging = false;
 
 it('renders without crashing', async () => {
   const products = await API.fetchItems();
   const cartProducts: CartProductType[] = products.slice(0, 1).map((e) => {
     return { ...e, chk: true, q: 1 };
   });
-  const initialState_ = { ...initialState, ordered: cartProducts };
+  const initialState_ = { ...initialState, checkout: cartProducts };
   const history = createMemoryHistory({ initialEntries: ['/order'] });
 
   render(

@@ -11,12 +11,18 @@ import ScrollToTop from './hooks/ScrollToTop';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import { makeServer } from './server';
-import { ReactQueryDevtools } from 'react-query-devtools';
 import { QueryCache, ReactQueryCacheProvider } from 'react-query';
+import { ReactQueryDevtools } from 'react-query-devtools';
 
 makeServer();
 
-const queryCache = new QueryCache();
+const queryCache = new QueryCache({
+  defaultConfig: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.render(
   <Provider store={store}>
@@ -26,12 +32,11 @@ ReactDOM.render(
         <Header />
         <ReactQueryCacheProvider queryCache={queryCache}>
           <App />
+          <ReactQueryDevtools initialIsOpen={false} />
         </ReactQueryCacheProvider>
         <ScrollToTop />
         <Footer />
       </Router>
-
-      {process.env.NODE_ENV === 'development' && <ReactQueryDevtools initialIsOpen />}
     </PersistGate>
   </Provider>,
   document.getElementById('root')

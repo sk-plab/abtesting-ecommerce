@@ -17,7 +17,7 @@ describe('Shopping Reducers', () => {
   let product: ProductType;
 
   // test product
-  const PID = 0;
+  const PID = '0';
 
   beforeAll(async () => {
     products = mockProducts.data;

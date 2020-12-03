@@ -6,7 +6,11 @@ import ProductViewPage from '../ProductViewPage';
 import * as API from '../../api';
 import { Router, Route } from 'react-router-dom';
 import { fireEvent, waitFor } from '@testing-library/react';
-import { initialState } from '../../store/modules/shopping';
+import { initialState } from '../../store/modules/cartItemSlice';
+import { makeServer } from '../../server';
+
+const server = makeServer();
+server.logging = false;
 
 beforeEach(async () => {
   const route = '/';

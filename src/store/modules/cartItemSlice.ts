@@ -36,7 +36,7 @@ const cartItemSlice = createSlice({
       const index = state.items.findIndex((e) => e.id === action.payload.id);
       state.items.splice(index, 1);
     },
-    selectCheckoutItem: (state, action: PayloadAction<number>) => {
+    selectCheckoutItem: (state, action: PayloadAction<string>) => {
       state.items = state.items.map((e) => {
         if (e.id === action.payload) {
           e.chk = !e.chk;
@@ -53,7 +53,7 @@ const cartItemSlice = createSlice({
       state.checkout = state.items.filter((e) => e.chk === true);
     },
     checkoutComplete: (state) => {
-      const ids: number[] = state.checkout.map((e) => e.id);
+      const ids: string[] = state.checkout.map((e) => e.id);
 
       state.items = state.items.filter((e) => !ids.includes(e.id));
       state.checkout = [];

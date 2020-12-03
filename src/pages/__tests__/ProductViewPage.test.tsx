@@ -6,8 +6,12 @@ import { createMemoryHistory } from 'history';
 import ProductViewPage from '../ProductViewPage';
 import CheckoutPage from '../CheckoutPage';
 import * as API from '../../api';
-import { initialState } from '../../store/modules/shopping';
+import { initialState } from '../../store/modules/cartItemSlice';
 import { fireEvent } from '@testing-library/react';
+import { makeServer } from '../../server';
+
+const server = makeServer();
+server.logging = false;
 
 describe('ProductViewPage', () => {
   beforeEach(async () => {

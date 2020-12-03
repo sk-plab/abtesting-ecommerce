@@ -10,7 +10,7 @@ import { useQuery } from 'react-query';
 
 const ProductViewPage: React.FC = () => {
   const match = useRouteMatch<{ id: string }>();
-  const id = parseInt(match.params.id, 10);
+  const id = match.params.id;
 
   const [cartModalShow, setCartModalShow] = useState(false);
 
