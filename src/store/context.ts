@@ -7,6 +7,10 @@ export interface IContext {
     setExpKey: React.Dispatch<React.SetStateAction<string>>;
     variation?: string;
   };
+  cartModal: {
+    isShow: boolean;
+    setShow: React.Dispatch<React.SetStateAction<boolean>>;
+  };
 }
 export const Context = React.createContext({} as IContext);
 
@@ -19,7 +23,11 @@ export const GLOBAL_MEDIA_QUERIES = {
 export const useSettings = (): IContext => {
   // context settings
   const [expKey, setExpKey] = useState('');
-  const defaultValue: IContext = { abtestCtx: { expKey, setExpKey } };
+  const [isShow, setShow] = useState<boolean>(false);
+  const defaultValue: IContext = {
+    abtestCtx: { expKey, setExpKey },
+    cartModal: { isShow, setShow },
+  };
 
   const history = useHistory();
 

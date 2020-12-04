@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {
   Wrapper,
   Sale,
@@ -10,15 +10,17 @@ import { FaCartArrowDown, FaMoneyBillAlt } from 'react-icons/fa';
 import ABTest from '../libs/abtest';
 import MarkingABTest from '../components/MarkingABTest';
 import useShoppingCart from '../hooks/useShoppingCart';
+import { Context } from '../store/context';
 
 // a/b testing init.
 ABTest.init();
 
 interface IProp {
   product: ProductType;
-  onCartTrigger: () => void;
 }
-const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
+const ProductViewContainer: React.FC<IProp> = ({ product }) => {
+  const ctx = useContext(Context);
+
   // abtesting start
   const expKey = 'ProductView';
   const abtest = ABTest.start(expKey);
@@ -65,7 +67,7 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
                   new="true"
                   onClick={() => {
                     addItem(product);
-                    onCartTrigger();
+                    ctx.cartModal.setShow(true);
                   }}
                 >
                   <FaCartArrowDown />
@@ -85,7 +87,7 @@ const ProductViewContainer: React.FC<IProp> = ({ product, onCartTrigger }) => {
                 <CartButton
                   onClick={() => {
                     addItem(product);
-                    onCartTrigger();
+                    ctx.cartModal.setShow(true);
                   }}
                 >
                   <FaCartArrowDown />

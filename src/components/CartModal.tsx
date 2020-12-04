@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Modal } from 'react-bootstrap';
+import { Context } from '../store/context';
 
 interface IProps {
-  show: boolean;
-  onHide: () => void;
   children: React.ReactNode;
 }
-const CartModal: React.FC<IProps> = ({ show, onHide, children }) => {
+const CartModal: React.FC<IProps> = ({ children }) => {
+  const ctx = useContext(Context);
   return (
-    <Modal size="lg" centered show={show} onHide={onHide}>
+    <Modal
+      size="lg"
+      centered
+      show={ctx.cartModal.isShow}
+      onHide={() => ctx.cartModal.setShow(false)}
+    >
       <Modal.Header closeButton>
         <Modal.Title>장바구니</Modal.Title>
       </Modal.Header>

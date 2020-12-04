@@ -34,6 +34,12 @@ const customRender: RenderWithRedux = (
 ) => {
   const defaultValue = {
     abtestCtx: { expKey: '', setExpKey: jest.fn() },
+    cartModal: {
+      isShow: true,
+      setShow: jest.fn(() => {
+        defaultValue.cartModal.isShow = true;
+      }),
+    },
   };
 
   return render(

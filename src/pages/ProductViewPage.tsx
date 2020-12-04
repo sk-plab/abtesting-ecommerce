@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import ProductViewContainer from '../containers/ProductViewContainer';
 import CartModal from '../components/CartModal';
@@ -11,12 +11,6 @@ import { useQuery } from 'react-query';
 const ProductViewPage: React.FC = () => {
   const match = useRouteMatch<{ id: string }>();
   const id = match.params.id;
-
-  const [cartModalShow, setCartModalShow] = useState(false);
-
-  const onCartTrigger = useCallback(() => {
-    setCartModalShow(true);
-  }, [setCartModalShow]);
 
   const { isLoading, error, data } = useQuery<ProductType, Error>(`items/${id}`, () =>
     fetchItemById(id)
@@ -34,9 +28,9 @@ const ProductViewPage: React.FC = () => {
 
   return (
     <Container fluid>
-      <ProductViewContainer product={data} onCartTrigger={onCartTrigger} />
+      <ProductViewContainer product={data} />
 
-      <CartModal show={cartModalShow} onHide={() => setCartModalShow(false)}>
+      <CartModal>
         <CartContainer />
       </CartModal>
     </Container>

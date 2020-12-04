@@ -38,8 +38,10 @@ describe('ProductViewPage', () => {
   });
 
   test('장바구니 버튼 클릭하면 모달창이 보여야 한다.', async () => {
-    const cartButton = screen.getAllByRole('button');
-    fireEvent.click(cartButton[0]);
+    await waitFor(() => {
+      const cartButton = screen.getAllByRole('button');
+      fireEvent.click(cartButton[0]);
+    });
 
     await waitFor(() => {
       expect(screen.getByRole('dialog')).toBeInTheDocument();
