@@ -7,6 +7,7 @@
 
 https://a-b-testing.netlify.app/
 
+[![Build Status](https://travis-ci.com/sk-plab/abtesting-ecommerce.svg?branch=master)](https://travis-ci.com/sk-plab/abtesting-ecommerce)
 
 # A/B Testing
 
